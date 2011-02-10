@@ -20,10 +20,13 @@ public class Resolver {
         if(!directory.isDirectory()) {
             throw new IllegalArgumentException("'file' argument must be a directory");
         }
+        directory.delete();
+        directory.mkdir();
         this.directory = directory;
     }
 
     public Resolver resolve(URL url) throws IOException {
+        System.out.println("Downloading " + url);
         write(bytes(url.openStream()), file(url));
         return this;
     }

@@ -1,14 +1,16 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Callable2;
 import com.googlecode.totallylazy.Sequence;
 
+import javax.annotation.processing.FilerException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.Callable;
 
 import static com.googlecode.shavenmaven.Resolver.url;
+import static com.googlecode.totallylazy.Callers.callConcurrently;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 
@@ -33,15 +35,46 @@ public class Dependencies {
     }
 
     public Dependencies update(File directory) {
-        urls.fold(new Resolver(directory), resolve());
+        final Resolver resolver = new Resolver(directory);
+        try {
+            callConcurrently(urls.map(new Callable1<URL, Callable<Resolver>>() {
+                public Callable<Resolver> call(final URL url) throws Exception {
+                    return new Callable<Resolver>() {
+                        public Resolver call() throws Exception {
+                            return resolver.resolve(url);
+                        }
+                    };
+                }
+            }));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return this;
     }
 
-    private Callable2<Resolver, URL, Resolver> resolve() {
-        return new Callable2<Resolver, URL, Resolver>() {
-            public Resolver call(Resolver resolver, URL url) throws Exception {
-                return resolver.resolve(url);
+    public static void main(String[] args) throws IOException {
+        if(args.length == 0 || args.length > 2){
+            System.err.println("usage: dependencies.file [directory]");
+            System.exit(-1);
+        }
+        Sequence<String> arguments = sequence(args);
+        load(dependenciesFile(arguments.head())).update(destinationDirectory(arguments.tail()));
+    }
+
+    private static File destinationDirectory(Sequence<String> arg) {
+        return arg.map(asFile()).add(new File(System.getProperty("user.dir"))).head();
+    }
+
+    private static Callable1<? super String,File> asFile() {
+        return new Callable1<String, File>() {
+            public File call(String name) throws Exception {
+                return new File(name);
             }
         };
     }
+
+    private static File dependenciesFile(String arg) {
+        return new File(arg);
+    }
+
 }

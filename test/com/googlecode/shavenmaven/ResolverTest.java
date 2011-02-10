@@ -19,8 +19,9 @@ public class ResolverTest {
 
         assertThat(directory.listFiles().length, is(0));
         resolver.resolve(url("http://yatspec.googlecode.com/files/yatspec-87.jar"));
-        assertThat(directory.listFiles().length, is(1));
-        System.out.println(directory);
+        File[] files = directory.listFiles();
+        assertThat(files.length, is(1));
+        assertThat(files[0].getName(), is("yatspec-87.jar"));
     }
 
     @Test
@@ -30,7 +31,8 @@ public class ResolverTest {
 
         assertThat(directory.listFiles().length, is(0));
         resolver.resolve(url("mvn://repo.bodar.com/com.googlecode.yadic/yadic/116/jar"));
-        assertThat(directory.listFiles().length, is(1));
-        System.out.println(directory);
+        File[] files = directory.listFiles();
+        assertThat(files.length, is(1));
+        assertThat(files[0].getName(), is("yadic-116.jar"));
     }
 }
