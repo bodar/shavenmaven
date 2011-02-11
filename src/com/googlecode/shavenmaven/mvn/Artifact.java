@@ -1,14 +1,10 @@
 package com.googlecode.shavenmaven.mvn;
 
-import com.googlecode.totallylazy.regex.Matches;
-import com.googlecode.totallylazy.regex.Regex;
-
 import java.net.URL;
 
 import static com.googlecode.totallylazy.regex.Regex.regex;
 
 public class Artifact {
-    private static final Regex regex = regex("([^/]+)/([^/]+)/([^/]+)/([^/]+)");
     private final String repository;
     private final String group;
     private final String id;
@@ -27,13 +23,17 @@ public class Artifact {
         if(!url.getProtocol().equals(Handler.PROTOCOL)){
             throw new IllegalArgumentException("Can only parse mvn: urls");
         }
-        Matches matches = regex.findMatches(url.getPath());
-        String groupId = matches.head().group(1);
-        String artifactId = matches.head().group(2);
-        String version = matches.head().group(3);
-        String type = matches.head().group(4);
+        String[] parts = url.getPath().split(":");
+        String groupId = parts[0];
+        String artifactId = parts[1];
+        String type = parts[2];
+        String version = parts[3];
 
-        return new Artifact(url.getHost(), groupId, artifactId, version, type);
+        return new Artifact(repository(url.getHost()), groupId, artifactId, version, type);
+    }
+
+    private static String repository(String host) {
+        return host.equals("") ? "http://repo1.maven.org/maven2/" : "http://" + host;
     }
 
     public String repository() {

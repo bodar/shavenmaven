@@ -17,13 +17,14 @@ public class DependenciesTest {
     public void supportsLoadingFromFile() throws Exception{
         File temporaryFile = new TemporaryFile();
         String fileContents = "http://yatspec.googlecode.com/files/yatspec-87.jar\n" +
-                              "mvn://repo.bodar.com/com.googlecode.yadic/yadic/116/jar";
+                              "mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116\n" +
+                              "mvn:org.objenesis:objenesis:jar:1.2";
         write(fileContents.getBytes(), temporaryFile);
         Dependencies dependencies = load(temporaryFile);
         TemporaryDirectory temporaryDirectory = new TemporaryDirectory();
         dependencies.update(temporaryDirectory);
         Sequence<File> files = sequence(temporaryDirectory.listFiles());
-        assertThat(files.size(), NumberMatcher.is(2));
+        assertThat(files.size(), NumberMatcher.is(3));
         assertThat(files.contains(new File(temporaryDirectory, "yadic-116.jar")), is(true));
         assertThat(files.contains(new File(temporaryDirectory, "yatspec-87.jar")), is(true));
     }

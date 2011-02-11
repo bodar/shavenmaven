@@ -25,14 +25,26 @@ public class ResolverTest {
     }
 
     @Test
-    public void supportsMvn() throws Exception{
+    public void supportsSpecificMavenRepository() throws Exception{
         File directory = new TemporaryDirectory();
         Resolver resolver = new Resolver(directory);
 
         assertThat(directory.listFiles().length, is(0));
-        resolver.resolve(url("mvn://repo.bodar.com/com.googlecode.yadic/yadic/116/jar"));
+        resolver.resolve(url("mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116"));
         File[] files = directory.listFiles();
         assertThat(files.length, is(1));
         assertThat(files[0].getName(), is("yadic-116.jar"));
+    }
+
+    @Test
+    public void supportsUnspecifiedMavenRepository() throws Exception{
+        File directory = new TemporaryDirectory();
+        Resolver resolver = new Resolver(directory);
+
+        assertThat(directory.listFiles().length, is(0));
+        resolver.resolve(url("mvn:org.objenesis:objenesis:jar:1.2"));
+        File[] files = directory.listFiles();
+        assertThat(files.length, is(1));
+        assertThat(files[0].getName(), is("objenesis-1.2.jar"));
     }
 }

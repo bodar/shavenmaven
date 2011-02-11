@@ -17,7 +17,7 @@ public class Handler extends URLStreamHandler {
     @Override
     protected URLConnection openConnection(URL url) throws IOException {
         Artifact artifact = parse(url);
-        return new URL("http", artifact.repository(), path(artifact)).openConnection();
+        return new URL(artifact.repository() + path(artifact)).openConnection();
     }
 
     public static String path(Artifact artifact) {

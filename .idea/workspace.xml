@@ -19,6 +19,34 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/Resolver.java" line="51" class="com.googlecode.shavenmaven.Resolver" package="com.googlecode.shavenmaven">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java" line="18" class="com.googlecode.shavenmaven.mvn.Handler" package="com.googlecode.shavenmaven.mvn">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -77,10 +105,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="83" selection-start="2449" selection-end="2449" vertical-scroll-proportion="0.4937304">
+            <state line="57" column="83" selection-start="2449" selection-end="2449" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,7 +117,7 @@
       <file leaf-file-name="Iterators.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Iterators.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="0" selection-start="3963" selection-end="3963" vertical-scroll-proportion="-8.32">
+            <state line="61" column="0" selection-start="3963" selection-end="3963" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -98,16 +126,16 @@
       <file leaf-file-name="Callers.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Callers.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="61" selection-start="297" selection-end="297" vertical-scroll-proportion="-6.84">
+            <state line="9" column="61" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DependenciesTest.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DependenciesTest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/DependenciesTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="975" selection-end="975" vertical-scroll-proportion="0.0">
+            <state line="31" column="0" selection-start="1419" selection-end="1419" vertical-scroll-proportion="0.4532374">
               <folding />
             </state>
           </provider>
@@ -116,7 +144,7 @@
       <file leaf-file-name="ResolverTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/ResolverTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="832" selection-end="832" vertical-scroll-proportion="0.0">
+            <state line="44" column="0" selection-start="1561" selection-end="1561" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -125,7 +153,16 @@
       <file leaf-file-name="Resolver.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/Resolver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
+            <state line="52" column="0" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Artifact.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Artifact.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="85" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,16 +171,7 @@
       <file leaf-file-name="Handler.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="16" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="URLConnection.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Applications/Java/jdk1.6.0_23/src.zip!/java/net/URLConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="22" selection-start="6367" selection-end="6367" vertical-scroll-proportion="0.0">
+            <state line="19" column="40" selection-start="630" selection-end="630" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,14 +189,14 @@
       <list>
         <option value="$PROJECT_DIR$/build/pom.xml" />
         <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/TemporaryDirectory.java" />
-        <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java" />
-        <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Artifact.java" />
         <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/TemporaryFile.java" />
-        <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/ResolverTest.java" />
-        <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/DependenciesTest.java" />
         <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/Resolver.java" />
         <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/Dependencies.java" />
         <option value="$PROJECT_DIR$/build.xml" />
+        <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/ResolverTest.java" />
+        <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java" />
+        <option value="$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Artifact.java" />
+        <option value="$PROJECT_DIR$/test/com/googlecode/shavenmaven/DependenciesTest.java" />
       </list>
     </option>
   </component>
@@ -202,7 +230,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Favorites" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -217,6 +245,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -281,53 +310,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvn" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shavenmaven" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="build" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -345,9 +333,9 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -361,63 +349,7 @@
       <recent name="com.googlecode.shavenmaven.mvn" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dependencies">
-    <configuration default="false" name="ResolverTest.supportsMvn" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="shavenmaven" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.googlecode.shavenmaven" />
-      <option name="MAIN_CLASS_NAME" value="com.googlecode.shavenmaven.ResolverTest" />
-      <option name="METHOD_NAME" value="supportsMvn" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="42479" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="ResolverTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="shavenmaven" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.googlecode.shavenmaven" />
-      <option name="MAIN_CLASS_NAME" value="com.googlecode.shavenmaven.ResolverTest" />
-      <option name="METHOD_NAME" value="supportsMvn" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="47692" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.com.googlecode.shavenmaven in shavenmaven">
     <configuration default="false" name="DependenciesTest.supportsLoadingFromFile" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="shavenmaven" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -476,6 +408,54 @@
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ResolverTest.supportsSpecificMavenRepository" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="shavenmaven" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.googlecode.shavenmaven" />
+      <option name="MAIN_CLASS_NAME" value="com.googlecode.shavenmaven.ResolverTest" />
+      <option name="METHOD_NAME" value="supportsSpecificMavenRepository" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ResolverTest.supportsUnspecifiedMavenRepository" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="shavenmaven" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.googlecode.shavenmaven" />
+      <option name="MAIN_CLASS_NAME" value="com.googlecode.shavenmaven.ResolverTest" />
+      <option name="METHOD_NAME" value="supportsUnspecifiedMavenRepository" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="37328" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -553,11 +533,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.ResolverTest.supportsMvn" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ResolverTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.DependenciesTest.supportsLoadingFromFile" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.com.googlecode.shavenmaven in shavenmaven" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Dependencies" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.DependenciesTest.supportsLoadingFromFile" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.com.googlecode.shavenmaven in shavenmaven" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Dependencies" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.ResolverTest.supportsSpecificMavenRepository" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.ResolverTest.supportsUnspecifiedMavenRepository" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -582,7 +562,7 @@
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="26" width="1920" height="1148" extended-state="0" />
+    <frame x="1919" y="0" width="1922" height="1205" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976654" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -591,15 +571,15 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25349838" sideWeight="0.69215494" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39980546" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3078451" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25280598" sideWeight="0.69330853" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39962825" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30669144" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976654" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -642,11 +622,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Artifact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="49" selection-start="831" selection-end="831" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/TemporaryFile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="36" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0" />
@@ -655,55 +630,6 @@
     <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/TemporaryDirectory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="25" selection-start="243" selection-end="304" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Callers.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="61" selection-start="297" selection-end="297" vertical-scroll-proportion="-6.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/DependenciesTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="975" selection-end="975" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/ResolverTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="832" selection-end="832" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Applications/Java/jdk1.6.0_23/src.zip!/java/net/URLConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="22" selection-start="6367" selection-end="6367" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="16" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/Resolver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Iterators.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="3963" selection-end="3963" vertical-scroll-proportion="-8.32">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/Dependencies.java">
@@ -715,14 +641,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="39" selection-start="440" selection-end="451" vertical-scroll-proportion="0.0">
+        <state line="8" column="39" selection-start="440" selection-end="451" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Iterators.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="0" selection-start="3963" selection-end="3963" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/totallylazy-227.jar!/com/googlecode/totallylazy/Callers.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="61" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shavenmaven">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.24794239">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="83" selection-start="2449" selection-end="2449" vertical-scroll-proportion="0.4937304">
+        <state line="57" column="83" selection-start="2449" selection-end="2449" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/ResolverTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="1561" selection-end="1561" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/Resolver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="0" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="40" selection-start="630" selection-end="630" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/googlecode/shavenmaven/mvn/Artifact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="85" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/googlecode/shavenmaven/DependenciesTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="0" selection-start="1419" selection-end="1419" vertical-scroll-proportion="0.4532374">
           <folding />
         </state>
       </provider>
