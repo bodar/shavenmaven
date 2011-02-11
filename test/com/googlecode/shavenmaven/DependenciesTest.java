@@ -28,6 +28,7 @@ public class DependenciesTest {
         assertThat(files.contains(new File(temporaryDirectory, "yadic-116.jar")), is(true));
         assertThat(files.contains(new File(temporaryDirectory, "yatspec-87.jar")), is(true));
     }
+
     @Test
     public void supportsIgnoresEmptyLines() throws Exception{
         File temporaryFile = new TemporaryFile();
