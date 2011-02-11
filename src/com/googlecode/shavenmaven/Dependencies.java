@@ -1,9 +1,9 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
 
-import javax.annotation.processing.FilerException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +11,7 @@ import java.util.concurrent.Callable;
 
 import static com.googlecode.shavenmaven.Resolver.url;
 import static com.googlecode.totallylazy.Callers.callConcurrently;
+import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 
@@ -22,8 +23,16 @@ public class Dependencies {
     }
 
     public static Dependencies load(File file) throws IOException {
-        Sequence<URL> urls = lines(file).map(asUrl());
+        Sequence<URL> urls = lines(file).filter(not(empty())).map(asUrl());
         return new Dependencies(urls);
+    }
+
+    private static Predicate<? super String> empty() {
+        return new Predicate<String>() {
+            public boolean matches(String value) {
+                return value == null || value.equals("");
+            }
+        };
     }
 
     private static Callable1<? super String, URL> asUrl() {
