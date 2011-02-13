@@ -36,10 +36,10 @@ public class Resolver {
     }
 
     private File file(URL url) {
-        return new File(directory, getFilename(url));
+        return new File(directory, filename(url));
     }
 
-    private String getFilename(URL url) {
+    public static String filename(URL url) {
         if(url.getProtocol().equals(Handler.PROTOCOL)){
             return Handler.filename(Artifact.parse(url));
         }

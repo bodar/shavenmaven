@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Callable;
 
+import static com.googlecode.shavenmaven.Resolver.filename;
 import static com.googlecode.shavenmaven.Resolver.url;
 import static com.googlecode.totallylazy.Callers.callConcurrently;
-import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.Files.files;
+import static com.googlecode.totallylazy.Files.name;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 
@@ -23,8 +26,7 @@ public class Dependencies {
     }
 
     public static Dependencies load(File file) throws IOException {
-        Sequence<URL> urls = lines(file).filter(not(empty())).map(asUrl());
-        return new Dependencies(urls);
+        return new Dependencies(lines(file).filter(not(empty())).map(asUrl()).memorise());
     }
 
     private static Predicate<? super String> empty() {
@@ -44,21 +46,50 @@ public class Dependencies {
     }
 
     public Dependencies update(File directory) {
+        files(directory).filter(where(name(), is(not(in(urls.map(asFilename())))))).map(delete()).realise();
         final Resolver resolver = new Resolver(directory);
         try {
-            callConcurrently(urls.map(new Callable1<URL, Callable<Resolver>>() {
-                public Callable<Resolver> call(final URL url) throws Exception {
-                    return new Callable<Resolver>() {
-                        public Resolver call() throws Exception {
-                            return resolver.resolve(url);
-                        }
-                    };
-                }
-            }));
+            callConcurrently(urls.filter(not(existsIn(directory))).map(resolve(resolver)));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         return this;
+    }
+
+    private Callable1<? super File, Boolean> delete() {
+        return new Callable1<File, Boolean>() {
+            public Boolean call(File file) throws Exception {
+                return file.delete();
+            }
+        };
+    }
+
+    private Callable1<? super URL, String> asFilename() {
+        return new Callable1<URL, String>() {
+            public String call(URL url) throws Exception {
+                return filename(url);
+            }
+        };
+    }
+
+    private Callable1<URL, Callable<Resolver>> resolve(final Resolver resolver) {
+        return new Callable1<URL, Callable<Resolver>>() {
+            public Callable<Resolver> call(final URL url) throws Exception {
+                return new Callable<Resolver>() {
+                    public Resolver call() throws Exception {
+                        return resolver.resolve(url);
+                    }
+                };
+            }
+        };
+    }
+
+    private Predicate<? super URL> existsIn(final File directory) {
+        return new Predicate<URL>() {
+            public boolean matches(URL url) {
+                return files(directory).exists(where(name(), is(filename(url))));
+            }
+        };
     }
 
     public static void main(String[] args) throws IOException {

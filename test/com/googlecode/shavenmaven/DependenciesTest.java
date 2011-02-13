@@ -9,6 +9,7 @@ import java.io.File;
 
 import static com.googlecode.shavenmaven.Dependencies.load;
 import static com.googlecode.shavenmaven.Resolver.write;
+import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.temporaryDirectory;
 import static com.googlecode.totallylazy.Files.temporaryFile;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -16,6 +17,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DependenciesTest {
+    @Test
+    public void removesAllFilesNotInUrlList() throws Exception{
+        File temporaryFile = temporaryFile();
+        write("http://yatspec.googlecode.com/files/yatspec-87.jar\n".getBytes(), temporaryFile);
+        Dependencies dependencies = load(temporaryFile);
+        File temporaryDirectory = temporaryDirectory();
+        temporaryFile(temporaryDirectory);
+        dependencies.update(temporaryDirectory);
+        Sequence<File> files = files(temporaryDirectory);
+        assertThat(files.size(), NumberMatcher.is(1));
+        assertThat(files.contains(new File(temporaryDirectory, "yatspec-87.jar")), is(true));
+    }
+
     @Test
     public void supportsLoadingFromFile() throws Exception{
         File temporaryFile = temporaryFile();
