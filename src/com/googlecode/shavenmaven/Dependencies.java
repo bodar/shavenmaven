@@ -18,7 +18,7 @@ import static com.googlecode.totallylazy.Strings.lines;
 public class Dependencies {
     private final Sequence<URL> urls;
 
-    public Dependencies(Iterable<URL> urls) {
+    public Dependencies(Iterable<URL> urls) { 
         this.urls = sequence(urls);
     }
 

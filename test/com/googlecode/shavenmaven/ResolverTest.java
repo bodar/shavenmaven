@@ -1,20 +1,19 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.shavenmaven.mvn.Handler;
+import com.googlecode.totallylazy.Files;
 import org.junit.Test;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import static com.googlecode.shavenmaven.Resolver.url;
+import static com.googlecode.totallylazy.Files.temporaryDirectory;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ResolverTest {
     @Test
     public void supportsHttp() throws Exception{
-        File directory = new TemporaryDirectory();
+        File directory = temporaryDirectory();
         Resolver resolver = new Resolver(directory);
 
         assertThat(directory.listFiles().length, is(0));
@@ -26,7 +25,7 @@ public class ResolverTest {
 
     @Test
     public void supportsSpecificMavenRepository() throws Exception{
-        File directory = new TemporaryDirectory();
+        File directory = temporaryDirectory();
         Resolver resolver = new Resolver(directory);
 
         assertThat(directory.listFiles().length, is(0));
@@ -38,7 +37,7 @@ public class ResolverTest {
 
     @Test
     public void supportsUnspecifiedMavenRepository() throws Exception{
-        File directory = new TemporaryDirectory();
+        File directory = temporaryDirectory();
         Resolver resolver = new Resolver(directory);
 
         assertThat(directory.listFiles().length, is(0));

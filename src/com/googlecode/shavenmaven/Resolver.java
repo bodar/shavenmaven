@@ -20,8 +20,6 @@ public class Resolver {
         if(!directory.isDirectory()) {
             throw new IllegalArgumentException("'file' argument must be a directory");
         }
-        directory.delete();
-        directory.mkdir();
         this.directory = directory;
     }
 
