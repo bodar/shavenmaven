@@ -1,6 +1,5 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Files;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.matchers.NumberMatcher;
 import org.junit.Test;
@@ -8,10 +7,10 @@ import org.junit.Test;
 import java.io.File;
 
 import static com.googlecode.shavenmaven.Dependencies.load;
-import static com.googlecode.shavenmaven.Resolver.write;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.temporaryDirectory;
 import static com.googlecode.totallylazy.Files.temporaryFile;
+import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

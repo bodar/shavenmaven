@@ -1,17 +1,11 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.shavenmaven.mvn.Handler;
+import com.googlecode.totallylazy.Callable1;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 
-import static com.googlecode.totallylazy.Bytes.bytes;
-import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.googlecode.shavenmaven.Artifacts.writeTo;
 import static java.lang.String.format;
 
 public class Resolver {
@@ -26,17 +20,15 @@ public class Resolver {
 
     public Resolver resolve(Artifact artifact) throws IOException {
         System.out.println(format("Downloading %s", artifact));
-        artifact.writeTo(directory);
+        writeTo(artifact, directory);
         return this;
     }
 
-    public static void write(byte[] bytes, File file) throws IOException {
-        OutputStream outputStream = new FileOutputStream(file);
-        outputStream.write(bytes);
-        outputStream.close();
-    }
-
-    private File file(Artifact url) {
-        return new File(directory, url.filename());
+    public static Callable1<Artifact, Resolver> resolve(final Resolver resolver) {
+        return new Callable1<Artifact, Resolver>() {
+            public Resolver call(Artifact artifact) throws Exception {
+                return resolver.resolve(artifact);
+            }
+        };
     }
 }
