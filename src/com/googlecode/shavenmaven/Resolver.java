@@ -41,7 +41,7 @@ public class Resolver {
 
     public static String filename(URL url) {
         if(url.getProtocol().equals(Artifact.PROTOCOL)){
-            return Artifact.filename(Artifact.parse(url));
+            return Artifact.parse(url).filename();
         }
         return sequence(url.getPath().split("/")).reverse().head();
     }

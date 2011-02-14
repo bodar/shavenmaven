@@ -39,17 +39,6 @@ public class Artifact {
         return host.equals("") ? "http://repo1.maven.org/maven2/" : "http://" + host;
     }
 
-    private String path(Artifact artifact) {
-        return String.format("/%s/%s/%s/%s",
-                replaceDots(artifact.group()),
-                artifact.id(),
-                artifact.version(),
-                filename(artifact));
-    }
-
-    public static String filename(Artifact artifact) {
-        return format("%s-%s.%s", artifact.id(), artifact.version(), artifact.type());
-    }
 
     public static String replaceDots(String value) {
         return value.replace('.', '/');
@@ -72,6 +61,19 @@ public class Artifact {
     }
 
     public URL url() throws MalformedURLException {
-        return new URL(repository + path(this));
+        return new URL(repository + path());
     }
+
+    private String path() {
+        return String.format("/%s/%s/%s/%s",
+                replaceDots(group()),
+                id(),
+                version(),
+                filename());
+    }
+
+    public String filename() {
+        return format("%s-%s.%s", id(), version(), type());
+    }
+
 }
