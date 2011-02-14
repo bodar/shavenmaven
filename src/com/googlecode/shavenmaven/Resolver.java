@@ -40,14 +40,14 @@ public class Resolver {
     }
 
     public static String filename(URL url) {
-        if(url.getProtocol().equals(Handler.PROTOCOL)){
-            return Handler.filename(Artifact.parse(url));
+        if(url.getProtocol().equals(Artifact.PROTOCOL)){
+            return Artifact.filename(Artifact.parse(url));
         }
         return sequence(url.getPath().split("/")).reverse().head();
     }
 
     public static URL url(String url) throws MalformedURLException {
-        if(url.startsWith(Handler.PROTOCOL)){
+        if(url.startsWith(Artifact.PROTOCOL)){
             return new URL(null, url, new Handler());
         }
         return new URL(url);

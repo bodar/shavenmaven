@@ -1,10 +1,13 @@
 package com.googlecode.shavenmaven.mvn;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import static com.googlecode.totallylazy.regex.Regex.regex;
+import static java.lang.String.format;
 
 public class Artifact {
+    public static final String PROTOCOL = "mvn";
     private final String repository;
     private final String group;
     private final String id;
@@ -20,7 +23,7 @@ public class Artifact {
     }
 
     public static Artifact parse(URL url) {
-        if(!url.getProtocol().equals(Handler.PROTOCOL)){
+        if(!url.getProtocol().equals(PROTOCOL)){
             throw new IllegalArgumentException("Can only parse mvn: urls");
         }
         String[] parts = url.getPath().split(":");
@@ -36,8 +39,20 @@ public class Artifact {
         return host.equals("") ? "http://repo1.maven.org/maven2/" : "http://" + host;
     }
 
-    public String repository() {
-        return repository;
+    private String path(Artifact artifact) {
+        return String.format("/%s/%s/%s/%s",
+                replaceDots(artifact.group()),
+                artifact.id(),
+                artifact.version(),
+                filename(artifact));
+    }
+
+    public static String filename(Artifact artifact) {
+        return format("%s-%s.%s", artifact.id(), artifact.version(), artifact.type());
+    }
+
+    public static String replaceDots(String value) {
+        return value.replace('.', '/');
     }
 
     public String group() {
@@ -54,5 +69,9 @@ public class Artifact {
 
     public String type() {
         return type;
+    }
+
+    public URL url() throws MalformedURLException {
+        return new URL(repository + path(this));
     }
 }
