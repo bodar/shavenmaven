@@ -5,7 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-import static com.googlecode.shavenmaven.mvn.Artifact.parse;
+import static com.googlecode.shavenmaven.MvnArtifact.parse;
 import static com.googlecode.totallylazy.regex.Regex.regex;
 import static java.lang.String.format;
 

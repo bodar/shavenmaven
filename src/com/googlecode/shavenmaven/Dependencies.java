@@ -6,11 +6,10 @@ import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.concurrent.Callable;
 
 import static com.googlecode.shavenmaven.Resolver.filename;
-import static com.googlecode.shavenmaven.Resolver.url;
 import static com.googlecode.totallylazy.Callers.callConcurrently;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.name;
@@ -19,14 +18,14 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 
 public class Dependencies {
-    private final Sequence<URL> urls;
+    private final Sequence<Artifact> urls;
 
-    public Dependencies(Iterable<URL> urls) { 
+    public Dependencies(Iterable<Artifact> urls) {
         this.urls = sequence(urls);
     }
 
     public static Dependencies load(File file) throws IOException {
-        return new Dependencies(lines(file).filter(not(empty())).map(asUrl()).memorise());
+        return new Dependencies(lines(file).filter(not(empty())).map(asUri()).memorise());
     }
 
     private static Predicate<? super String> empty() {
@@ -37,10 +36,10 @@ public class Dependencies {
         };
     }
 
-    private static Callable1<? super String, URL> asUrl() {
-        return new Callable1<String, URL>() {
-            public URL call(String value) throws Exception {
-                return url(value);
+    public static Callable1<? super String, Artifact> asUri() {
+        return new Callable1<String, Artifact>() {
+            public Artifact call(String value) throws Exception {
+                return Artifacts.artifact(value);
             }
         };
     }
@@ -64,30 +63,30 @@ public class Dependencies {
         };
     }
 
-    private Callable1<? super URL, String> asFilename() {
-        return new Callable1<URL, String>() {
-            public String call(URL url) throws Exception {
-                return filename(url);
+    private Callable1<? super Artifact, String> asFilename() {
+        return new Callable1<Artifact, String>() {
+            public String call(Artifact uri) throws Exception {
+                return filename(uri);
             }
         };
     }
 
-    private Callable1<URL, Callable<Resolver>> resolve(final Resolver resolver) {
-        return new Callable1<URL, Callable<Resolver>>() {
-            public Callable<Resolver> call(final URL url) throws Exception {
+    private Callable1<Artifact, Callable<Resolver>> resolve(final Resolver resolver) {
+        return new Callable1<Artifact, Callable<Resolver>>() {
+            public Callable<Resolver> call(final Artifact uri) throws Exception {
                 return new Callable<Resolver>() {
                     public Resolver call() throws Exception {
-                        return resolver.resolve(url);
+                        return resolver.resolve(uri);
                     }
                 };
             }
         };
     }
 
-    private Predicate<? super URL> existsIn(final File directory) {
-        return new Predicate<URL>() {
-            public boolean matches(URL url) {
-                return files(directory).exists(where(name(), is(filename(url))));
+    private Predicate<? super Artifact> existsIn(final File directory) {
+        return new Predicate<Artifact>() {
+            public boolean matches(Artifact uri) {
+                return files(directory).exists(where(name(), is(uri.filename())));
             }
         };
     }
