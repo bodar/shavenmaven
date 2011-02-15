@@ -1,0 +1,6 @@
+http://jarjar.googlecode.com/files/jarjar-1.1.jar
+mvn:org.hamcrest:hamcrest-all:1.2:jar
+mvn:junit:junit-dep:4.8.2
+
+
+

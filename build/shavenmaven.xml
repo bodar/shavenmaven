@@ -16,8 +16,11 @@
 
         <sequential>
             <mkdir dir="@{directory}"/>
-            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-3.jar" dest="@{directory}/shavenmaven-3.jar" usetimestamp="true"/>
-            <get src="http://totallylazy.googlecode.com/files/totallylazy-229.jar" dest="@{directory}/totallylazy-229.jar" usetimestamp="true"/>
+            <delete>
+                <fileset dir="@{directory}" includes="**/shavenmaven*"/>
+            </delete>
+            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-9.jar" dest="@{directory}/shavenmaven-9.jar" usetimestamp="true"/>
+            <get src="http://totallylazy.googlecode.com/files/totallylazy-237.jar" dest="@{directory}/totallylazy-237.jar" usetimestamp="true"/>
         </sequential>
     </macrodef>
 

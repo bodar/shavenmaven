@@ -22,7 +22,7 @@ public class MvnArtifact implements Artifact {
     public MvnArtifact(URI uri) {
         String value = uri.toString();
         if(!regex.matches(value)){
-            throw new IllegalArgumentException("Can only parse mvn: urls");
+            throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
         this.uri = uri;
         MatchResult match = regex.findMatches(value).head();
