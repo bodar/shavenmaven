@@ -6,6 +6,7 @@
         <attribute name="classpathref"/>
         <attribute name="version"/>
         <attribute name="classes" default="@{jar}.classes"/>
+        <attribute name="main.class" default=""/>
 
         <sequential>
             <mkdir dir="@{classes}"/>
@@ -28,6 +29,7 @@
                     <attribute name="Implementation-Title" value="${ant.project.name}"/>
                     <attribute name="Implementation-Version" value="@{version}"/>
                     <attribute name="Implementation-Vendor" value="${ant.project.name}"/>
+                    <attribute name="Main-Class" value="@{main.class}"/>
                 </section>
             </manifest>
 
