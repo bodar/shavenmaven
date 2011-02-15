@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="shavenmaven">
+<project>
 
     <!--
     <target name="update">
@@ -19,7 +19,7 @@
             <delete>
                 <fileset dir="@{directory}" includes="**/shavenmaven*"/>
             </delete>
-            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-10.jar" dest="@{directory}/shavenmaven-10.jar" usetimestamp="true"/>
+            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-12.jar" dest="@{directory}/shavenmaven-12.jar" usetimestamp="true"/>
             <get src="http://totallylazy.googlecode.com/files/totallylazy-238.jar" dest="@{directory}/totallylazy-238.jar" usetimestamp="true"/>
         </sequential>
     </macrodef>
