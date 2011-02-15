@@ -78,7 +78,7 @@
             <entry key="project.name" value="${ant.project.name}"/>
             <entry key="release.name" value="${release.name}"/>
             <entry key="release.path" value="com/googlecode/shavenmaven/shavenmaven/${release.version}/"/>
-            <entry key="release.files" value="${release.jar},${release.pom},${release.src}.${release.no.dependencies.jar}"/>
+            <entry key="release.files" value="${release.jar},${release.pom},${release.src},${release.no.dependencies.jar}"/>
             <entry key="${release.jar}.description" value="${hg.summary} build:${build.number} "/>
             <entry key="${release.jar}.labels" value="Jar"/>
             <entry key="${release.pom}.description" value="Maven POM file build:${build.number}"/>
