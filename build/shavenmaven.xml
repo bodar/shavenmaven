@@ -19,8 +19,8 @@
             <delete>
                 <fileset dir="@{directory}" includes="**/shavenmaven*"/>
             </delete>
-            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-9.jar" dest="@{directory}/shavenmaven-9.jar" usetimestamp="true"/>
-            <get src="http://totallylazy.googlecode.com/files/totallylazy-237.jar" dest="@{directory}/totallylazy-237.jar" usetimestamp="true"/>
+            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-10.jar" dest="@{directory}/shavenmaven-10.jar" usetimestamp="true"/>
+            <get src="http://totallylazy.googlecode.com/files/totallylazy-238.jar" dest="@{directory}/totallylazy-238.jar" usetimestamp="true"/>
         </sequential>
     </macrodef>
 
@@ -32,7 +32,7 @@
         <sequential>
             <echo message="@{directory}"/>
             <mkdir dir="@{directory}"/>
-            <java classname="com.googlecode.shavenmaven.Dependencies" classpathref="@{classpathref}" fork="true">
+            <java classname="com.googlecode.shavenmaven.Dependencies" classpathref="@{classpathref}" fork="true" failonerror="true">
                 <arg value="@{dependencies}"/>
                 <arg value="@{directory}"/>
             </java>
