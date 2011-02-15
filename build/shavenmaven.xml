@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="shavenmaven">
+
+    <!--
+    <target name="update">
+        <install directory="lib/build"/>
+        <parallel>
+            <update classpathref="all.dependancies" dependencies="lib/build.dependencies" directory="${build.dependencies.dir}"/>
+            <update classpathref="all.dependancies" dependencies="lib/optional.runtime.dependencies" directory="${runtime.dependencies.dir}"/>
+        </parallel>
+    </target>
+        -->
+
+	<macrodef name="install">
+        <attribute name="directory"/>
+
+        <sequential>
+            <mkdir dir="@{directory}"/>
+            <delete>
+                <fileset dir="@{directory}" includes="**/shavenmaven*"/>
+            </delete>
+            <get src="http://shavenmaven.googlecode.com/files/shavenmaven-9.jar" dest="@{directory}/shavenmaven-9.jar" usetimestamp="true"/>
+            <get src="http://totallylazy.googlecode.com/files/totallylazy-237.jar" dest="@{directory}/totallylazy-237.jar" usetimestamp="true"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="update">
+        <attribute name="dependencies"/>
+        <attribute name="directory"/>
+        <attribute name="classpathref"/>
+
+        <sequential>
+            <echo message="@{directory}"/>
+            <mkdir dir="@{directory}"/>
+            <java classname="com.googlecode.shavenmaven.Dependencies" classpathref="@{classpathref}" fork="true">
+                <arg value="@{dependencies}"/>
+                <arg value="@{directory}"/>
+            </java>
+        </sequential>
+    </macrodef>
+</project>
