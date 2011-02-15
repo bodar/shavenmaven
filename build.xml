@@ -37,11 +37,10 @@
     </target>
 
     <target name="update">
-        <install directory="lib/build"/>
         <parallel>
-            <update classpathref="all.dependancies" dependencies="lib/build.dependencies"
+            <update shavenmaven.jar="lib/shavenmaven.jar" dependencies="lib/build.dependencies"
                     directory="${build.dependencies.dir}"/>
-            <update classpathref="all.dependancies" dependencies="lib/runtime.dependencies"
+            <update shavenmaven.jar="lib/shavenmaven.jar" dependencies="lib/runtime.dependencies"
                     directory="${runtime.dependencies.dir}"/>
         </parallel>
     </target>
@@ -96,6 +95,6 @@
         </copy>
     </target>
 
-    <target name="build" depends="clean, compile, test, package" description="build all"/>
+    <target name="build" depends="clean, update, compile, test, package" description="build all"/>
 
 </project>
