@@ -37,7 +37,6 @@
     </target>
 
     <target name="update">
-        <install version="15" directory="lib"/>
         <parallel>
             <update shavenmaven.jar="lib/shavenmaven.jar" dependencies="lib/build.dependencies"
                     directory="${build.dependencies.dir}"/>

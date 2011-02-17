@@ -38,7 +38,7 @@ public class UrlArtifact implements Artifact{
     }
 
     public String filename() {
-        return sequence(uri.getPath().split("/")).reverse().head();
+        return sequence(url().getPath().split("/")).reverse().head();
     }
 
     @Override
