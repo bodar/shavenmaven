@@ -16,11 +16,10 @@ import static com.googlecode.totallylazy.Predicates.where;
 
 public class Artifacts {
     public static Artifact artifact(String value) {
-        URI uri = URI.create(value);
-        if(uri.getScheme().equals(MvnArtifact.PROTOCOL)){
-            return new MvnArtifact(uri);
+        if(value.startsWith(MvnArtifact.PROTOCOL)){
+            return new MvnArtifact(value);
         }
-        return new UrlArtifact(uri);
+        return new UrlArtifact(value);
         
     }
 
@@ -47,16 +46,6 @@ public class Artifacts {
             }
         };
     }
-
-    public static void writeTo(Artifact artifact, File directory) {
-        try {
-            write(bytes(artifact.url().openStream()), new File(directory, artifact.filename()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 
 
 }

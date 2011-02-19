@@ -1,16 +1,17 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.LazyException;
+
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class UrlArtifact implements Artifact{
-    private final URI uri;
+    private final String value;
 
-    public UrlArtifact(URI uri) {
-        this.uri = uri;
+    public UrlArtifact(String value) {
+        this.value = value;
     }
 
     public String group() {
@@ -31,9 +32,9 @@ public class UrlArtifact implements Artifact{
 
     public URL url() {
         try {
-            return uri.toURL();
+            return new URL(value);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new LazyException(e);
         }
     }
 
@@ -43,6 +44,6 @@ public class UrlArtifact implements Artifact{
 
     @Override
     public String toString() {
-        return uri.toString();
+        return value;
     }
 }

@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MvnArtifactTest {
     @Test
     public void supportsUriWithNoExplicitRepository() throws Exception {
-        MvnArtifact mvnArtifact = new MvnArtifact(URI.create("mvn:org.objenesis:objenesis:jar:1.2"));
+        MvnArtifact mvnArtifact = new MvnArtifact("mvn:org.objenesis:objenesis:jar:1.2");
         assertThat(mvnArtifact.group(), is("org.objenesis"));
         assertThat(mvnArtifact.id(), is("objenesis"));
         assertThat(mvnArtifact.type(), is("jar"));
@@ -23,7 +23,7 @@ public class MvnArtifactTest {
 
     @Test
     public void supportsUriWithExplicitRepository() throws Exception {
-        MvnArtifact mvnArtifact = new MvnArtifact(URI.create("mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116"));
+        MvnArtifact mvnArtifact = new MvnArtifact("mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116");
         assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("jar"));

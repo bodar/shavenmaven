@@ -17,14 +17,13 @@ public class MvnArtifact implements Artifact {
     private final String id;
     private final String version;
     private final String type;
-    private final URI uri;
+    private final String value;
 
-    public MvnArtifact(URI uri) {
-        String value = uri.toString();
+    public MvnArtifact(String value) {
         if(!regex.matches(value)){
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
-        this.uri = uri;
+        this.value = value;
         MatchResult match = regex.findMatches(value).head();
         this.repository = repository(match.group(1));
         this.group = match.group(2);
@@ -79,6 +78,6 @@ public class MvnArtifact implements Artifact {
 
     @Override
     public String toString() {
-        return format("%s (%s)", url(), uri);
+        return format("%s (%s)", url(), value);
     }
 }
