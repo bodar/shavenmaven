@@ -39,9 +39,9 @@
 
     <target name="update">
         <parallel>
-            <update shavenmaven.jar="lib/shavenmaven.jar" dependencies="lib/build.dependencies"
+            <update dependencies="lib/build.dependencies"
                     directory="${build.dependencies.dir}"/>
-            <update shavenmaven.jar="lib/shavenmaven.jar" dependencies="lib/runtime.dependencies"
+            <update dependencies="lib/runtime.dependencies"
                     directory="${runtime.dependencies.dir}"/>
         </parallel>
     </target>
@@ -89,11 +89,9 @@
             <entry key="${release.no.dependencies.jar}.labels" value="Jar"/>
         </propertyfile>
 
-        <copy file="${build}/pom.xml" tofile="${artifacts}/${release.pom}">
-            <filterset>
-                <filter token="VERSION" value="${build.number}"/>
-            </filterset>
-        </copy>
+        <generate.pom artifact.uri="mvn:com.googlecode.shavenmaven:shavenmaven:jar:${release.version}"
+                      dependencies="lib/runtime.dependencies"
+                      directory="${artifacts}"/>
     </target>
 
     <target name="build" depends="clean, update, compile, test, package" description="build all"/>
