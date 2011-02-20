@@ -1,11 +1,15 @@
 package com.googlecode.shavenmaven;
 
-import org.hamcrest.CoreMatchers;
+import com.googlecode.totallylazy.Sequences;
+import com.googlecode.totallylazy.callables.TimeCallable;
+import com.googlecode.totallylazy.callables.TimeReport;
 import org.junit.Test;
 
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.Callable;
 
+import static com.googlecode.totallylazy.Sequences.repeat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,7 +21,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.id(), is("objenesis"));
         assertThat(mvnArtifact.type(), is("jar"));
         assertThat(mvnArtifact.version(), is("1.2"));
-        assertThat(mvnArtifact.url(), is(new URL("http://repo1.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2.jar")));
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo1.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2.jar").toString()));
         assertThat(mvnArtifact.filename(), is("objenesis-1.2.jar"));
     }
 
@@ -28,7 +32,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("jar"));
         assertThat(mvnArtifact.version(), is("116"));
-        assertThat(mvnArtifact.url(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar")));
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
     }
 }
