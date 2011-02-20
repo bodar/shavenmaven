@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-import static com.googlecode.shavenmaven.Artifacts.asArtifact;
+import static com.googlecode.shavenmaven.Artifacts.artifacts;
 import static com.googlecode.shavenmaven.Artifacts.asFilename;
 import static com.googlecode.shavenmaven.Artifacts.existsIn;
 import static com.googlecode.totallylazy.Callables.curry;
@@ -21,8 +21,6 @@ import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.googlecode.totallylazy.Strings.empty;
-import static com.googlecode.totallylazy.Strings.lines;
 
 public class Dependencies {
     private final Sequence<Artifact> artifacts;
@@ -32,7 +30,7 @@ public class Dependencies {
     }
 
     public static Dependencies load(File file) throws IOException {
-        return new Dependencies(lines(file).filter(not(empty())).map(asArtifact()).memorise());
+        return new Dependencies(artifacts(file));
     }
 
     public Dependencies update(File directory) {
