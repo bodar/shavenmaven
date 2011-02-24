@@ -62,7 +62,7 @@ public class MvnArtifact implements Artifact {
     }
 
     private String filesuffix() {
-        return types.get(type);
+        return suffixes.get(type);
     }
 
     public URL url() {
