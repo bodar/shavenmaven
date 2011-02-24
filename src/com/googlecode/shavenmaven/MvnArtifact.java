@@ -14,7 +14,7 @@ public class MvnArtifact implements Artifact {
     public static final String PROTOCOL = "mvn";
     private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):(\\w+):([\\d\\w\\.]+)");
     private static Map<String,String> suffixes = new HashMap<String, String>(){{
-        put("jar", "jar");
+        put("jar", ".jar");
         put("sources", "-sources.jar");
     }};
     private final String repository;
