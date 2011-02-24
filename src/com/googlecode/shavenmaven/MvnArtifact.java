@@ -3,15 +3,20 @@ package com.googlecode.shavenmaven;
 import com.googlecode.totallylazy.regex.Regex;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.regex.MatchResult;
+import java.util.Map;
+import java.util.HashMap;
 
 import static java.lang.String.format;
 
 public class MvnArtifact implements Artifact {
     public static final String PROTOCOL = "mvn";
     private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):(\\w+):([\\d\\w\\.]+)");
+    private static Map<String,String> suffixes = new HashMap<String, String>(){{
+        put("jar", "jar");
+        put("sources", "sources.jar");
+    }};
     private final String repository;
     private final String group;
     private final String id;
@@ -56,6 +61,10 @@ public class MvnArtifact implements Artifact {
         return type;
     }
 
+    private String filesuffix() {
+        return types.get(type);
+    }
+
     public URL url() {
         try {
             return new URL(repository + path());
@@ -73,7 +82,7 @@ public class MvnArtifact implements Artifact {
     }
 
     public String filename() {
-        return format("%s-%s.%s", id(), version(), type());
+        return format("%s-%s.%s", id(), version(), filesuffix());
     }
 
     @Override
