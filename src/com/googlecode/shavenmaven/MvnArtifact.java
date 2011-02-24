@@ -15,7 +15,7 @@ public class MvnArtifact implements Artifact {
     private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):(\\w+):([\\d\\w\\.]+)");
     private static Map<String,String> suffixes = new HashMap<String, String>(){{
         put("jar", "jar");
-        put("sources", "sources.jar");
+        put("sources", "-sources.jar");
     }};
     private final String repository;
     private final String group;
@@ -82,7 +82,7 @@ public class MvnArtifact implements Artifact {
     }
 
     public String filename() {
-        return format("%s-%s.%s", id(), version(), filesuffix());
+        return format("%s-%s%s", id(), version(), filesuffix());
     }
 
     @Override
