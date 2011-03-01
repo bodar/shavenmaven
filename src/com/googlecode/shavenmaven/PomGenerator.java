@@ -1,12 +1,10 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.Strings;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -15,7 +13,7 @@ import static java.lang.String.format;
 public class PomGenerator {
     public String generate(Artifact artifact, Iterable<? extends Artifact> dependencies) {
         return applyTemplate("pom", artifact.group(), artifact.id(), artifact.version(),
-                sequence(dependencies).map(template("dependency")));
+                sequence(dependencies).map(template("dependency")).toString(""));
     }
 
     private Callable1<? super Artifact, String> template(final String name) {
