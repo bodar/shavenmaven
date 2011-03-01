@@ -33,10 +33,6 @@
         <path path="${test.jar.path}"/>
     </path>
 
-    <target name="clean" description="cleanup all">
-        <delete dir="${artifacts}"/>
-    </target>
-
     <target name="update">
         <parallel>
             <update dependencies="lib/build.dependencies"
@@ -44,6 +40,10 @@
             <update dependencies="lib/runtime.dependencies"
                     directory="${runtime.dependencies.dir}"/>
         </parallel>
+    </target>
+
+    <target name="clean" description="cleanup all">
+        <delete dir="${artifacts}"/>
     </target>
 
     <target name="compile">
@@ -94,6 +94,6 @@
                       directory="${artifacts}"/>
     </target>
 
-    <target name="build" depends="clean, update, compile, test, package" description="build all"/>
+    <target name="build" depends="update, clean, compile, test, package" description="build all"/>
 
 </project>

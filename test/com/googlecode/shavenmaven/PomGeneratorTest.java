@@ -1,12 +1,11 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Sequences;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
@@ -21,10 +20,33 @@ public class PomGeneratorTest {
 
     @Test
     public void supportsDependencies() throws Exception {
-        Iterable<MvnArtifact> dependencies = sequence(new MvnArtifact("mvn:com.googlecode.totallylazy:totallylazy:jar:207"));
+        Iterable<MvnArtifact> dependencies = sequence(new MvnArtifact("mvn:com.googlecode.totallylazy:totallylazy:jar:207"), new MvnArtifact("mvn:com.googlecode.yadic:yadic:jar:116"));
         String pom = new PomGenerator().generate(new MvnArtifact("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18"), dependencies);
-        assertThat(pom, containsString("<groupId>com.googlecode.totallylazy</groupId>"));
-        assertThat(pom, containsString("<artifactId>totallylazy</artifactId>"));
-        assertThat(pom, containsString("<version>207</version>"));
+        assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
+                "         xmlns=\"http://maven.apache.org/POM/4.0.0\"" +
+                "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
+                "    <modelVersion>4.0.0</modelVersion>" +
+                "    <groupId>com.googlecode.shavenmaven</groupId>" +
+                "    <artifactId>shavenmaven</artifactId>" +
+                "    <version>18</version>" +
+                "    <name>shavenmaven</name>" +
+                "    <dependencies>" +
+                "        <dependency>" +
+                "            <groupId>com.googlecode.totallylazy</groupId>" +
+                "            <artifactId>totallylazy</artifactId>" +
+                "            <version>207</version>" +
+                "        </dependency>" +
+                "        <dependency>" +
+                "            <groupId>com.googlecode.yadic</groupId>" +
+                "            <artifactId>yadic</artifactId>" +
+                "            <version>116</version>" +
+                "        </dependency>" +
+                "    </dependencies>" +
+                "</project>")));
+    }
+
+    private String unformat(String value) {
+        return value.replaceAll("\\s+", "");
     }
 }
