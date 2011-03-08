@@ -34,8 +34,23 @@ public class DependenciesTest {
     }
 
     @Test
-    public void removesAllFilesNotInUrlList() throws Exception{
+    public void doesNotRemoveDirectoriesInUpdateDirectory() throws Exception{
+        File temporaryDirectory = temporaryDirectory();
+        File subDirectory = new File(temporaryDirectory, randomFilename());
+        subDirectory.mkdir();
+        temporaryFile(temporaryDirectory);
+        assertThat(files(temporaryDirectory).size(), NumberMatcher.is(2));
 
+        load(listOfDependenciesInAFile()).update(temporaryDirectory);
+
+        Sequence<File> files = files(temporaryDirectory);
+        assertThat(files.size(), NumberMatcher.is(2));
+        assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(subDirectory), is(true));
+    }
+
+    @Test
+    public void removesAllFilesNotInUrlList() throws Exception{
         File temporaryDirectory = temporaryDirectory();
         temporaryFile(temporaryDirectory);
         temporaryFile(temporaryDirectory);

@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
@@ -12,10 +13,7 @@ import static com.googlecode.shavenmaven.Artifacts.asFilename;
 import static com.googlecode.shavenmaven.Artifacts.existsIn;
 import static com.googlecode.totallylazy.Callables.curry;
 import static com.googlecode.totallylazy.Callers.callConcurrently;
-import static com.googlecode.totallylazy.Files.asFile;
-import static com.googlecode.totallylazy.Files.delete;
-import static com.googlecode.totallylazy.Files.files;
-import static com.googlecode.totallylazy.Files.name;
+import static com.googlecode.totallylazy.Files.*;
 import static com.googlecode.totallylazy.Predicates.in;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.not;
@@ -34,7 +32,9 @@ public class Dependencies {
     }
 
     public Dependencies update(File directory) {
-        files(directory).filter(where(name(), is(not(in(artifacts.map(asFilename())))))).map(delete()).realise();
+        files(directory).
+                filter(where(name(), is(not(in(artifacts.map(asFilename()))))).and(not(isDirectory()))).
+                map(delete()).realise();
         final Resolver resolver = new Resolver(directory);
         try {
             callConcurrently(artifacts.filter(not(existsIn(directory))).map(resolve(resolver)));
@@ -43,6 +43,7 @@ public class Dependencies {
         }
         return this;
     }
+
 
     private Callable1<Artifact, Callable<Resolver>> resolve(final Resolver resolver) {
         return new Callable1<Artifact, Callable<Resolver>>() {
