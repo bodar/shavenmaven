@@ -35,9 +35,9 @@
 
     <target name="update">
         <parallel>
-            <update dependencies="lib/build.dependencies"
+            <update dependencies="${build}/build.dependencies"
                     directory="${build.dependencies.dir}"/>
-            <update dependencies="lib/runtime.dependencies"
+            <update dependencies="${build}/runtime.dependencies"
                     directory="${runtime.dependencies.dir}"/>
         </parallel>
     </target>
@@ -90,7 +90,7 @@
         </propertyfile>
 
         <generate.pom artifact.uri="mvn:com.googlecode.shavenmaven:shavenmaven:jar:${release.version}"
-                      dependencies="lib/runtime.dependencies"
+                      dependencies="${build}/runtime.dependencies"
                       directory="${artifacts}"/>
     </target>
 
