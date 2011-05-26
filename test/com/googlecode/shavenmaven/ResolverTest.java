@@ -27,7 +27,7 @@ public class ResolverTest {
         Resolver resolver = new Resolver(directory);
 
         assertThat(directory.listFiles().length, is(0));
-        resolver.resolve(dependencyFrom(server));
+        assertThat(resolver.resolve(dependencyFrom(server)), is(true));
         File[] files = directory.listFiles();
         assertThat(files.length, is(1));
         assertThat(files[0].getName(), is(DEPENDENCY_FILENAME));
@@ -41,7 +41,7 @@ public class ResolverTest {
         ByteArrayOutputStream log = new ByteArrayOutputStream();
         Resolver resolver = new Resolver(directory, new PrintStream(log));
 
-        resolver.resolve(dependencyFrom(server));
+        assertThat(resolver.resolve(dependencyFrom(server)), is(false));
         assertThat(log.toString(), containsString("Failed to download"));
 
     }

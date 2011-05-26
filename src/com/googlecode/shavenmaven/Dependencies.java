@@ -1,23 +1,17 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-import static com.googlecode.shavenmaven.Artifacts.artifacts;
-import static com.googlecode.shavenmaven.Artifacts.asFilename;
-import static com.googlecode.shavenmaven.Artifacts.existsIn;
+import static com.googlecode.shavenmaven.Artifacts.*;
+import static com.googlecode.shavenmaven.Resolver.resolve;
 import static com.googlecode.totallylazy.Callables.curry;
-import static com.googlecode.totallylazy.Callers.callConcurrently;
 import static com.googlecode.totallylazy.Files.*;
-import static com.googlecode.totallylazy.Predicates.in;
-import static com.googlecode.totallylazy.Predicates.is;
-import static com.googlecode.totallylazy.Predicates.not;
-import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Dependencies {
@@ -31,35 +25,22 @@ public class Dependencies {
         return new Dependencies(artifacts(file));
     }
 
-    public Dependencies update(File directory) {
+    public boolean update(File directory) {
         files(directory).
                 filter(where(name(), is(not(in(artifacts.map(asFilename()))))).and(not(isDirectory()))).
                 map(delete()).realise();
         final Resolver resolver = new Resolver(directory);
-        try {
-            callConcurrently(artifacts.filter(not(existsIn(directory))).map(resolve(resolver)));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return this;
-    }
-
-
-    private Callable1<Artifact, Callable<Resolver>> resolve(final Resolver resolver) {
-        return new Callable1<Artifact, Callable<Resolver>>() {
-            public Callable<Resolver> call(Artifact artifact) throws Exception {
-                return curry(Resolver.resolve(resolver), artifact);
-            }
-        };
+        return artifacts.filter(not(existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));
     }
 
     public static void main(String[] args) throws IOException {
-        if(args.length == 0 || args.length > 2){
+        if (args.length == 0 || args.length > 2) {
             System.err.println("usage: dependencies.file [directory]");
             System.exit(-1);
         }
         Sequence<String> arguments = sequence(args);
-        load(dependenciesFile(arguments.head())).update(destinationDirectory(arguments.tail()));
+        boolean success = load(dependenciesFile(arguments.head())).update(destinationDirectory(arguments.tail()));
+        System.exit(success ? 0 : 1);
     }
 
     private static File destinationDirectory(Sequence<String> arg) {
