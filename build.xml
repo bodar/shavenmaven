@@ -50,6 +50,7 @@
     <target name="compile">
         <compile.and.jar src="${src}" jar="${release.jar.path}" classpathref="all.dependancies"
                          version="${release.version}"/>
+        <embed.totallylazy/>
         <compile.and.jar src="${test}" jar="${test.jar.path}" classpathref="all.jars" version="${release.version}"/>
     </target>
 
@@ -67,12 +68,6 @@
         </exec>
 
         <property file="${artifacts}/hg.properties" prefix="hg"/>
-
-        <java jar="lib/autojar.jar" fork="true" failonerror="true">
-            <arg line="-o ${release.no.dependencies.jar.path}"/>
-            <arg line="-c ${runtime.dependencies.dir}/*.jar"/>
-            <arg line="-- ${release.jar.path}" />
-        </java>
 
         <propertyfile file="${artifacts}/release.properties">
             <entry key="release.version" value="${release.version}"/>

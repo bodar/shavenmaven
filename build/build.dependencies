@@ -2,5 +2,9 @@ mvn:org.hamcrest:hamcrest-core:jar:1.2.1
 mvn:org.hamcrest:hamcrest-library:jar:1.2.1
 mvn:junit:junit-dep:jar:4.8.2
 
+mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:jar:328
+http://jarjar.googlecode.com/files/jarjar-1.1.jar
+
+
 
 
