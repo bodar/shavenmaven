@@ -13,8 +13,6 @@
     <property name="release.pom" value="${release.name}.pom"/>
     <property name="release.src" value="${release.name}-sources.jar"/>
     <property name="release.jar.path" value="${artifacts}/${release.jar}"/>
-    <property name="release.no.dependencies.jar" value="${ant.project.name}-nodep-${release.version}.jar"/>
-    <property name="release.no.dependencies.jar.path" value="${artifacts}/${release.no.dependencies.jar}"/>
     <property name="test.jar.path" value="${artifacts}/${release.name}.test.jar"/>
     <property name="build.dependencies.dir" value="lib/build"/>
     <property name="runtime.dependencies.dir" value="lib/runtime"/>
@@ -74,15 +72,13 @@
             <entry key="project.name" value="${ant.project.name}"/>
             <entry key="release.name" value="${release.name}"/>
             <entry key="release.path" value="com/googlecode/shavenmaven/shavenmaven/${release.version}/"/>
-            <entry key="release.files" value="${release.jar},${release.pom},${release.src},${release.no.dependencies.jar}"/>
+            <entry key="release.files" value="${release.jar},${release.pom},${release.src}"/>
             <entry key="${release.jar}.description" value="${hg.summary} build:${build.number} "/>
             <entry key="${release.jar}.labels" value="Jar"/>
             <entry key="${release.pom}.description" value="Maven POM file build:${build.number}"/>
             <entry key="${release.pom}.labels" value="POM"/>
             <entry key="${release.src}.description" value="Source file build:${build.number}"/>
             <entry key="${release.src}.labels" value="Source"/>
-            <entry key="${release.no.dependencies.jar}.description" value="No-dependencies jar build:${build.number}"/>
-            <entry key="${release.no.dependencies.jar}.labels" value="Jar"/>
         </propertyfile>
 
         <generate.pom artifact.uri="mvn:com.googlecode.shavenmaven:shavenmaven:jar:${release.version}"
