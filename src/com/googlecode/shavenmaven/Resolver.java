@@ -26,19 +26,20 @@ public class Resolver {
         this(directory, System.out);
     }
 
-    public Resolver resolve(Artifact artifact) throws IOException {
+    public boolean resolve(Artifact artifact) throws IOException {
         printStream.println(format("Downloading %s", artifact));
         try {
             write(bytes(artifact.url().openStream()), new File(directory, artifact.filename()));
+            return true;
         } catch (IOException e) {
             printStream.println(format("Failed to download %s (%s)", artifact, e));
+            return false;
         }
-        return this;
     }
 
-    public static Callable1<Artifact, Resolver> resolve(final Resolver resolver) {
-        return new Callable1<Artifact, Resolver>() {
-            public Resolver call(Artifact artifact) throws Exception {
+    public static Callable1<Artifact, Boolean> resolve(final Resolver resolver) {
+        return new Callable1<Artifact, Boolean>() {
+            public Boolean call(Artifact artifact) throws Exception {
                 return resolver.resolve(artifact);
             }
         };
