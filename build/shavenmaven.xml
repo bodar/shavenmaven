@@ -3,7 +3,7 @@
 
     <!--
     <target name="update">
-        <install version="14" directory="lib/build"/>
+        <install version="30" directory="lib"/>
         <parallel>
             <update classpathref="all.dependancies" dependencies="lib/build.dependencies" directory="${build.dependencies.dir}"/>
             <update classpathref="all.dependancies" dependencies="lib/optional.runtime.dependencies" directory="${runtime.dependencies.dir}"/>
