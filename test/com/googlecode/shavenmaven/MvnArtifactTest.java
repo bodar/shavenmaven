@@ -1,15 +1,10 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Sequences;
-import com.googlecode.totallylazy.callables.TimeCallable;
-import com.googlecode.totallylazy.callables.TimeReport;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.Callable;
 
-import static com.googlecode.totallylazy.Sequences.repeat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -34,5 +29,16 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.version(), is("116"));
         assertThat(mvnArtifact.url().toString(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
+    }
+    
+    @Test
+    public void understandsClassifiers() throws MalformedURLException {
+        MvnArtifact mvnArtifact = new MvnArtifact("mvn://repo.bodar.com/com.googlecode.yadic:yadic:classifier:116");
+        assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
+        assertThat(mvnArtifact.id(), is("yadic"));
+        assertThat(mvnArtifact.type(), is("classifier"));
+        assertThat(mvnArtifact.version(), is("116"));
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116-classifier.jar").toString()));
+        assertThat(mvnArtifact.filename(), is("yadic-116-classifier.jar"));
     }
 }

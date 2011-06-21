@@ -5,18 +5,12 @@ import com.googlecode.totallylazy.regex.Regex;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.MatchResult;
-import java.util.Map;
-import java.util.HashMap;
 
 import static java.lang.String.format;
 
 public class MvnArtifact implements Artifact {
     public static final String PROTOCOL = "mvn";
     private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):(\\w+):([\\d\\w\\.]+)");
-    private static Map<String,String> suffixes = new HashMap<String, String>(){{
-        put("jar", ".jar");
-        put("sources", "-sources.jar");
-    }};
     private final String repository;
     private final String group;
     private final String id;
@@ -62,7 +56,7 @@ public class MvnArtifact implements Artifact {
     }
 
     private String filesuffix() {
-        return suffixes.get(type);
+        return "jar".equals(type) ? ".jar" : format("-%s.jar", type);
     }
 
     public URL url() {
