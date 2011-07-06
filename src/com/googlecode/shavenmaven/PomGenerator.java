@@ -33,7 +33,7 @@ public class PomGenerator {
             System.err.println("usage: artifact:uri dependencies.file pom.directory");
             System.exit(-1);
         }
-        Artifact artifact = Artifacts.artifact(args[0]);
+        Artifact artifact = sequence(Artifacts.artifact(args[0])).head();
         String pom = new PomGenerator().generate(artifact, Artifacts.artifacts(new File(args[1])));
         write(pom.getBytes(), new File(args[2], pomfile(artifact)));
     }

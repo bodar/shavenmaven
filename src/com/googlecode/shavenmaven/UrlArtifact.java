@@ -14,6 +14,10 @@ public class UrlArtifact implements Artifact{
         this.value = value;
     }
 
+    public static UrlArtifact parse(String value) {
+        return new UrlArtifact(value);
+    }
+
     public String group() {
         throw new UnsupportedOperationException();
     }

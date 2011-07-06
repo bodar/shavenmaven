@@ -5,36 +5,32 @@ import com.googlecode.totallylazy.MemorisedSequence;
 import com.googlecode.totallylazy.Predicate;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 
-import static com.googlecode.totallylazy.Bytes.bytes;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.name;
-import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.empty;
 import static com.googlecode.totallylazy.Strings.lines;
 
 public class Artifacts {
     public static MemorisedSequence<Artifact> artifacts(File file) {
-        return lines(file).filter(not(empty())).map(asArtifact()).memorise();
+        return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
     }
 
-    public static Artifact artifact(String value) {
+    public static Iterable<? extends Artifact> artifact(String value) {
         if(value.startsWith(MvnArtifact.PROTOCOL)){
-            return new MvnArtifact(value);
+            return MvnArtifact.parse(value);
         }
-        return new UrlArtifact(value);
-
+        return sequence(UrlArtifact.parse(value));
     }
 
-    public static Callable1<? super String, Artifact> asArtifact() {
-        return new Callable1<String, Artifact>() {
-            public Artifact call(String value) throws Exception {
-                return Artifacts.artifact(value);
+    public static Callable1<? super String, Iterable<Artifact>> asArtifact() {
+        return new Callable1<String, Iterable<Artifact>>() {
+            public Iterable<Artifact> call(String value) throws Exception {
+                return (Iterable<Artifact>) Artifacts.artifact(value);
             }
         };
     }
