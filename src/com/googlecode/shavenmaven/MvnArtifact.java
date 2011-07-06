@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.Sequences;
 import com.googlecode.totallylazy.regex.Regex;
 
@@ -29,17 +31,21 @@ public class MvnArtifact implements Artifact {
         this.value = value;
     }
 
-    public static Iterable<MvnArtifact> parse(String value) {
+    public static Iterable<MvnArtifact> parse(final String value) {
         if(!regex.matches(value)){
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
-        MatchResult match = regex.findMatches(value).head();
-        String repository = repository(match.group(1));
-        String group = match.group(2);
-        String id =  match.group(3);
-        String type =  match.group(4);
-        String version =  match.group(5);
-        return sequence(new MvnArtifact(repository, group, id, version, type, value));
+        final MatchResult match = regex.findMatches(value).head();
+
+        return sequence(match.group(4).split("\\|")).map(new Callable1<String, MvnArtifact>() {
+            public MvnArtifact call(String type) throws Exception {
+                String repository = repository(match.group(1));
+                String group = match.group(2);
+                String id = match.group(3);
+                String version = match.group(5);
+                return new MvnArtifact(repository, group, id, version, type, value);
+            }
+        });
     }
 
     private static String repository(String host) {
