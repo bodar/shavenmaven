@@ -1,16 +1,18 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Sequences;
 import com.googlecode.totallylazy.regex.Regex;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.MatchResult;
 
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
 public class MvnArtifact implements Artifact {
     public static final String PROTOCOL = "mvn";
-    private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):(\\w+):([\\d\\w\\.]+)");
+    private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):([^:]+):([\\d\\w\\.]+)");
     private final String repository;
     private final String group;
     private final String id;
@@ -18,17 +20,26 @@ public class MvnArtifact implements Artifact {
     private final String type;
     private final String value;
 
-    public MvnArtifact(String value) {
+    public MvnArtifact(String repository, String group, String id, String version, String type, String value) {
+        this.repository = repository;
+        this.group = group;
+        this.id = id;
+        this.version = version;
+        this.type = type;
+        this.value = value;
+    }
+
+    public static Iterable<MvnArtifact> parse(String value) {
         if(!regex.matches(value)){
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
-        this.value = value;
         MatchResult match = regex.findMatches(value).head();
-        this.repository = repository(match.group(1));
-        this.group = match.group(2);
-        this.id =  match.group(3);
-        this.type =  match.group(4);
-        this.version =  match.group(5);
+        String repository = repository(match.group(1));
+        String group = match.group(2);
+        String id =  match.group(3);
+        String type =  match.group(4);
+        String version =  match.group(5);
+        return sequence(new MvnArtifact(repository, group, id, version, type, value));
     }
 
     private static String repository(String host) {

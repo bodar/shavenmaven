@@ -1,17 +1,21 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Sequences;
 import org.junit.Test;
 
+import javax.sound.midi.Sequence;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.googlecode.shavenmaven.MvnArtifact.parse;
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MvnArtifactTest {
     @Test
     public void supportsUriWithNoExplicitRepository() throws Exception {
-        MvnArtifact mvnArtifact = new MvnArtifact("mvn:org.objenesis:objenesis:jar:1.2");
+        MvnArtifact mvnArtifact = sequence(parse("mvn:org.objenesis:objenesis:jar:1.2")).head();
         assertThat(mvnArtifact.group(), is("org.objenesis"));
         assertThat(mvnArtifact.id(), is("objenesis"));
         assertThat(mvnArtifact.type(), is("jar"));
@@ -22,7 +26,7 @@ public class MvnArtifactTest {
 
     @Test
     public void supportsUriWithExplicitRepository() throws Exception {
-        MvnArtifact mvnArtifact = new MvnArtifact("mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116");
+        MvnArtifact mvnArtifact = sequence(parse("mvn://repo.bodar.com/com.googlecode.yadic:yadic:jar:116")).head();
         assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("jar"));
@@ -33,7 +37,7 @@ public class MvnArtifactTest {
     
     @Test
     public void understandsClassifiers() throws MalformedURLException {
-        MvnArtifact mvnArtifact = new MvnArtifact("mvn://repo.bodar.com/com.googlecode.yadic:yadic:classifier:116");
+        MvnArtifact mvnArtifact = sequence(parse("mvn://repo.bodar.com/com.googlecode.yadic:yadic:classifier:116")).head();
         assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("classifier"));
