@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 
-    <!--
+    <!-- Example usage pattern
+    <import file="shavenmaven.xml"/>
     <target name="update">
-        <install version="30" directory="lib"/>
+        <install version="38" directory="lib"/> // This can either be done ever update or just once
         <parallel>
-            <update classpathref="all.dependancies" dependencies="lib/build.dependencies" directory="${build.dependencies.dir}"/>
-            <update classpathref="all.dependancies" dependencies="lib/optional.runtime.dependencies" directory="${runtime.dependencies.dir}"/>
+            <update dependencies="${build}/build.dependencies"
+                    directory="${build.dependencies.dir}"/>
+            <update dependencies="${build}/runtime.dependencies"
+                    directory="${runtime.dependencies.dir}"/>
         </parallel>
     </target>
-        -->
+    -->
 
     <macrodef name="install">
         <attribute name="version"/>
