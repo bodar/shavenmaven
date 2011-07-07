@@ -32,7 +32,7 @@
     </path>
 
     <target name="update">
-        <!--<install version="33" directory="lib"/>-->
+        <!--<install version="38"/>-->
         <parallel>
             <update dependencies="${build}/build.dependencies"
                     directory="${build.dependencies.dir}"/>
