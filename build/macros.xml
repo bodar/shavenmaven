@@ -5,10 +5,12 @@
             <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
                      classpathref="all.dependancies"/>
             <property name="release.no.totallylazy.jar" value="${artifacts}/${release.name}-nototallylazy.jar"/>
-            <jarjar jarfile="${release.no.totallylazy.jar}">
+
+            <jarjar jarfile="${release.no.totallylazy.jar}" manifest="${release.jar.path}.mf">
                 <zipfileset src="${release.jar.path}"/>
                 <zipgroupfileset dir="${build.dependencies.dir}" includes="totallylazy-*.jar"/>
-                <rule pattern="com.googlecode.totallylazy.**" result="com.googlecode.shavenmaven.internal.totallylazy.@1"/>
+                <rule pattern="com.googlecode.totallylazy.**"
+                      result="com.googlecode.shavenmaven.internal.totallylazy.@1"/>
             </jarjar>
             <delete file="${release.jar.path}"/>
             <move file="${release.no.totallylazy.jar}" tofile="${release.jar.path}"/>
@@ -37,16 +39,14 @@
 
             <property name="manifest" value="@{jar}.mf"/>
             <manifest file="${manifest}">
+                <attribute name="Main-Class" value="@{main.class}"/>
                 <attribute name="Built-By" value="${user.name}"/>
-                <section name="${ant.project.name}">
-                    <attribute name="Specification-Title" value="${ant.project.name}"/>
-                    <attribute name="Specification-Version" value="@{version}"/>
-                    <attribute name="Specification-Vendor" value="${ant.project.name}"/>
-                    <attribute name="Implementation-Title" value="${ant.project.name}"/>
-                    <attribute name="Implementation-Version" value="@{version}"/>
-                    <attribute name="Implementation-Vendor" value="${ant.project.name}"/>
-                    <attribute name="Main-Class" value="@{main.class}"/>
-                </section>
+                <attribute name="Specification-Title" value="${ant.project.name}"/>
+                <attribute name="Specification-Version" value="@{version}"/>
+                <attribute name="Specification-Vendor" value="${ant.project.name}"/>
+                <attribute name="Implementation-Title" value="${ant.project.name}"/>
+                <attribute name="Implementation-Version" value="@{version}"/>
+                <attribute name="Implementation-Vendor" value="${ant.project.name}"/>
             </manifest>
 
             <jar destfile="@{jar}" basedir="@{classes}" manifest="${manifest}"/>
