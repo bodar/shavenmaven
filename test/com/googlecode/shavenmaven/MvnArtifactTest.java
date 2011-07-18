@@ -34,6 +34,17 @@ public class MvnArtifactTest {
     }
 
     @Test
+    public void supportsAlphaVersionsWithHyphens() throws Exception {
+        MvnArtifact mvnArtifact = sequence(parse("mvn:org.sitemesh:sitemesh:jar:3.0-alpha-2")).head();
+        assertThat(mvnArtifact.group(), is("org.sitemesh"));
+        assertThat(mvnArtifact.id(), is("sitemesh"));
+        assertThat(mvnArtifact.type(), is("jar"));
+        assertThat(mvnArtifact.version(), is("3.0-alpha-2"));
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo1.maven.org/maven2/org/sitemesh/sitemesh/3.0-alpha-2/sitemesh-3.0-alpha-2.jar").toString()));
+        assertThat(mvnArtifact.filename(), is("sitemesh-3.0-alpha-2.jar"));
+    }
+
+    @Test
     public void supportsUriWithNoExplicitRepository() throws Exception {
         MvnArtifact mvnArtifact = sequence(parse("mvn:org.objenesis:objenesis:jar:1.2")).head();
         assertThat(mvnArtifact.group(), is("org.objenesis"));

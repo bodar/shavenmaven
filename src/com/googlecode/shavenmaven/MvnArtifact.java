@@ -14,7 +14,7 @@ import static java.lang.String.format;
 
 public class MvnArtifact implements Artifact {
     public static final String PROTOCOL = "mvn";
-    private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):([^:]+):([\\d\\w\\.]+)");
+    private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):([^:]+):([\\d\\w\\.\\-]+)");
     private final String repository;
     private final String group;
     private final String id;
