@@ -2,7 +2,8 @@
 <project>
 
     <!-- Example usage pattern
-    <import file="shavenmaven.xml"/>
+    <import file="shavenmaven.xml"/> // Ant < 1.8
+    <import><javaresource name="shavenmaven.xml" classpath="lib/shavenmaven.jar"/></import> // Ant 1.8+
     <target name="update">
         <install version="38"/> // This can either be done ever update or just once
         <parallel>
