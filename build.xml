@@ -18,7 +18,7 @@
     <property name="runtime.dependencies.dir" value="lib/runtime"/>
 
     <import file="${build}/macros.xml"/>
-    <import><javaresource name="shavenmaven.xml" classpath="lib/shavenmaven.jar"/></import>
+    <import file="${src}/shavenmaven.xml"/>
 
     <path id="all.dependancies">
         <fileset id="build.dependancies" dir="lib/build" includes="**/*.jar"/>
