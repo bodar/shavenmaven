@@ -13,6 +13,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MvnArtifactTest {
     @Test
+    public void supportsUriWithExplicitRepositoryAndRootFolder() throws Exception {
+        MvnArtifact mvnArtifact = sequence(parse("mvn://repo.bodar.com/someFolder/com.googlecode.yadic:yadic:jar:116")).head();
+        assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
+        assertThat(mvnArtifact.id(), is("yadic"));
+        assertThat(mvnArtifact.type(), is("jar"));
+        assertThat(mvnArtifact.version(), is("116"));
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
+    }
+
+    @Test
     public void supportsMultipleTypesInASingleUrl() throws Exception {
         Sequence<MvnArtifact> mvnArtifact = sequence(parse("mvn:org.objenesis:objenesis:jar|sources:1.2"));
         MvnArtifact jar = mvnArtifact.first();
@@ -30,7 +41,6 @@ public class MvnArtifactTest {
         assertThat(second.version(), is("1.2"));
         assertThat(second.url().toString(), is(new URL("http://repo1.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2-sources.jar").toString()));
         assertThat(second.filename(), is("objenesis-1.2-sources.jar"));
-
     }
 
     @Test
