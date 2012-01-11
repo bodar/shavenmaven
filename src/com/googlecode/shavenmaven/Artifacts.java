@@ -3,7 +3,6 @@ package com.googlecode.shavenmaven;
 import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.MemorisedSequence;
 import com.googlecode.totallylazy.Predicate;
-import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 
@@ -31,7 +30,7 @@ public class Artifacts {
     public static Function1<String, Iterable<Artifact>> asArtifact() {
         return new Function1<String, Iterable<Artifact>>() {
             public Iterable<Artifact> call(String value) throws Exception {
-                return (Iterable<Artifact>) Artifacts.artifact(value);
+                return Artifacts.artifact(value);
             }
         };
     }
