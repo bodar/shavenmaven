@@ -30,7 +30,7 @@ public class MvnArtifact implements Artifact {
         this.value = value;
     }
 
-    public static Sequence<MvnArtifact> parse(final String value) {
+    public static Iterable<MvnArtifact> parse(final String value) {
         if(!regex.matches(value)){
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
