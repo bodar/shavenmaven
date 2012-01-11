@@ -1,7 +1,5 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.LazyException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
