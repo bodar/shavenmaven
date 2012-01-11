@@ -21,9 +21,9 @@ public class Artifacts {
         return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
     }
 
-    public static Sequence<Artifact> artifact(String value) {
+    public static Iterable<Artifact> artifact(String value) {
         if(value.startsWith(MvnArtifact.PROTOCOL)){
-            return MvnArtifact.parse(value).safeCast(Artifact.class);
+            return sequence(MvnArtifact.parse(value)).safeCast(Artifact.class);
         }
         return sequence(UrlArtifact.parse(value)).safeCast(Artifact.class);
     }
