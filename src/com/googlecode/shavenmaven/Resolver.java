@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Function1;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class Resolver {
     private final PrintStream printStream;
 
     public Resolver(File directory, PrintStream printStream) {
-        if(!directory.isDirectory()) {
+        if (!directory.isDirectory()) {
             throw new IllegalArgumentException("'file' argument must be a directory");
         }
         this.directory = directory;
@@ -37,8 +37,8 @@ public class Resolver {
         }
     }
 
-    public static Callable1<Artifact, Boolean> resolve(final Resolver resolver) {
-        return new Callable1<Artifact, Boolean>() {
+    public static Function1<Artifact, Boolean> resolve(final Resolver resolver) {
+        return new Function1<Artifact, Boolean>() {
             public Boolean call(Artifact artifact) throws Exception {
                 return resolver.resolve(artifact);
             }

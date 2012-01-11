@@ -1,8 +1,7 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.Sequences;
 import com.googlecode.totallylazy.regex.Regex;
 
 import java.net.MalformedURLException;
@@ -31,13 +30,13 @@ public class MvnArtifact implements Artifact {
         this.value = value;
     }
 
-    public static Iterable<MvnArtifact> parse(final String value) {
+    public static Sequence<MvnArtifact> parse(final String value) {
         if(!regex.matches(value)){
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
         final MatchResult match = regex.findMatches(value).head();
 
-        return sequence(match.group(4).split("\\|")).map(new Callable1<String, MvnArtifact>() {
+        return sequence(match.group(4).split("\\|")).map(new Function1<String, MvnArtifact>() {
             public MvnArtifact call(String type) throws Exception {
                 String repository = repository(match.group(1));
                 String group = match.group(2);

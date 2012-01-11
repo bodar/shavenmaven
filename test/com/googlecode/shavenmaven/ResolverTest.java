@@ -3,17 +3,15 @@ package com.googlecode.shavenmaven;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.MalformedURLException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
 
-import static com.googlecode.shavenmaven.Artifacts.artifact;
 import static com.googlecode.shavenmaven.DependenciesTest.DEPENDENCY_FILENAME;
 import static com.googlecode.shavenmaven.DependenciesTest.dependencyFrom;
 import static com.googlecode.shavenmaven.Http.createHttpsServer;
 import static com.googlecode.shavenmaven.Http.returnResponse;
-import static com.googlecode.shavenmaven.Http.urlOf;
 import static com.googlecode.totallylazy.Files.temporaryDirectory;
-import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

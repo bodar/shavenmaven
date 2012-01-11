@@ -1,8 +1,9 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.MemorisedSequence;
 import com.googlecode.totallylazy.Predicate;
+import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 
@@ -20,30 +21,30 @@ public class Artifacts {
         return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
     }
 
-    public static Iterable<? extends Artifact> artifact(String value) {
+    public static Sequence<Artifact> artifact(String value) {
         if(value.startsWith(MvnArtifact.PROTOCOL)){
-            return MvnArtifact.parse(value);
+            return MvnArtifact.parse(value).safeCast(Artifact.class);
         }
-        return sequence(UrlArtifact.parse(value));
+        return sequence(UrlArtifact.parse(value)).safeCast(Artifact.class);
     }
 
-    public static Callable1<? super String, Iterable<Artifact>> asArtifact() {
-        return new Callable1<String, Iterable<Artifact>>() {
+    public static Function1<String, Iterable<Artifact>> asArtifact() {
+        return new Function1<String, Iterable<Artifact>>() {
             public Iterable<Artifact> call(String value) throws Exception {
                 return (Iterable<Artifact>) Artifacts.artifact(value);
             }
         };
     }
 
-    public static Callable1<? super Artifact, String> asFilename() {
-        return new Callable1<Artifact, String>() {
+    public static Function1<Artifact, String> asFilename() {
+        return new Function1<Artifact, String>() {
             public String call(Artifact uri) throws Exception {
                 return uri.filename();
             }
         };
     }
 
-    public static Predicate<? super Artifact> existsIn(final File directory) {
+    public static Predicate<Artifact> existsIn(final File directory) {
         return new Predicate<Artifact>() {
             public boolean matches(Artifact artifact) {
                 return files(directory).exists(where(name(), is(artifact.filename())));

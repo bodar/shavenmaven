@@ -10,12 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import static com.googlecode.shavenmaven.Artifacts.artifact;
 import static com.googlecode.shavenmaven.Dependencies.load;
 import static com.googlecode.shavenmaven.Http.createHttpsServer;
 import static com.googlecode.shavenmaven.Http.returnResponse;
 import static com.googlecode.shavenmaven.Http.urlOf;
-import static com.googlecode.totallylazy.Files.*;
+import static com.googlecode.totallylazy.Files.files;
+import static com.googlecode.totallylazy.Files.randomFilename;
+import static com.googlecode.totallylazy.Files.temporaryDirectory;
+import static com.googlecode.totallylazy.Files.temporaryFile;
+import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
