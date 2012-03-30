@@ -13,6 +13,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MvnArtifactTest {
     @Test
+    public void canChangeTheDefaultRepository() throws Exception {
+        String original = MvnArtifact.defaultRepository("http://uk.maven.org/maven2/");
+        MvnArtifact mvnArtifact = sequence(parse("mvn:org.objenesis:objenesis:jar|sources:1.2")).head();
+        assertThat(mvnArtifact.url().toString(), is(new URL("http://uk.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2.jar").toString()));
+        MvnArtifact.defaultRepository(original);
+    }
+
+    @Test
     public void supportsUriWithExplicitRepositoryAndRootFolder() throws Exception {
         MvnArtifact mvnArtifact = sequence(parse("mvn://repo.bodar.com/someFolder/com.googlecode.yadic:yadic:jar:116")).head();
         assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
