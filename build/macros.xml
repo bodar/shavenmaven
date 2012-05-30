@@ -9,8 +9,8 @@
             <jarjar jarfile="${release.no.totallylazy.jar}" manifest="${release.jar.path}.mf">
                 <zipfileset src="${release.jar.path}"/>
                 <zipgroupfileset dir="${build.dependencies.dir}" includes="totallylazy-*.jar"/>
-                <rule pattern="com.googlecode.totallylazy.**"
-                      result="com.googlecode.shavenmaven.internal.totallylazy.@1"/>
+                <rule pattern="com.googlecode.totallylazy.*" result="com.googlecode.shavenmaven.internal.totallylazy.$@1"/>
+                <rule pattern="com.googlecode.totallylazy.**.*" result="com.googlecode.shavenmaven.internal.totallylazy.@1.$@2"/>
             </jarjar>
             <delete file="${release.jar.path}"/>
             <move file="${release.no.totallylazy.jar}" tofile="${release.jar.path}"/>
