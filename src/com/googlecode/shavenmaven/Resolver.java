@@ -4,7 +4,11 @@ import com.googlecode.totallylazy.Function1;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.zip.GZIPInputStream;
 
 import static com.googlecode.totallylazy.Bytes.bytes;
 import static com.googlecode.totallylazy.Files.write;
@@ -29,7 +33,7 @@ public class Resolver {
     public boolean resolve(Artifact artifact) throws IOException {
         printStream.println(format("Downloading %s", artifact));
         try {
-            write(bytes(artifact.url().openStream()), new File(directory, artifact.filename()));
+            write(bytes(artifact.inputStream()), new File(directory, artifact.filename()));
             return true;
         } catch (IOException e) {
             printStream.println(format("Failed to download %s (%s)", artifact, e));
