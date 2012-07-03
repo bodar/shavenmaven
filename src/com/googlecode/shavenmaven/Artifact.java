@@ -2,6 +2,8 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 public interface Artifact {
@@ -14,6 +16,8 @@ public interface Artifact {
     String type();
 
     URL url();
+
+    InputStream inputStream() throws IOException;
 
     String filename();
 

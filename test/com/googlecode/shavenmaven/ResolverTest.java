@@ -1,11 +1,13 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Strings;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
+import java.io.*;
+import java.util.zip.GZIPOutputStream;
 
 import static com.googlecode.shavenmaven.DependenciesTest.DEPENDENCY_FILENAME;
 import static com.googlecode.shavenmaven.DependenciesTest.dependencyFrom;
@@ -41,7 +43,37 @@ public class ResolverTest {
 
         assertThat(resolver.resolve(dependencyFrom(server)), is(false));
         assertThat(log.toString(), containsString("Failed to download"));
-
     }
 
+    @Test
+    public void handlesGzipContent() throws Exception {
+        final String expectedContent = "Some dependency content";
+
+        HttpServer server = createHttpsServer(new HttpHandler() {
+            public void handle(HttpExchange httpExchange) throws IOException {
+                httpExchange.getResponseHeaders().set("Content-Encoding", "gZiP");
+                byte[] content = gzip(expectedContent);
+                httpExchange.sendResponseHeaders(200, content.length);
+                httpExchange.getResponseBody().write(content);
+            }
+        });
+
+        File directory = temporaryDirectory();
+        Resolver resolver = new Resolver(directory);
+
+        boolean resolved = resolver.resolve(dependencyFrom(server));
+        assertThat(resolved, is(true));
+
+        File[] files = directory.listFiles();
+        assertThat(files.length, is(1));
+        assertThat(Strings.toString(new FileInputStream(files[0])), is(expectedContent));
+    }
+
+    private byte[] gzip(String message) throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        GZIPOutputStream out = new GZIPOutputStream(bytes);
+        out.write(message.getBytes());
+        out.close();
+        return bytes.toByteArray();
+    }
 }
