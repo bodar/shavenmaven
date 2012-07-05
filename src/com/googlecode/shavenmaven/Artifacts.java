@@ -1,8 +1,8 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.MemorisedSequence;
 import com.googlecode.totallylazy.Predicate;
+import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import static com.googlecode.totallylazy.Strings.empty;
 import static com.googlecode.totallylazy.Strings.lines;
 
 public class Artifacts {
-    public static MemorisedSequence<Artifact> artifacts(File file) {
+    public static Sequence<Artifact> artifacts(File file) {
         return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
     }
 
