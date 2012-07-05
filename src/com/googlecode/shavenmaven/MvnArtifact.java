@@ -4,11 +4,8 @@ import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Strings;
 import com.googlecode.totallylazy.regex.Regex;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.regex.MatchResult;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -97,11 +94,6 @@ public class MvnArtifact implements Artifact {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public InputStream inputStream() throws IOException {
-        URLConnection url = url().openConnection();
-        return UrlArtifact.gZipInputStream(url);
     }
 
     private String path() {

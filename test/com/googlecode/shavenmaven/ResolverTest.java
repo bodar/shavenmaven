@@ -1,26 +1,34 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Files;
 import com.googlecode.totallylazy.Strings;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.zip.GZIPOutputStream;
 
 import static com.googlecode.shavenmaven.DependenciesTest.DEPENDENCY_FILENAME;
 import static com.googlecode.shavenmaven.DependenciesTest.dependencyFrom;
 import static com.googlecode.shavenmaven.Http.createHttpsServer;
 import static com.googlecode.shavenmaven.Http.returnResponse;
-import static com.googlecode.totallylazy.Files.temporaryDirectory;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ResolverTest {
+    private File temporaryDirectory() {
+        return Files.emptyTemporaryDirectory(DependenciesTest.class.getSimpleName());
+    }
+
     @Test
-    public void resolvesArtifact() throws Exception{
+    public void resolvesArtifact() throws Exception {
         HttpServer server = createHttpsServer(returnResponse(200, "Some dependency content"));
 
         File directory = temporaryDirectory();
@@ -34,7 +42,7 @@ public class ResolverTest {
     }
 
     @Test
-    public void handlesNotFound() throws Exception{
+    public void handlesNotFound() throws Exception {
         HttpServer server = createHttpsServer(returnResponse(404, "Not found"));
 
         File directory = temporaryDirectory();
