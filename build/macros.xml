@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-    <macrodef name="embed.totallylazy">
+    <macrodef name="embed.libs">
         <sequential>
             <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
                      classpathref="all.dependancies"/>
-            <property name="release.no.totallylazy.jar" value="${artifacts}/${release.name}-nototallylazy.jar"/>
 
-            <jarjar jarfile="${release.no.totallylazy.jar}" manifest="${release.jar.path}.mf">
-                <zipfileset src="${release.jar.path}"/>
+            <move file="${release.jar.path}" tofile="${release.dep.path}"/>
+
+            <jarjar jarfile="${release.jar.path}" manifest="${release.jar.path}.mf">
+                <zipfileset src="${release.dep.path}"/>
                 <zipgroupfileset dir="${build.dependencies.dir}" includes="totallylazy-*.jar"/>
                 <rule pattern="com.googlecode.totallylazy.*" result="com.googlecode.shavenmaven.internal.totallylazy.$@1"/>
                 <rule pattern="com.googlecode.totallylazy.**.*" result="com.googlecode.shavenmaven.internal.totallylazy.@1.$@2"/>
             </jarjar>
-            <delete file="${release.jar.path}"/>
-            <move file="${release.no.totallylazy.jar}" tofile="${release.jar.path}"/>
         </sequential>
     </macrodef>
 
