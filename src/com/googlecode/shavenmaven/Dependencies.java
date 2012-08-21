@@ -1,16 +1,26 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.concurrent.Callable;
 
-import static com.googlecode.shavenmaven.Artifacts.*;
+import static com.googlecode.shavenmaven.Artifacts.artifacts;
+import static com.googlecode.shavenmaven.Artifacts.asFilename;
+import static com.googlecode.shavenmaven.Artifacts.existsIn;
 import static com.googlecode.shavenmaven.Resolver.resolve;
-import static com.googlecode.totallylazy.Callables.curry;
-import static com.googlecode.totallylazy.Files.*;
-import static com.googlecode.totallylazy.Predicates.*;
+import static com.googlecode.totallylazy.Files.asFile;
+import static com.googlecode.totallylazy.Files.delete;
+import static com.googlecode.totallylazy.Files.files;
+import static com.googlecode.totallylazy.Files.isDirectory;
+import static com.googlecode.totallylazy.Files.name;
+import static com.googlecode.totallylazy.Predicates.in;
+import static com.googlecode.totallylazy.Predicates.is;
+import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Dependencies {

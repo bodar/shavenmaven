@@ -1,23 +1,26 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Strings;
 
 import java.io.File;
 import java.io.IOException;
 
+import static com.googlecode.shavenmaven.Artifact.methods.type;
 import static com.googlecode.totallylazy.Files.write;
+import static com.googlecode.totallylazy.Predicates.is;
+import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
 public class PomGenerator {
     public String generate(Artifact artifact, Iterable<? extends Artifact> dependencies) {
         return applyTemplate("pom", artifact.group(), artifact.id(), artifact.version(),
-                sequence(dependencies).map(template("dependency")).toString(""));
+                sequence(dependencies).filter(where(type(), is("jar"))).map(template("dependency")).toString(""));
     }
 
-    private Callable1<? super Artifact, String> template(final String name) {
-        return new Callable1<Artifact, String>() {
+    private Function1<Artifact, String> template(final String name) {
+        return new Function1<Artifact, String>() {
             public String call(Artifact artifact) throws Exception {
                 return applyTemplate(name, artifact.group(), artifact.id(), artifact.version());
             }
@@ -29,7 +32,7 @@ public class PomGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        if(!(args.length == 3)){
+        if (!(args.length == 3)) {
             System.err.println("usage: artifact:uri dependencies.file pom.directory");
             System.exit(-1);
         }
