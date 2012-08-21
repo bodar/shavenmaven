@@ -1,0 +1,7 @@
+
+        <dependency>
+            <groupId>%1$s</groupId>
+            <artifactId>%2$s</artifactId>
+            <version>%3$s</version>
+        </dependency>
+        
