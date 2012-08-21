@@ -1,8 +1,7 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.Sequences;
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Strings;
 import com.googlecode.totallylazy.regex.Regex;
 
 import java.net.MalformedURLException;
@@ -13,8 +12,21 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
 public class MvnArtifact implements Artifact {
+    public static final String KEY = "shavenmaven.default-repository";
+
+    public static String defaultRepository() {
+        return System.getProperty(KEY, "http://repo1.maven.org/maven2/");
+    }
+    
+    public static String defaultRepository(String value){
+        if(Strings.isEmpty(value)){
+            return System.clearProperty(KEY);
+        }
+        return System.setProperty(KEY, value);
+    }
+
     public static final String PROTOCOL = "mvn";
-    private static Regex regex = Regex.regex("mvn:(//[^/]+/)?([^:]+):([^:]+):([^:]+):([\\d\\w\\.]+)");
+    private static Regex regex = Regex.regex("mvn:(//.+/)?([^:]+):([^:]+):([^:]+):([\\d\\w\\.\\-]+)");
     private final String repository;
     private final String group;
     private final String id;
@@ -37,7 +49,7 @@ public class MvnArtifact implements Artifact {
         }
         final MatchResult match = regex.findMatches(value).head();
 
-        return sequence(match.group(4).split("\\|")).map(new Callable1<String, MvnArtifact>() {
+        return sequence(match.group(4).split("\\|")).map(new Function1<String, MvnArtifact>() {
             public MvnArtifact call(String type) throws Exception {
                 String repository = repository(match.group(1));
                 String group = match.group(2);
@@ -49,7 +61,7 @@ public class MvnArtifact implements Artifact {
     }
 
     private static String repository(String host) {
-        return host == null ? "http://repo1.maven.org/maven2/" : "http:" + host;
+        return host == null ? defaultRepository() : "http:" + host;
     }
 
     private static String replaceDots(String value) {

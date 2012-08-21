@@ -1,5 +1,6 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Files;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.matchers.NumberMatcher;
 import com.sun.net.httpserver.HttpServer;
@@ -10,12 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import static com.googlecode.shavenmaven.Artifacts.artifact;
 import static com.googlecode.shavenmaven.Dependencies.load;
 import static com.googlecode.shavenmaven.Http.createHttpsServer;
 import static com.googlecode.shavenmaven.Http.returnResponse;
 import static com.googlecode.shavenmaven.Http.urlOf;
-import static com.googlecode.totallylazy.Files.*;
+import static com.googlecode.totallylazy.Files.files;
+import static com.googlecode.totallylazy.Files.randomFilename;
+import static com.googlecode.totallylazy.Files.temporaryFile;
+import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,6 +50,10 @@ public class DependenciesTest {
         assertThat(files.size(), NumberMatcher.is(2));
         assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
         assertThat(files.contains(subDirectory), is(true));
+    }
+
+    private File temporaryDirectory() {
+        return Files.emptyTemporaryDirectory(DependenciesTest.class.getSimpleName());
     }
 
     @Test

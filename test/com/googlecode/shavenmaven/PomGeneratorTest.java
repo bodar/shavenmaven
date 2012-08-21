@@ -20,7 +20,7 @@ public class PomGeneratorTest {
 
     @Test
     public void supportsDependencies() throws Exception {
-        Iterable<MvnArtifact> dependencies = sequence(MvnArtifact.parse("mvn:com.googlecode.totallylazy:totallylazy:jar:207")).join(MvnArtifact.parse("mvn:com.googlecode.yadic:yadic:jar:116"));
+        Iterable<MvnArtifact> dependencies = sequence(MvnArtifact.parse("mvn:com.googlecode.totallylazy:totallylazy:jar|sources:207")).join(MvnArtifact.parse("mvn:com.googlecode.yadic:yadic:jar:116"));
         String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +

@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Function1;
+
 import java.net.URL;
 
 public interface Artifact {
@@ -14,4 +16,15 @@ public interface Artifact {
     URL url();
 
     String filename();
+
+    static class methods {
+        public static Function1<Artifact, String> type() {
+            return new Function1<Artifact, String>() {
+                public String call(Artifact artifact) throws Exception {
+                    return artifact.type();
+                }
+            };
+        }
+    }
+
 }
