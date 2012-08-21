@@ -1,11 +1,10 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Callable;
+import java.io.PrintStream;
 
 import static com.googlecode.shavenmaven.Artifacts.*;
 import static com.googlecode.shavenmaven.Resolver.resolve;
@@ -16,20 +15,26 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Dependencies {
     private final Sequence<Artifact> artifacts;
+    private final PrintStream out;
 
-    public Dependencies(Iterable<Artifact> artifacts) {
+    public Dependencies(Iterable<Artifact> artifacts, PrintStream out) {
+        this.out = out;
         this.artifacts = sequence(artifacts);
     }
 
     public static Dependencies load(File file) throws IOException {
-        return new Dependencies(artifacts(file));
+        return load(file, System.out);
+    }
+
+    public static Dependencies load(File file, PrintStream out) {
+        return new Dependencies(artifacts(file), out);
     }
 
     public boolean update(File directory) {
         files(directory).
                 filter(where(name(), is(not(in(artifacts.map(asFilename()))))).and(not(isDirectory()))).
                 map(delete()).realise();
-        final Resolver resolver = new Resolver(directory);
+        final Resolver resolver = new Resolver(directory, out);
         return artifacts.filter(not(existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));
     }
 
