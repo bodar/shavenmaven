@@ -14,6 +14,7 @@ import static com.googlecode.totallylazy.Files.delete;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.isDirectory;
 import static com.googlecode.totallylazy.Files.name;
+import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Predicates.in;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.not;
@@ -28,7 +29,7 @@ public class Dependencies {
     }
 
     public static Dependencies load(File file) throws IOException {
-        return new Dependencies(artifacts(file));
+        return new Dependencies(artifacts(some(file)));
     }
 
     public boolean update(File directory) {
