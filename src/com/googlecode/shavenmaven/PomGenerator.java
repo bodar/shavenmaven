@@ -1,13 +1,20 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.None;
+import com.googlecode.totallylazy.Option;
+import com.googlecode.totallylazy.Sequences;
 import com.googlecode.totallylazy.Strings;
 
 import java.io.File;
 import java.io.IOException;
 
 import static com.googlecode.shavenmaven.Artifact.methods.type;
+import static com.googlecode.shavenmaven.Artifacts.artifacts;
 import static com.googlecode.totallylazy.Files.write;
+import static com.googlecode.totallylazy.None.none;
+import static com.googlecode.totallylazy.Option.option;
+import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -32,17 +39,25 @@ public class PomGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        if (!(args.length == 3)) {
-            System.err.println("usage: artifact:uri dependencies.file pom.directory");
+        if (!(2 <= args.length && args.length <= 3)) {
+            System.err.println("usage: artifact:uri [dependencies.file] pom.directory");
             System.exit(-1);
         }
-        generate(args[0], new File(args[1]), new File(args[2]));
+        generate(args[0], dependencies(args), pomDirectory(args));
     }
 
-    public static void generate(String uri, File dependencies, File outputDirectory) {
+    public static void generate(String uri, Option<File> dependencies, File outputDirectory) {
         Artifact artifact = sequence(Artifacts.artifact(uri)).head();
-        String pom = new PomGenerator().generate(artifact, Artifacts.artifacts(dependencies));
+        String pom = new PomGenerator().generate(artifact, artifacts(dependencies));
         write(pom.getBytes(), new File(outputDirectory, pomfile(artifact)));
+	}
+
+    private static File pomDirectory(String[] args) {
+        return new File(sequence(args).last());
+    }
+
+    private static Option<File> dependencies(String[] args) {
+        return args.length == 3 ? some(new File(args[1])) : none(File.class);
     }
 
     private static String pomfile(Artifact artifact) {
