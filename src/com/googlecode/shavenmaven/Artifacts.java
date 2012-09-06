@@ -1,8 +1,11 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Sequences;
 
 import java.io.File;
 
@@ -11,13 +14,22 @@ import static com.googlecode.totallylazy.Files.name;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.empty;
 import static com.googlecode.totallylazy.Strings.lines;
 
 public class Artifacts {
-    public static Sequence<Artifact> artifacts(File file) {
-        return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
+    public static Sequence<Artifact> artifacts(Option<File> file) {
+        return flatten(file.map(toArtifacts()).toSequence());
+    }
+
+    private static Callable1<File, Sequence<Artifact>> toArtifacts() {
+        return new Callable1<File, Sequence<Artifact>>() {
+            public Sequence<Artifact> call(File file) throws Exception {
+                return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
+            }
+        };
     }
 
     public static Iterable<Artifact> artifact(String value) {
