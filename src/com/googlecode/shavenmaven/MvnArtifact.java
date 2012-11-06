@@ -84,6 +84,10 @@ public class MvnArtifact implements Artifact {
         return type;
     }
 
+    public String value() {
+        return value;
+    }
+
     private String filesuffix() {
         return "jar".equals(type) ? ".jar" : format("-%s.jar", type);
     }

@@ -2,10 +2,10 @@ package com.googlecode.shavenmaven;
 
 import java.net.URL;
 
-public abstract class DelegatingArtifact implements Artifact {
-    protected final Artifact artifact;
+public abstract class DelegatingArtifact<T extends Artifact> implements Artifact {
+    protected final T artifact;
 
-    protected DelegatingArtifact(Artifact artifact) {
+    protected DelegatingArtifact(T artifact) {
         this.artifact = artifact;
     }
 
