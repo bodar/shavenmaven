@@ -18,6 +18,7 @@ import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.empty;
 import static com.googlecode.totallylazy.Strings.lines;
+import static com.googlecode.totallylazy.Strings.startsWith;
 
 public class Artifacts {
     public static Sequence<Artifact> artifacts(Option<File> file) {
@@ -27,14 +28,21 @@ public class Artifacts {
     private static Callable1<File, Sequence<Artifact>> toArtifacts() {
         return new Callable1<File, Sequence<Artifact>>() {
             public Sequence<Artifact> call(File file) throws Exception {
-                return lines(file).filter(not(empty())).flatMap(asArtifact()).memorise();
+                return toArtifacts(lines(file));
             }
         };
+    }
+
+    public static Sequence<Artifact> toArtifacts(Sequence<String> lines) {
+        return lines.filter(not(empty().or(startsWith("#")))).flatMap(asArtifact()).memorise();
     }
 
     public static Iterable<Artifact> artifact(String value) {
         if(value.startsWith(MvnArtifact.PROTOCOL)){
             return sequence(MvnArtifact.parse(value)).safeCast(Artifact.class);
+        }
+        if(value.startsWith(S3Artifact.PROTOCOL)){
+            return sequence(S3Artifact.parse(value)).safeCast(Artifact.class);
         }
         return sequence(UrlArtifact.parse(value)).safeCast(Artifact.class);
     }
