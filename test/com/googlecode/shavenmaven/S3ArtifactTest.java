@@ -12,13 +12,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class S3ArtifactTest {
     @Test
     public void supportsUriWithExplicitRepositoryAndRootFolder() throws Exception {
-        MvnArtifact mvnArtifact = sequence(parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116")).head();
-        assertThat(mvnArtifact.group(), is("com.googlecode.yadic"));
-        assertThat(mvnArtifact.id(), is("yadic"));
-        assertThat(mvnArtifact.type(), is("jar"));
-        assertThat(mvnArtifact.version(), is("116"));
-        assertThat(mvnArtifact.url().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
-        assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
+        S3Artifact s3Artifact = sequence(parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116")).head();
+        assertThat(s3Artifact.group(), is("com.googlecode.yadic"));
+        assertThat(s3Artifact.id(), is("yadic"));
+        assertThat(s3Artifact.type(), is("jar"));
+        assertThat(s3Artifact.version(), is("116"));
+        assertThat(s3Artifact.url().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(s3Artifact.filename(), is("yadic-116.jar"));
+        assertThat(s3Artifact.toString(), is("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar (s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116)"));
     }
 
 }
