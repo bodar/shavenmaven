@@ -1,9 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.None;
 import com.googlecode.totallylazy.Option;
-import com.googlecode.totallylazy.Sequences;
 import com.googlecode.totallylazy.Strings;
 
 import java.io.File;
@@ -11,6 +9,7 @@ import java.io.IOException;
 
 import static com.googlecode.shavenmaven.Artifact.methods.type;
 import static com.googlecode.shavenmaven.Artifacts.artifacts;
+import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.None.none;
 import static com.googlecode.totallylazy.Option.option;
@@ -18,6 +17,7 @@ import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Predicates.is;
 import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.googlecode.totallylazy.Strings.bytes;
 import static java.lang.String.format;
 
 public class PomGenerator {
@@ -35,7 +35,9 @@ public class PomGenerator {
     }
 
     private String applyTemplate(String name, Object... arguments) {
-        return format(Strings.toString(getClass().getResourceAsStream(name + ".template")), arguments);
+        String template = Strings.toString(getClass().getResourceAsStream(name + ".template"));
+        if(Strings.isEmpty(template)) throw new UnsupportedOperationException(format("Unable to load template %s", name));
+        return format(template, arguments);
     }
 
     public static void main(String[] args) throws IOException {
@@ -47,10 +49,19 @@ public class PomGenerator {
     }
 
     public static void generate(String uri, Option<File> dependencies, File outputDirectory) {
-        Artifact artifact = sequence(Artifacts.artifact(uri)).head();
-        String pom = new PomGenerator().generate(artifact, artifacts(dependencies));
-        write(pom.getBytes(), new File(outputDirectory, pomfile(artifact)));
+        Artifact artifact = artifact(uri);
+        File outputFile = new File(outputDirectory, pomfile(artifact));
+        generate(artifact, dependencies, outputFile);
 	}
+
+    public static Artifact artifact(final String uri) {
+        return sequence(Artifacts.artifact(uri)).head();
+    }
+
+    public static void generate(final Artifact artifact, final Option<File> dependencies, final File outputFile) {
+        String pom = new PomGenerator().generate(artifact, artifacts(dependencies));
+        write(bytes(pom), outputFile);
+    }
 
     private static File pomDirectory(String[] args) {
         return new File(sequence(args).last());
