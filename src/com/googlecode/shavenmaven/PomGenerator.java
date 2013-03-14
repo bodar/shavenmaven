@@ -14,8 +14,7 @@ import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.None.none;
 import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Option.some;
-import static com.googlecode.totallylazy.Predicates.is;
-import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.bytes;
 import static java.lang.String.format;
@@ -23,7 +22,10 @@ import static java.lang.String.format;
 public class PomGenerator {
     public String generate(Artifact artifact, Iterable<? extends Artifact> dependencies) {
         return applyTemplate("pom", artifact.group(), artifact.id(), artifact.version(),
-                sequence(dependencies).filter(where(type(), is("jar"))).map(template("dependency")).toString(""));
+                sequence(dependencies).
+                        filter(not(instanceOf(UrlArtifact.class))).
+                        filter(where(type(), is("jar"))).
+                        map(template("dependency")).toString(""));
     }
 
     private Function1<Artifact, String> template(final String name) {

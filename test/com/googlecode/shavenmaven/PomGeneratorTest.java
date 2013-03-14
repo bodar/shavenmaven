@@ -1,5 +1,6 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Sequence;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -49,6 +50,24 @@ public class PomGeneratorTest {
     @Test
     public void supportsNoDependencies() throws Exception {
         Iterable<MvnArtifact> dependencies = sequence();
+        String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
+        assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
+                "         xmlns=\"http://maven.apache.org/POM/4.0.0\"" +
+                "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
+                "    <modelVersion>4.0.0</modelVersion>" +
+                "    <groupId>com.googlecode.shavenmaven</groupId>" +
+                "    <artifactId>shavenmaven</artifactId>" +
+                "    <version>18</version>" +
+                "    <name>shavenmaven</name>" +
+                "    <dependencies>" +
+                "    </dependencies>" +
+                "</project>")));
+    }
+
+    @Test
+    public void ignoresUrlDependencies() throws Exception {
+        Sequence<UrlArtifact> dependencies = sequence(UrlArtifact.parse("http://server/path"));
         String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
