@@ -13,6 +13,7 @@
                 <rule pattern="com.googlecode.totallylazy.*" result="com.googlecode.shavenmaven.internal.totallylazy.$@1"/>
                 <rule pattern="com.googlecode.totallylazy.**.*" result="com.googlecode.shavenmaven.internal.totallylazy.@1.$@2"/>
             </jarjar>
+
         </sequential>
     </macrodef>
 
@@ -23,8 +24,11 @@
         <attribute name="version"/>
         <attribute name="classes" default="@{jar}.classes"/>
         <attribute name="main.class" default=""/>
+        <attribute name="manifest" default="@{jar}.mf"/>
+
 
         <sequential>
+            <echo message="@{jar}"/>
             <mkdir dir="@{classes}"/>
             <javac srcdir="@{src}" destdir="@{classes}" classpathref="@{classpathref}"
                    bootclasspath="${java.home}/lib/rt.jar" target="1.6" source="1.6" debug="true"
@@ -35,12 +39,10 @@
             <copy todir="@{classes}">
                 <fileset dir="@{src}">
                     <exclude name="**/*.java"/>
-                    <exclude name="**/*.scala"/>
                 </fileset>
             </copy>
 
-            <property name="manifest" value="@{jar}.mf"/>
-            <manifest file="${manifest}">
+            <manifest file="@{manifest}">
                 <attribute name="Main-Class" value="@{main.class}"/>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Specification-Title" value="${ant.project.name}"/>
@@ -51,9 +53,8 @@
                 <attribute name="Implementation-Vendor" value="${ant.project.name}"/>
             </manifest>
 
-            <jar destfile="@{jar}" basedir="@{classes}" manifest="${manifest}"/>
+            <jar destfile="@{jar}" basedir="@{classes}" manifest="@{manifest}"/>
 
-            <delete file="$manifest"/>
             <delete dir="@{classes}"/>
         </sequential>
     </macrodef>
