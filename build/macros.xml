@@ -28,7 +28,6 @@
 
 
         <sequential>
-            <echo message="@{jar}"/>
             <mkdir dir="@{classes}"/>
             <javac srcdir="@{src}" destdir="@{classes}" classpathref="@{classpathref}"
                    bootclasspath="${java.home}/lib/rt.jar" target="1.6" source="1.6" debug="true"
