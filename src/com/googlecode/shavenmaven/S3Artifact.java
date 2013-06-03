@@ -19,7 +19,11 @@ public class S3Artifact extends DelegatingArtifact<MvnArtifact> {
 
     @Override
     public String toString() {
-        return format("%s (%s)", artifact.url(), fromMvn.matcher(artifact.value()).replaceFirst("s3://$1/"));
+        return format("%s (%s)", artifact.url(), value());
+    }
+
+    public String value() {
+        return fromMvn.matcher(artifact.value()).replaceFirst("s3://$1/");
     }
 
     public static Iterable<S3Artifact> parse(final String value) {

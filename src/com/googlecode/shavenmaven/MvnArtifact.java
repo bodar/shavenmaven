@@ -34,7 +34,7 @@ public class MvnArtifact implements Artifact {
     private final String type;
     private final String value;
 
-    public MvnArtifact(String repository, String group, String id, String version, String type, String value) {
+    private MvnArtifact(String repository, String group, String id, String version, String type, String value) {
         this.repository = repository;
         this.group = group;
         this.id = id;
