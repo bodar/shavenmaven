@@ -1,12 +1,14 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Rule;
+import com.googlecode.totallylazy.Rules;
 
+import java.io.File;
 import java.net.URLConnection;
 
 import static com.googlecode.totallylazy.Predicates.always;
 import static com.googlecode.totallylazy.Rule.rule;
-import static com.googlecode.totallylazy.Rules.rules;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class ConnectionRules {
@@ -23,5 +25,9 @@ public class ConnectionRules {
                 return artifact.url().openConnection();
             }
         };
+    }
+
+    public static Rule<Artifact, URLConnection> authenticatedS3ConnectionRule(final File buildDirectory) {
+        return rule(always(Artifact.class), connectByUrl());
     }
 }
