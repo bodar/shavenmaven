@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import static com.googlecode.shavenmaven.Artifacts.artifacts;
 import static com.googlecode.shavenmaven.Artifacts.asFilename;
 import static com.googlecode.shavenmaven.Artifacts.existsIn;
+import static com.googlecode.shavenmaven.ConnectionRules.connectByUrlRules;
 import static com.googlecode.shavenmaven.Resolver.resolve;
 import static com.googlecode.totallylazy.Files.asFile;
 import static com.googlecode.totallylazy.Files.delete;
@@ -43,7 +44,7 @@ public class Dependencies {
         files(directory).
                 filter(where(name(), is(not(in(artifacts.map(asFilename()))))).and(not(isDirectory()))).
                 map(delete()).realise();
-        final Resolver resolver = new Resolver(directory, out);
+        final Resolver resolver = new Resolver(directory, out, connectByUrlRules());
         return artifacts.filter(not(existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));
     }
 

@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Rules;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.PrintStream;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
+import static com.googlecode.shavenmaven.ConnectionRules.connectByUrlRules;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
@@ -17,20 +19,26 @@ import static java.lang.String.format;
 public class Resolver {
     private final File directory;
     private final PrintStream printStream;
+    private final Rules<Artifact, URLConnection> connectionRules;
 
-    public Resolver(File directory, PrintStream printStream) {
+    public Resolver(File directory, PrintStream printStream, Rules<Artifact, URLConnection> connectionRules) {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException("'file' argument must be a directory");
         }
         this.directory = directory;
         this.printStream = printStream;
+        this.connectionRules = connectionRules;
+    }
+
+    public Resolver(File directory, PrintStream printStream) {
+        this(directory,printStream, connectByUrlRules());
     }
 
     public Resolver(File directory) {
         this(directory, System.out);
     }
 
-    public boolean resolve(Artifact artifact) throws IOException {
+    public boolean resolve(Artifact artifact) throws Exception {
         printStream.println(format("Downloading %s", artifact));
         try {
             using(inputStream(artifact), write(file(directory, artifact.filename())));
@@ -41,8 +49,8 @@ public class Resolver {
         }
     }
 
-    private static InputStream inputStream(Artifact artifact) throws IOException {
-        URLConnection connection = artifact.url().openConnection();
+    private InputStream inputStream(Artifact artifact) throws Exception {
+        URLConnection connection = connectionRules.call(artifact);
         InputStream inputStream = connection.getInputStream();
         return "gzip".equalsIgnoreCase(connection.getHeaderField("Content-Encoding")) ? new GZIPInputStream(inputStream) : inputStream;
     }
