@@ -40,7 +40,7 @@ public class Dependencies {
     public static Dependencies load(File file) throws IOException {
         return load(file, connectByUrlRules());
     }
-    
+
     public static Dependencies load(File file, Rules<Artifact, URLConnection> connectionRules) throws IOException {
         return load(file, System.out, connectionRules);
     }

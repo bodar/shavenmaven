@@ -41,6 +41,10 @@ public class UrlArtifact implements Artifact {
         }
     }
 
+    public String value() {
+        return value;
+    }
+
     public String filename() {
         return sequence(url().getPath().split("/")).reverse().head();
     }

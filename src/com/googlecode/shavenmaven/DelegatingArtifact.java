@@ -28,6 +28,9 @@ public abstract class DelegatingArtifact<T extends Artifact> implements Artifact
     public String filename() {return artifact.filename();}
 
     @Override
+    public String value() {return artifact.value();}
+
+    @Override
     public int hashCode() { return artifact.hashCode(); }
 
     @Override

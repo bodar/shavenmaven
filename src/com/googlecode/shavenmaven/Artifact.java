@@ -17,6 +17,8 @@ public interface Artifact {
 
     String filename();
 
+    String value();
+
     static class methods {
         public static Function1<Artifact, String> type() {
             return new Function1<Artifact, String>() {
