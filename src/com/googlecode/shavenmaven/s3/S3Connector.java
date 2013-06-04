@@ -22,7 +22,6 @@ public class S3Connector implements Callable1<Artifact, URLConnection>{
 
     private final AwsCredentials awsCredentials;
 
-
     public S3Connector(final AwsCredentials awsCredentials) {
         this.awsCredentials = awsCredentials;
     }
@@ -38,17 +37,13 @@ public class S3Connector implements Callable1<Artifact, URLConnection>{
         final Mac mac = Mac.getInstance("HmacSHA1");
         mac.init(signingKey);
         return get(mac,http.matcher(artifact.url().toString()).replaceFirst("/$1/"));
-
     }
 
-    public String sign(final Mac mac, String data) throws Exception
-    {
+    public String sign(final Mac mac, String data) throws Exception{
         return Base64.encode(mac.doFinal(data.getBytes("UTF8")));
     }
 
-    public HttpURLConnection get(final Mac mac, String s3Item) throws Exception
-    {
-
+    public HttpURLConnection get(final Mac mac, String s3Item) throws Exception {
         String method = "GET";
         String date = s3TimestampPattern().format(new Date()) + "GMT";
 
@@ -67,13 +62,14 @@ public class S3Connector implements Callable1<Artifact, URLConnection>{
     }
 
     private String createSignature(Mac mac, String method, String date, String bucket) throws Exception {
-        StringBuilder buf = new StringBuilder();
-        buf.append(method).append("\n");
-        buf.append("").append("\n");
-        buf.append("").append("\n");
-        buf.append(date).append("\n");
-        buf.append(bucket);
-        return sign(mac, buf.toString()).trim();
+        return sign(mac, new StringBuilder()
+                .append(method).append("\n")
+                .append("").append("\n")
+                .append("").append("\n")
+                .append(date).append("\n")
+                .append(bucket)
+                .toString())
+                .trim();
     }
 
     private SimpleDateFormat s3TimestampPattern() {

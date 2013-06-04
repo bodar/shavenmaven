@@ -1,29 +1,14 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.shavenmaven.config.SectionedProperties;
-import com.googlecode.shavenmaven.s3.AwsCredentials;
-import com.googlecode.shavenmaven.s3.S3Connector;
-import com.googlecode.totallylazy.*;
-import com.googlecode.totallylazy.Properties;
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Rule;
+import com.googlecode.totallylazy.Rules;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.URLConnection;
 
-import static com.googlecode.shavenmaven.config.SectionedProperties.sectionedProperties;
-import static com.googlecode.shavenmaven.s3.AwsCredentials.awsCredentials;
-import static com.googlecode.totallylazy.Closeables.using;
-import static com.googlecode.totallylazy.Files.fileOption;
-import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Predicates.always;
-import static com.googlecode.totallylazy.Predicates.instanceOf;
 import static com.googlecode.totallylazy.Rule.rule;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.googlecode.totallylazy.Strings.contains;
-import static com.googlecode.totallylazy.Strings.lines;
-import static java.lang.System.getProperty;
 
 public class ConnectionRules {
 

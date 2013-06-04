@@ -5,7 +5,6 @@ import com.googlecode.totallylazy.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.Map;
 import java.util.Properties;
 
 import static com.googlecode.totallylazy.Maps.get;
@@ -13,6 +12,7 @@ import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Properties.properties;
 import static com.googlecode.totallylazy.Sequences.empty;
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 import static com.googlecode.totallylazy.Strings.startsWith;
 
@@ -20,7 +20,11 @@ public class SectionedProperties {
 
     private final String content;
 
-    public SectionedProperties(String content) {
+    public static SectionedProperties sectionedProperties(String content) {
+        return new SectionedProperties(content);
+    }
+
+    private SectionedProperties(String content) {
         this.content = content;
     }
 
@@ -53,12 +57,8 @@ public class SectionedProperties {
                 final Pair<Sequence<String>, Sequence<String>> sectionAndRest = section.drop(1).breakOn(predicate);
                 final String first = section.first();
                 final Sequence<String> first1 = sectionAndRest.first();
-                return pair(Sequences.sequence(first).join(first1), sectionAndRest.second());
+                return pair(sequence(first).join(first1), sectionAndRest.second());
             }
         };
-    }
-
-    public static SectionedProperties sectionedProperties(String content) {
-        return new SectionedProperties(content);
     }
 }
