@@ -1,5 +1,6 @@
-package com.googlecode.shavenmaven;
+package com.googlecode.shavenmaven.s3;
 
+import com.googlecode.shavenmaven.Artifact;
 import com.googlecode.totallylazy.Predicate;
 
 import java.util.Properties;
@@ -21,6 +22,10 @@ public class AwsCredentials implements Predicate<Artifact> {
     @Override
     public boolean matches(Artifact artifact) {
         return artifact.url().getAuthority().matches(pattern);
+    }
+
+    public String pattern() {
+        return pattern;
     }
 
     public String accessKeyId() {
