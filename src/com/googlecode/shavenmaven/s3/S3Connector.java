@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.compile;
 
 public class S3Connector implements Callable1<Artifact, URLConnection>{
+    public static final String AUTHORIZATION = "Authorization";
     public static Pattern http = compile("http\\:\\/\\/([^\\/]+)\\.s3\\.amazonaws\\.com/");
 
     private final AwsCredentials awsCredentials;
@@ -61,7 +62,7 @@ public class S3Connector implements Callable1<Artifact, URLConnection>{
         httpConn.setRequestMethod(method);
         httpConn.setRequestProperty("Date", date);
         httpConn.setRequestProperty("Content-Length", "0");
-        httpConn.setRequestProperty("Authorization", "AWS " + awsCredentials.accessKeyId() + ":" + createSignature(mac, method, date, s3Item));
+        httpConn.setRequestProperty(AUTHORIZATION, "AWS " + awsCredentials.accessKeyId() + ":" + createSignature(mac, method, date, s3Item));
         return httpConn;
     }
 
