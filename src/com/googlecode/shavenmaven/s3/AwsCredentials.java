@@ -6,22 +6,25 @@ import com.googlecode.totallylazy.Predicate;
 import java.util.Properties;
 
 public class AwsCredentials implements Predicate<Artifact> {
-    private final String pattern;
-    private final Properties credentials;
 
-    public AwsCredentials(String pattern, Properties credentials) {
+    private final String pattern;
+    private final String accessKey;
+    private final String secretKey;
+
+    public AwsCredentials(String pattern, String accessKey, String secretKey) {
 
         this.pattern = pattern;
-        this.credentials = credentials;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
     }
 
-    public static AwsCredentials awsCredentials(String pattern, Properties credentials) {
-        return new AwsCredentials(pattern, credentials);
+    public static AwsCredentials awsCredentials(String pattern, final String accessKey, final String secretKey) {
+        return new AwsCredentials(pattern, accessKey, secretKey);
     }
 
     @Override
     public boolean matches(Artifact artifact) {
-        return artifact.url().getAuthority().matches(pattern);
+        return artifact.value().startsWith(pattern);
     }
 
     public String pattern() {
@@ -29,10 +32,10 @@ public class AwsCredentials implements Predicate<Artifact> {
     }
 
     public String accessKeyId() {
-        return credentials.getProperty("AWSAccessKeyId");
+        return accessKey;
     }
 
     public String secretKey() {
-        return credentials.getProperty("AWSSecretKey");
+        return secretKey;
     }
 }
