@@ -6,7 +6,9 @@ import com.googlecode.totallylazy.*;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static java.lang.String.format;
 
 public class AwsCredentialsParser {
     private static final String AUTH_SECTION = "auth";
@@ -14,11 +16,8 @@ public class AwsCredentialsParser {
     private static final String ACCESS_KEY = "access_key";
     private static final String SECRET_KEY = "secret_key";
 
-    public static Sequence<AwsCredentials> awsCredentials(SectionedProperties sectionedProperties) throws Exception {
-        final Option<Properties> authSection = sectionedProperties.section(AUTH_SECTION);
-        final Sequence<Pair<String, String>> orElse = authSection.map(toPairs()).getOrElse(Sequences.<Pair<String, String>>empty());
-        final Sequence<Group<String, Pair<String, String>>> groups = orElse.groupBy(prefix());
-        return groups.map(toAwsCredentials());
+    public static Sequence<AwsCredentials> awsCredentials(SectionedProperties props) throws Exception {
+        return props.section(AUTH_SECTION).map(toPairs()).getOrElse(Sequences.<Pair<String, String>>empty()).groupBy(prefix()).map(toAwsCredentials());
     }
 
     private static Callable1<Group<String, Pair<String, String>>, AwsCredentials> toAwsCredentials() {
@@ -66,12 +65,12 @@ public class AwsCredentialsParser {
         return new Callable1<Map.Entry<Object, Object>, Pair<String, String>>() {
             @Override
             public Pair<String, String> call(Map.Entry<Object, Object> e) throws Exception {
-                return Pair.pair(e.getKey().toString(), e.getValue().toString());
+                return pair(e.getKey().toString(), e.getValue().toString());
             }
         };
     }
 
     private static Exception missingProperty(Sequence<Pair<String, String>> props, String property) {
-        return new RuntimeException(String.format("No property containing '%s' in '%s'", property, props.toString("\n")));
+        return new RuntimeException(format("No property for '%s' in '%s'", property, props.toString("\n")));
     }
 }

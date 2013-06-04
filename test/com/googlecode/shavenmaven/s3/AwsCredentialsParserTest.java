@@ -49,7 +49,7 @@ public class AwsCredentialsParserTest {
             awsCredentials(properties).realise();
             Assert.fail("did not get expected exception");
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString("No property containing 'access_key' in"));
+            assertThat(e.getMessage(), containsString("No property for 'access_key' in"));
         }
 
     }
