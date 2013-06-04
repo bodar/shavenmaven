@@ -1,5 +1,6 @@
-package com.googlecode.shavenmaven;
+package com.googlecode.shavenmaven.s3;
 
+import com.googlecode.shavenmaven.Artifact;
 import com.googlecode.totallylazy.Callable1;
 
 import javax.crypto.Mac;

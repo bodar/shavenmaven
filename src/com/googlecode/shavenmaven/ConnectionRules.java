@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.shavenmaven.s3.AwsCredentials;
+import com.googlecode.shavenmaven.s3.S3Connector;
 import com.googlecode.totallylazy.*;
 import com.googlecode.totallylazy.Properties;
 
@@ -8,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URLConnection;
 
-import static com.googlecode.shavenmaven.AwsCredentials.awsCredentials;
+import static com.googlecode.shavenmaven.s3.AwsCredentials.awsCredentials;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.hasSuffix;
