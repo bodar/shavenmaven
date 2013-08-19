@@ -12,6 +12,8 @@
                 <zipgroupfileset dir="${build.dependencies.dir}" includes="totallylazy-*.jar"/>
                 <rule pattern="com.googlecode.totallylazy.*" result="com.googlecode.shavenmaven.internal.totallylazy.$@1"/>
                 <rule pattern="com.googlecode.totallylazy.**.*" result="com.googlecode.shavenmaven.internal.totallylazy.@1.$@2"/>
+                <rule pattern="com.googlecode.utterlyidle.*" result="com.googlecode.shavenmaven.internal.utterlyidle.$@1"/>
+                <rule pattern="com.googlecode.utterlyidle.**.*" result="com.googlecode.shavenmaven.internal.utterlyidle.@1.$@2"/>
             </jarjar>
 
         </sequential>
