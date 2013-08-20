@@ -17,7 +17,7 @@ public class S3ArtifactTest {
         assertThat(s3Artifact.id(), is("yadic"));
         assertThat(s3Artifact.type(), is("jar"));
         assertThat(s3Artifact.version(), is("116"));
-        assertThat(s3Artifact.url().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(s3Artifact.uri().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(s3Artifact.filename(), is("yadic-116.jar"));
         assertThat(s3Artifact.toString(), is("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar (s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116)"));
     }

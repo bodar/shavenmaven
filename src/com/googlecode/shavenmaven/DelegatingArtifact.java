@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Uri;
+
 import java.net.URL;
 
 public abstract class DelegatingArtifact<T extends Artifact> implements Artifact {
@@ -22,7 +24,7 @@ public abstract class DelegatingArtifact<T extends Artifact> implements Artifact
     public String type() {return artifact.type();}
 
     @Override
-    public URL url() {return artifact.url();}
+    public Uri uri() {return artifact.uri();}
 
     @Override
     public String filename() {return artifact.filename();}

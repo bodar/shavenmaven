@@ -19,7 +19,7 @@ public class S3Artifact extends DelegatingArtifact<MvnArtifact> {
 
     @Override
     public String toString() {
-        return format("%s (%s)", artifact.url(), value());
+        return format("%s (%s)", artifact.uri(), value());
     }
 
     public String value() {

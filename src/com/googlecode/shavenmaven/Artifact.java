@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Uri;
 
 import java.net.URL;
 
@@ -13,7 +14,7 @@ public interface Artifact {
 
     String type();
 
-    URL url();
+    Uri uri();
 
     String filename();
 

@@ -2,10 +2,9 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Strings;
+import com.googlecode.totallylazy.Uri;
 import com.googlecode.totallylazy.regex.Regex;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.regex.MatchResult;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -17,9 +16,9 @@ public class MvnArtifact implements Artifact {
     public static String defaultRepository() {
         return System.getProperty(KEY, "http://repo1.maven.org/maven2/");
     }
-    
-    public static String defaultRepository(String value){
-        if(Strings.isEmpty(value)){
+
+    public static String defaultRepository(String value) {
+        if (Strings.isEmpty(value)) {
             return System.clearProperty(KEY);
         }
         return System.setProperty(KEY, value);
@@ -44,7 +43,7 @@ public class MvnArtifact implements Artifact {
     }
 
     public static Iterable<MvnArtifact> parse(final String value) {
-        if(!regex.matches(value)){
+        if (!regex.matches(value)) {
             throw new IllegalArgumentException("Can only parse mvn: urls " + value);
         }
         final MatchResult match = regex.findMatches(value).head();
@@ -92,12 +91,8 @@ public class MvnArtifact implements Artifact {
         return "jar".equals(type) ? ".jar" : format("-%s.jar", type);
     }
 
-    public URL url() {
-        try {
-            return new URL(repository + path());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+    public Uri uri() {
+        return Uri.uri(repository + path());
     }
 
     private String path() {
@@ -114,6 +109,6 @@ public class MvnArtifact implements Artifact {
 
     @Override
     public String toString() {
-        return format("%s (%s)", url(), value);
+        return format("%s (%s)", uri(), value);
     }
 }

@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Uri;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -33,12 +35,8 @@ public class UrlArtifact implements Artifact {
         throw new UnsupportedOperationException();
     }
 
-    public URL url() {
-        try {
-            return new URL(value);
-        } catch (MalformedURLException e) {
-            throw lazyException(e);
-        }
+    public Uri uri() {
+            return Uri.uri(value);
     }
 
     public String value() {
@@ -46,7 +44,7 @@ public class UrlArtifact implements Artifact {
     }
 
     public String filename() {
-        return sequence(url().getPath().split("/")).reverse().head();
+        return sequence(uri().path().split("/")).reverse().head();
     }
 
     @Override
