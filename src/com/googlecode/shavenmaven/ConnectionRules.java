@@ -26,7 +26,7 @@ public class ConnectionRules {
         return new Function1<Artifact, Request>() {
             @Override
             public Request call(Artifact artifact) throws Exception {
-                return RequestBuilder.get(Uri.uri(artifact.url())).build();
+                return RequestBuilder.get(artifact.uri()).build();
             }
         };
     }

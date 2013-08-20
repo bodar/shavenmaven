@@ -36,7 +36,7 @@ public class S3Connector implements Callable1<Artifact, Request> {
     @Override
     public Request call(Artifact artifact) throws Exception {
         Date now = clock.now();
-        return sign(get(moveBucketToPath(uri(artifact.url()))).
+        return sign(get(moveBucketToPath(artifact.uri())).
                 header(HttpHeaders.DATE, now).
                 header(HttpHeaders.CONTENT_LENGTH, 0).
                 build());
