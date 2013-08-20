@@ -13,10 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
-import static com.googlecode.totallylazy.Uri.uri;
-import static com.googlecode.utterlyidle.RequestBuilder.get;
 import static com.googlecode.utterlyidle.RequestBuilder.modify;
 import static java.lang.String.format;
 
@@ -30,7 +27,6 @@ public class S3Signer {
     }
 
     public String sign(String data) throws Exception {
-        System.out.println("data = " + data);
         return $Base64.encodeBase64String(mac().doFinal(data.getBytes("UTF8"))).trim();
     }
 
@@ -48,7 +44,6 @@ public class S3Signer {
         });
     }
 
-
     private Mac mac() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         byte[] keyBytes = awsCredentials.secretKey().getBytes("UTF8");
         final SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1");
@@ -57,11 +52,9 @@ public class S3Signer {
         return mac;
     }
 
-
     String s3 = "s3.amazonaws.com";
 
     private String moveBucketToPath(Uri artifactUri) {
         return "/" + artifactUri.authority().split("." + s3)[0] + artifactUri.path();
     }
-
 }

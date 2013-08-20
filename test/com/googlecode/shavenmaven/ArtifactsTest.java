@@ -1,7 +1,6 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.Strings;
 import org.junit.Test;
 
 import java.io.StringReader;

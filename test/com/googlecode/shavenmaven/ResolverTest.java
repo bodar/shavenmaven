@@ -7,11 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.zip.GZIPOutputStream;
 
 import static com.googlecode.shavenmaven.DependenciesTest.DEPENDENCY_FILENAME;

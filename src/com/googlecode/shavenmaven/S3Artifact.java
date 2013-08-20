@@ -3,10 +3,7 @@ package com.googlecode.shavenmaven;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.utterlyidle.Request;
 
-import java.util.regex.Pattern;
-
 import static java.lang.String.format;
-import static java.util.regex.Pattern.compile;
 
 public class S3Artifact extends DelegatingArtifact<MvnArtifact> {
     private final Uri value;

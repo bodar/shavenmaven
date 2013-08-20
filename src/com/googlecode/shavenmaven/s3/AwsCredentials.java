@@ -1,10 +1,7 @@
 package com.googlecode.shavenmaven.s3;
 
-import com.googlecode.shavenmaven.Artifact;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Uri;
-
-import java.util.Properties;
 
 public class AwsCredentials implements Predicate<Uri> {
     private final String pattern;
