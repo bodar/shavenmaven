@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.net.URL;
 
-import static com.googlecode.shavenmaven.S3Artifact.parse;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class S3ArtifactTest {
     @Test
     public void supportsUriWithExplicitRepositoryAndRootFolder() throws Exception {
-        S3Artifact s3Artifact = sequence(parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116")).head();
+        S3Artifact s3Artifact = sequence(S3Artifacts.instance.parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116")).head();
         assertThat(s3Artifact.group(), is("com.googlecode.yadic"));
         assertThat(s3Artifact.id(), is("yadic"));
         assertThat(s3Artifact.type(), is("jar"));

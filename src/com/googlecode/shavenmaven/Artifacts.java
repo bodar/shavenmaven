@@ -5,10 +5,10 @@ import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.Sequences;
 
 import java.io.File;
 
+import static com.googlecode.shavenmaven.CompositeArtifacts.compositeArtifacts;
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.name;
 import static com.googlecode.totallylazy.Predicates.is;
@@ -20,54 +20,50 @@ import static com.googlecode.totallylazy.Strings.empty;
 import static com.googlecode.totallylazy.Strings.lines;
 import static com.googlecode.totallylazy.Strings.startsWith;
 
-public class Artifacts {
-    public static Sequence<Artifact> artifacts(Option<File> file) {
-        return flatten(file.map(toArtifacts()).toSequence());
-    }
+public interface Artifacts {
+    String scheme();
+    Iterable<? extends Artifact> parse(String value);
 
-    private static Callable1<File, Sequence<Artifact>> toArtifacts() {
-        return new Callable1<File, Sequence<Artifact>>() {
-            public Sequence<Artifact> call(File file) throws Exception {
-                return toArtifacts(lines(file));
-            }
-        };
-    }
+    class constructors {
+        static Artifacts supported = compositeArtifacts(sequence(MvnArtifacts.instance, S3Artifacts.instance, UrlArtifacts.instance));
 
-    public static Sequence<Artifact> toArtifacts(Sequence<String> lines) {
-        return lines.filter(not(empty().or(startsWith("#")))).flatMap(asArtifact()).memorise();
-    }
-
-    public static Iterable<Artifact> artifact(String value) {
-        if(value.startsWith(MvnArtifact.PROTOCOL)){
-            return sequence(MvnArtifact.parse(value)).safeCast(Artifact.class);
+        public static Artifact artifact(String value) {
+            return sequence(supported.parse(value)).head();
         }
-        if(value.startsWith(S3Artifact.PROTOCOL)){
-            return sequence(S3Artifact.parse(value)).safeCast(Artifact.class);
+
+        public static Sequence<Artifact> artifacts(Option<File> file) {
+            return flatten(file.map(toArtifacts()));
         }
-        return sequence(UrlArtifact.parse(value)).safeCast(Artifact.class);
+
+        private static Callable1<File, Sequence<Artifact>> toArtifacts() {
+            return new Callable1<File, Sequence<Artifact>>() {
+                public Sequence<Artifact> call(File file) throws Exception {
+                    return toArtifacts(lines(file));
+                }
+            };
+        }
+
+        public static Sequence<Artifact> toArtifacts(Sequence<String> lines) {
+            return lines.filter(not(empty().or(startsWith("#")))).flatMap(functions.asArtifact()).memorise();
+        }
+
     }
 
-    public static Function1<String, Iterable<Artifact>> asArtifact() {
-        return new Function1<String, Iterable<Artifact>>() {
-            public Iterable<Artifact> call(String value) throws Exception {
-                return Artifacts.artifact(value);
-            }
-        };
+    class functions {
+        public static Predicate<Artifact> existsIn(final File directory) {
+            return new Predicate<Artifact>() {
+                public boolean matches(Artifact artifact) {
+                    return files(directory).exists(where(name(), is(artifact.filename())));
+                }
+            };
+        }
+        public static Function1<String, Iterable<? extends Artifact>> asArtifact() {
+            return new Function1<String, Iterable<? extends Artifact>>() {
+                public Iterable<? extends Artifact> call(String value) throws Exception {
+                    return constructors.supported.parse(value);
+                }
+            };
+        }
     }
 
-    public static Function1<Artifact, String> asFilename() {
-        return new Function1<Artifact, String>() {
-            public String call(Artifact uri) throws Exception {
-                return uri.filename();
-            }
-        };
-    }
-
-    public static Predicate<Artifact> existsIn(final File directory) {
-        return new Predicate<Artifact>() {
-            public boolean matches(Artifact artifact) {
-                return files(directory).exists(where(name(), is(artifact.filename())));
-            }
-        };
-    }
 }

@@ -2,8 +2,6 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Uri;
 
-import java.net.URL;
-
 public abstract class DelegatingArtifact<T extends Artifact> implements Artifact {
     protected final T artifact;
 

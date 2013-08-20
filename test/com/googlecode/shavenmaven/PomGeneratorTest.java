@@ -13,7 +13,7 @@ import static org.hamcrest.core.StringContains.containsString;
 public class PomGeneratorTest {
     @Test
     public void supportsStandardArtifactDetails() throws Exception {
-        String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), new ArrayList<Artifact>());
+        String pom = new PomGenerator().generate(sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), new ArrayList<Artifact>());
         assertThat(pom, containsString("<groupId>com.googlecode.shavenmaven</groupId>"));
         assertThat(pom, containsString("<artifactId>shavenmaven</artifactId>"));
         assertThat(pom, containsString("<version>18</version>"));
@@ -21,8 +21,8 @@ public class PomGeneratorTest {
 
     @Test
     public void supportsDependencies() throws Exception {
-        Iterable<MvnArtifact> dependencies = sequence(MvnArtifact.parse("mvn:com.googlecode.totallylazy:totallylazy:jar|sources:207")).join(MvnArtifact.parse("mvn:com.googlecode.yadic:yadic:jar:116"));
-        String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
+        Iterable<MvnArtifact> dependencies = sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.totallylazy:totallylazy:jar|sources:207")).join(MvnArtifacts.instance.parse("mvn:com.googlecode.yadic:yadic:jar:116"));
+        String pom = new PomGenerator().generate(sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
                 "         xmlns=\"http://maven.apache.org/POM/4.0.0\"" +
@@ -50,7 +50,7 @@ public class PomGeneratorTest {
     @Test
     public void supportsNoDependencies() throws Exception {
         Iterable<MvnArtifact> dependencies = sequence();
-        String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
+        String pom = new PomGenerator().generate(sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
                 "         xmlns=\"http://maven.apache.org/POM/4.0.0\"" +
@@ -67,8 +67,8 @@ public class PomGeneratorTest {
 
     @Test
     public void ignoresUrlDependencies() throws Exception {
-        Sequence<UrlArtifact> dependencies = sequence(UrlArtifact.parse("http://server/path"));
-        String pom = new PomGenerator().generate(sequence(MvnArtifact.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
+        Sequence<UrlArtifact> dependencies = sequence(UrlArtifacts.instance.parse("http://server/path"));
+        String pom = new PomGenerator().generate(sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
                 "         xmlns=\"http://maven.apache.org/POM/4.0.0\"" +

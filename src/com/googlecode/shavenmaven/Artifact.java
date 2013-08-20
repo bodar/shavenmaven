@@ -1,9 +1,8 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Mapper;
 import com.googlecode.totallylazy.Uri;
-
-import java.net.URL;
 
 public interface Artifact {
     String group();
@@ -28,6 +27,15 @@ public interface Artifact {
                 }
             };
         }
+    }
+
+    static class functions {
+        public static Mapper<Artifact, String> asFilename = new Mapper<Artifact, String>() {
+            public String call(Artifact uri) throws Exception {
+                return uri.filename();
+            }
+        };
+
     }
 
 }
