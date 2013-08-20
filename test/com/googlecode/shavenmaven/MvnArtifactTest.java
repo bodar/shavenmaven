@@ -25,6 +25,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("jar"));
         assertThat(mvnArtifact.version(), is("116"));
+        assertThat(mvnArtifact.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.yadic:yadic:jar:116"));
         assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
     }
@@ -37,6 +38,7 @@ public class MvnArtifactTest {
         assertThat(jar.id(), is("objenesis"));
         assertThat(jar.type(), is("jar"));
         assertThat(jar.version(), is("1.2"));
+        assertThat(jar.value().toString(), is("mvn:org.objenesis:objenesis:jar|sources:1.2"));
         assertThat(jar.uri().toString(), is(new URL("http://repo1.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2.jar").toString()));
         assertThat(jar.filename(), is("objenesis-1.2.jar"));
 
@@ -45,6 +47,7 @@ public class MvnArtifactTest {
         assertThat(second.id(), is("objenesis"));
         assertThat(second.type(), is("sources"));
         assertThat(second.version(), is("1.2"));
+        assertThat(second.value().toString(), is("mvn:org.objenesis:objenesis:jar|sources:1.2"));
         assertThat(second.uri().toString(), is(new URL("http://repo1.maven.org/maven2/org/objenesis/objenesis/1.2/objenesis-1.2-sources.jar").toString()));
         assertThat(second.filename(), is("objenesis-1.2-sources.jar"));
     }

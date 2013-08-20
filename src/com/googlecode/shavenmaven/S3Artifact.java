@@ -1,26 +1,34 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Uri;
+import com.googlecode.utterlyidle.Request;
 
 import java.util.regex.Pattern;
 
-import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.regex.Pattern.compile;
 
 public class S3Artifact extends DelegatingArtifact<MvnArtifact> {
-    private static Pattern fromMvn = compile(MvnArtifacts.PROTOCOL + "\\:\\/\\/([^\\/]+)\\.s3\\.amazonaws\\.com/");
+    private final Uri value;
+    private final Request request;
 
-    protected S3Artifact(MvnArtifact artifact) {
+    protected S3Artifact(Uri value, MvnArtifact artifact, Request request) {
         super(artifact);
+        this.value = value;
+        this.request = request;
+    }
+
+    @Override
+    public Request request() {
+        return request;
     }
 
     @Override
     public String toString() {
-        return format("%s (%s)", artifact.uri(), value());
+        return format("%s (%s)", uri(), value());
     }
 
-    public String value() {
-        return fromMvn.matcher(artifact.value()).replaceFirst("s3://$1/");
+    public Uri value() {
+        return value;
     }
 }

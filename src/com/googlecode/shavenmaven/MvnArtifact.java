@@ -1,6 +1,8 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Uri;
+import com.googlecode.utterlyidle.Request;
+import com.googlecode.utterlyidle.RequestBuilder;
 
 import static java.lang.String.format;
 
@@ -41,8 +43,8 @@ public class MvnArtifact implements Artifact {
         return type;
     }
 
-    public String value() {
-        return value;
+    public Uri value() {
+        return Uri.uri(value);
     }
 
     private String filesuffix() {
@@ -51,6 +53,11 @@ public class MvnArtifact implements Artifact {
 
     public Uri uri() {
         return Uri.uri(repository + path());
+    }
+
+    @Override
+    public Request request() {
+        return RequestBuilder.get(uri()).build();
     }
 
     private String path() {

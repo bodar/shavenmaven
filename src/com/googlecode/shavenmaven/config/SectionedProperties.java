@@ -28,7 +28,7 @@ public class SectionedProperties {
         this.content = content;
     }
 
-    public Option<Properties> section(String section) throws Exception {
+    public Option<Properties> section(String section) {
         return get(map(lines(new StringReader(content)).recursive(splitSections(startsWith("["))).map(toProperties())), section);
     }
 
