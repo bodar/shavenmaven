@@ -8,11 +8,9 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.googlecode.shavenmaven.Artifact.methods.type;
-import static com.googlecode.shavenmaven.Artifacts.artifacts;
-import static com.googlecode.totallylazy.Closeables.using;
+import static com.googlecode.shavenmaven.Artifacts.constructors.artifact;
 import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.None.none;
-import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -56,12 +54,8 @@ public class PomGenerator {
         generate(artifact, dependencies, outputFile);
 	}
 
-    public static Artifact artifact(final String uri) {
-        return sequence(Artifacts.artifact(uri)).head();
-    }
-
     public static void generate(final Artifact artifact, final Option<File> dependencies, final File outputFile) {
-        String pom = new PomGenerator().generate(artifact, artifacts(dependencies));
+        String pom = new PomGenerator().generate(artifact, Artifacts.constructors.artifacts(dependencies));
         write(bytes(pom), outputFile);
     }
 

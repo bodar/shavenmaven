@@ -7,25 +7,18 @@ import com.googlecode.totallylazy.Rules;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.Request;
 
-import java.io.*;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 
-import static com.googlecode.shavenmaven.Artifacts.artifacts;
-import static com.googlecode.shavenmaven.Artifacts.asFilename;
-import static com.googlecode.shavenmaven.Artifacts.existsIn;
-import static com.googlecode.shavenmaven.s3.S3ConnectionRules.authenticatedS3ConnectionRule;
 import static com.googlecode.shavenmaven.ConnectionRules.connectByUrlRules;
 import static com.googlecode.shavenmaven.Resolver.resolve;
 import static com.googlecode.shavenmaven.config.SectionedProperties.sectionedProperties;
-import static com.googlecode.totallylazy.Closeables.using;
+import static com.googlecode.shavenmaven.s3.S3ConnectionRules.authenticatedS3ConnectionRule;
 import static com.googlecode.totallylazy.Files.*;
 import static com.googlecode.totallylazy.Option.some;
-import static com.googlecode.totallylazy.Predicates.in;
-import static com.googlecode.totallylazy.Predicates.is;
-import static com.googlecode.totallylazy.Predicates.not;
-import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.googlecode.totallylazy.Strings.lines;
 import static com.googlecode.totallylazy.Strings.string;
 import static java.lang.System.getProperty;
 
@@ -49,15 +42,15 @@ public class Dependencies {
     }
 
     public static Dependencies load(File file, PrintStream out, Rules<Artifact, Request> connectionRules) {
-        return new Dependencies(artifacts(some(file)), out, connectionRules);
+        return new Dependencies(Artifacts.constructors.artifacts(some(file)), out, connectionRules);
     }
 
     public boolean update(File directory) {
         files(directory).
-                filter(where(name(), is(not(in(artifacts.map(asFilename()))))).and(not(isDirectory()))).
+                filter(where(name(), is(not(in(artifacts.map(Artifact.functions.asFilename))))).and(not(isDirectory()))).
                 map(delete()).realise();
         final Resolver resolver = new Resolver(directory, out, connectionRules);
-        return artifacts.filter(not(existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));
+        return artifacts.filter(not(Artifacts.functions.existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));
     }
 
     public static void main(String[] args) throws Exception {

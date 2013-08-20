@@ -28,7 +28,7 @@ public class DependenciesTest {
     private HttpServer server;
 
     public static Artifact dependencyFrom(HttpServer server) throws MalformedURLException {
-        return UrlArtifact.parse(urlOf(server) + DEPENDENCY_FILENAME);
+        return UrlArtifacts.instance.parse(urlOf(server) + DEPENDENCY_FILENAME).head();
     }
 
     @Before
