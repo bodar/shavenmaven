@@ -38,7 +38,7 @@ public class S3Connector implements Callable1<Artifact, Request> {
     @Override
     public Request call(Artifact artifact) throws Exception {
         Date now = clock.now();
-        return sign(get(moveBucketToPath(artifact.uri())).
+        return sign(get(artifact.uri()).
                 header(HttpHeaders.DATE, Dates.RFC822().format(now)).
                 header(HttpHeaders.CONTENT_LENGTH, 0).
                 build());
@@ -55,16 +55,17 @@ public class S3Connector implements Callable1<Artifact, Request> {
 
     String s3 = "s3.amazonaws.com";
 
-    private Uri moveBucketToPath(Uri artifactUri) {
-        return artifactUri.authority(s3).path("/" + artifactUri.authority().split("." + s3)[0] + artifactUri.path());
+    private String moveBucketToPath(Uri artifactUri) {
+        return "/" + artifactUri.authority().split("." + s3)[0] + artifactUri.path();
     }
 
     public String sign(String data) throws Exception {
+        System.out.println("data = " + data);
         return $Base64.encodeBase64String(mac().doFinal(data.getBytes("UTF8"))).trim();
     }
 
-    private Request sign(Request request) throws Exception {
-        String auth = sign(format("%s\n\n\n%s\n%s", request.method(), request.headers().getValue(HttpHeaders.DATE), request.uri().path()));
+    public Request sign(Request request) throws Exception {
+        String auth = sign(format("%s\n\n\n%s\n%s", request.method(), request.headers().getValue(HttpHeaders.DATE), moveBucketToPath(request.uri())));
         return modify(request).header(HttpHeaders.AUTHORIZATION, format("AWS %s:%s", awsCredentials.accessKeyId(), auth)).build();
     }
 }
