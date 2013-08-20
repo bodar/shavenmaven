@@ -1,6 +1,8 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Uri;
+import com.googlecode.utterlyidle.Request;
+import com.googlecode.utterlyidle.RequestBuilder;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 
@@ -31,8 +33,13 @@ public class UrlArtifact implements Artifact {
         return Uri.uri(value);
     }
 
-    public String value() {
-        return value;
+    @Override
+    public Request request() {
+        return RequestBuilder.get(uri()).build();
+    }
+
+    public Uri value() {
+        return uri();
     }
 
     public String filename() {

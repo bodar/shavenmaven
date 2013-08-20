@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Uri;
+import com.googlecode.utterlyidle.Request;
 
 public abstract class DelegatingArtifact<T extends Artifact> implements Artifact {
     protected final T artifact;
@@ -25,10 +26,13 @@ public abstract class DelegatingArtifact<T extends Artifact> implements Artifact
     public Uri uri() {return artifact.uri();}
 
     @Override
+    public Request request() { return artifact.request(); }
+
+    @Override
     public String filename() {return artifact.filename();}
 
     @Override
-    public String value() {return artifact.value();}
+    public Uri value() {return artifact.value();}
 
     @Override
     public int hashCode() { return artifact.hashCode(); }

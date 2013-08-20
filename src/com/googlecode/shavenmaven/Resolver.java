@@ -1,9 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.Rules;
 import com.googlecode.utterlyidle.HttpHeaders;
-import com.googlecode.utterlyidle.Request;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
@@ -14,7 +12,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.zip.GZIPInputStream;
 
-import static com.googlecode.shavenmaven.ConnectionRules.connectByUrlRules;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
@@ -23,25 +20,19 @@ import static java.lang.String.format;
 public class Resolver {
     private final File directory;
     private final PrintStream printStream;
-    private final Rules<Artifact, Request> connectionRules;
     private final HttpClient client;
 
-    public Resolver(File directory, PrintStream printStream, Rules<Artifact, Request> connectionRules, HttpClient client) {
+    public Resolver(File directory, PrintStream printStream, HttpClient client) {
         this.client = client;
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException("'file' argument must be a directory");
         }
         this.directory = directory;
         this.printStream = printStream;
-        this.connectionRules = connectionRules;
-    }
-
-    public Resolver(File directory, PrintStream printStream, Rules<Artifact, Request> rules) {
-        this(directory, printStream, rules, new RedirectHttpHandler(new ClientHttpHandler()));
     }
 
     public Resolver(File directory, PrintStream printStream) {
-        this(directory, printStream, connectByUrlRules());
+        this(directory, printStream, new RedirectHttpHandler(new ClientHttpHandler()));
     }
 
     public Resolver(File directory) {
@@ -50,8 +41,7 @@ public class Resolver {
 
     public boolean resolve(Artifact artifact) throws Exception {
         printStream.println(format("Downloading %s", artifact));
-        Request request = connectionRules.call(artifact);
-        Response response = client.handle(request);
+        Response response = client.handle(artifact.request());
         if (!response.status().isSuccessful()) {
             printStream.println(format("Failed to download %s (%s)", artifact, response.status()));
             return false;

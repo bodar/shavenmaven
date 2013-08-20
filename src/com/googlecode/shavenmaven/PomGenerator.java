@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.googlecode.shavenmaven.Artifact.methods.type;
-import static com.googlecode.shavenmaven.Artifacts.constructors.artifact;
 import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.None.none;
 import static com.googlecode.totallylazy.Option.some;
@@ -49,13 +48,13 @@ public class PomGenerator {
     }
 
     public static void generate(String uri, Option<File> dependencies, File outputDirectory) {
-        Artifact artifact = artifact(uri);
+        Artifact artifact = SupportedArtifacts.supportedArtifacts().artifact(uri);
         File outputFile = new File(outputDirectory, pomfile(artifact));
         generate(artifact, dependencies, outputFile);
 	}
 
     public static void generate(final Artifact artifact, final Option<File> dependencies, final File outputFile) {
-        String pom = new PomGenerator().generate(artifact, Artifacts.constructors.artifacts(dependencies));
+        String pom = new PomGenerator().generate(artifact, SupportedArtifacts.supportedArtifacts().artifacts(dependencies));
         write(bytes(pom), outputFile);
     }
 

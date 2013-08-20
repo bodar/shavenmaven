@@ -16,7 +16,7 @@ public class AwsCredentialsParser {
     private static final String ACCESS_KEY = "access_key";
     private static final String SECRET_KEY = "secret_key";
 
-    public static Sequence<AwsCredentials> awsCredentials(SectionedProperties props) throws Exception {
+    public static Sequence<AwsCredentials> awsCredentials(SectionedProperties props) {
         return props.section(AUTH_SECTION).map(toPairs()).getOrElse(Sequences.<Pair<String, String>>empty()).groupBy(prefix()).map(toAwsCredentials());
     }
 

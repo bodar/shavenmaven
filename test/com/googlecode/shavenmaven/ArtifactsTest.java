@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 public class ArtifactsTest {
     @Test
     public void ignoreComments() throws Exception {
-        Sequence<Artifact> artifacts = Artifacts.constructors.toArtifacts(lines(new StringReader("#Hello Raymond\nhttp://server/boo")));
+        Sequence<Artifact> artifacts = SupportedArtifacts.supportedArtifacts().toArtifacts(lines(new StringReader("#Hello Raymond\nhttp://server/boo")));
         assertThat(artifacts.size(), is(1));
     }
 }
