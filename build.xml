@@ -34,7 +34,7 @@
     </path>
 
     <target name="update">
-        <!--<install version="38"/>-->
+        <!--<install version="68"/>-->
         <parallel>
             <update dependencies="${build}/build.dependencies"
                     directory="${build.dependencies.dir}"/>
@@ -77,7 +77,7 @@
             <entry key="release.files" value="${release.jar},${release.pom},${release.src},${release.dep}"/>
             <entry key="${release.jar}.description" value="${hg.summary} build:${build.number} "/>
             <entry key="${release.jar}.labels" value="Jar"/>
-            <entry key="${release.dep}.description" value="${hg.summary} (depends on TotallyLazy) build:${build.number} "/>
+            <entry key="${release.dep}.description" value="${hg.summary} (depends on TotallyLazy and Utterlyidle) build:${build.number} "/>
             <entry key="${release.dep}.labels" value="Jar"/>
             <entry key="${release.pom}.description" value="Maven POM file build:${build.number}"/>
             <entry key="${release.pom}.labels" value="POM"/>
