@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven.s3;
 
 import com.googlecode.totallylazy.time.StoppedClock;
+import com.googlecode.utterlyidle.HttpHeaders;
 import com.googlecode.utterlyidle.Request;
 import org.junit.Test;
 
@@ -20,5 +21,6 @@ public class S3ConnectorTest {
         S3Connector connector = new S3Connector(awsCredentials("*", "access-key", "secret-key"), new StoppedClock(now));
         Request request = connector.call(artifact("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116"));
         assertThat(request.uri().toString(), is("http://s3.amazonaws.com/repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar"));
+        assertThat(request.headers().getValue(HttpHeaders.AUTHORIZATION), is("AWS access-key:P/meDoCaNWNOXBlnWPSqPjO+1rM="));
     }
 }

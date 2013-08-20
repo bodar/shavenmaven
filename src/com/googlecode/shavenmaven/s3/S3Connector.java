@@ -4,9 +4,11 @@ import com.googlecode.shavenmaven.Artifact;
 import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.totallylazy.time.Clock;
+import com.googlecode.totallylazy.time.Dates;
 import com.googlecode.totallylazy.time.SystemClock;
 import com.googlecode.utterlyidle.HttpHeaders;
 import com.googlecode.utterlyidle.Request;
+import com.googlecode.utterlyidle.internal.codec.binary.$Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -37,7 +39,7 @@ public class S3Connector implements Callable1<Artifact, Request> {
     public Request call(Artifact artifact) throws Exception {
         Date now = clock.now();
         return sign(get(moveBucketToPath(artifact.uri())).
-                header(HttpHeaders.DATE, now).
+                header(HttpHeaders.DATE, Dates.RFC822().format(now)).
                 header(HttpHeaders.CONTENT_LENGTH, 0).
                 build());
     }
@@ -58,12 +60,11 @@ public class S3Connector implements Callable1<Artifact, Request> {
     }
 
     public String sign(String data) throws Exception {
-        return Base64.encode(mac().doFinal(data.getBytes("UTF8"))).trim();
+        return $Base64.encodeBase64String(mac().doFinal(data.getBytes("UTF8"))).trim();
     }
 
     private Request sign(Request request) throws Exception {
-        String auth = sign(format("AWS %s:%s\n\n\n%s\n%s", awsCredentials.accessKeyId(), request.method(), request.headers().getValue(HttpHeaders.DATE), request.uri().path()));
-        return modify(request).header(HttpHeaders.AUTHORIZATION, auth).build();
+        String auth = sign(format("%s\n\n\n%s\n%s", request.method(), request.headers().getValue(HttpHeaders.DATE), request.uri().path()));
+        return modify(request).header(HttpHeaders.AUTHORIZATION, format("AWS %s:%s", awsCredentials.accessKeyId(), auth)).build();
     }
-
 }
