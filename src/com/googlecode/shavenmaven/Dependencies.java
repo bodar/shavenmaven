@@ -1,13 +1,11 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.shavenmaven.config.SectionedProperties;
-import com.googlecode.shavenmaven.s3.AwsCredentials;
 import com.googlecode.shavenmaven.s3.AwsCredentialsParser;
-import com.googlecode.shavenmaven.s3.S3ConnectionRules;
-import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Mapper;
 import com.googlecode.totallylazy.Rules;
 import com.googlecode.totallylazy.Sequence;
+import com.googlecode.utterlyidle.Request;
 
 import java.io.*;
 import java.net.URLConnection;
@@ -28,14 +26,15 @@ import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
+import static com.googlecode.totallylazy.Strings.string;
 import static java.lang.System.getProperty;
 
 public class Dependencies {
     private final Sequence<Artifact> artifacts;
     private final PrintStream out;
-    private final Rules<Artifact, URLConnection> connectionRules;
+    private final Rules<Artifact, Request> connectionRules;
 
-    public Dependencies(Iterable<Artifact> artifacts, PrintStream out, final Rules<Artifact, URLConnection> connectionRules) {
+    public Dependencies(Iterable<Artifact> artifacts, PrintStream out, final Rules<Artifact, Request> connectionRules) {
         this.out = out;
         this.artifacts = sequence(artifacts);
         this.connectionRules = connectionRules;
@@ -45,11 +44,11 @@ public class Dependencies {
         return load(file, connectByUrlRules());
     }
 
-    public static Dependencies load(File file, Rules<Artifact, URLConnection> connectionRules) throws IOException {
+    public static Dependencies load(File file, Rules<Artifact, Request> connectionRules) throws IOException {
         return load(file, System.out, connectionRules);
     }
 
-    public static Dependencies load(File file, PrintStream out, Rules<Artifact, URLConnection> connectionRules) {
+    public static Dependencies load(File file, PrintStream out, Rules<Artifact, Request> connectionRules) {
         return new Dependencies(artifacts(some(file)), out, connectionRules);
     }
 
@@ -72,7 +71,7 @@ public class Dependencies {
         System.exit(success ? 0 : 1);
     }
 
-    private static Rules<Artifact, URLConnection> connectionRules() throws Exception {
+    private static Rules<Artifact, Request> connectionRules() throws Exception {
         return connectByUrlRules().addFirst(authenticatedS3ConnectionRule(AwsCredentialsParser.awsCredentials(smrcProperties())));
     }
 
@@ -92,12 +91,7 @@ public class Dependencies {
         return new Mapper<File, String>() {
             @Override
             public String call(File file) throws Exception {
-                return using(new FileInputStream(file), new Callable1<InputStream, String>() {
-                    @Override
-                    public String call(InputStream in) throws Exception {
-                        return lines(in).toString("\n");
-                    }
-                });
+                return string(file);
             }
         };
     }
