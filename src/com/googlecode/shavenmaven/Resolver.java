@@ -6,6 +6,7 @@ import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
 import com.googlecode.utterlyidle.handlers.RedirectHttpHandler;
+import com.googlecode.utterlyidle.proxies.Proxies;
 
 import java.io.File;
 import java.io.InputStream;
@@ -32,7 +33,7 @@ public class Resolver {
     }
 
     public Resolver(File directory, PrintStream printStream) {
-        this(directory, printStream, new RedirectHttpHandler(new ClientHttpHandler()));
+        this(directory, printStream, new RedirectHttpHandler(new ClientHttpHandler(ConnectionTimeout.connectionTimeout(), Proxies.autodetectProxies())));
     }
 
     public Resolver(File directory) {
