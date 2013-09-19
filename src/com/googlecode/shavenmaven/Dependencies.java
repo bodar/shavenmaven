@@ -1,5 +1,7 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Functions;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
@@ -7,9 +9,18 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static com.googlecode.shavenmaven.Resolver.resolve;
-import static com.googlecode.totallylazy.Files.*;
+import static com.googlecode.totallylazy.Files.asFile;
+import static com.googlecode.totallylazy.Files.delete;
+import static com.googlecode.totallylazy.Files.directory;
+import static com.googlecode.totallylazy.Files.files;
+import static com.googlecode.totallylazy.Files.hasSuffix;
+import static com.googlecode.totallylazy.Files.isDirectory;
+import static com.googlecode.totallylazy.Files.name;
 import static com.googlecode.totallylazy.Option.some;
-import static com.googlecode.totallylazy.Predicates.*;
+import static com.googlecode.totallylazy.Predicates.in;
+import static com.googlecode.totallylazy.Predicates.is;
+import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Dependencies {
@@ -43,13 +54,31 @@ public class Dependencies {
             System.exit(-1);
         }
         Sequence<String> arguments = sequence(args);
-        final File dependenciesFile = dependenciesFile(arguments.head());
-        boolean success = load(dependenciesFile).update(destinationDirectory(arguments.tail()));
+        File dependenciesFile = dependenciesFile(arguments.head());
+        File directory = destinationDirectory(arguments.tail());
+        boolean success = dependenciesFile.isDirectory() ?
+                update(dependenciesFile, directory) :
+                load(dependenciesFile).update(directory);
         System.exit(success ? 0 : 1);
     }
 
+    public static boolean update(File dependenciesDir, final File libDir) {
+        return update(dependenciesDir, libDir, System.out);
+    }
+
+    public static boolean update(File dependenciesDir, final File libDir, final PrintStream out) {
+        return files(dependenciesDir).
+                filter(hasSuffix("dependencies")).
+                mapConcurrently(new Function1<File, Boolean>() {
+                    @Override
+                    public Boolean call(File file) throws Exception {
+                        return load(file, out).update(directory(libDir, file.getName().replace(".dependencies", "")));
+                    }
+                }).reduce(Functions.and);
+    }
+
     private static File destinationDirectory(Sequence<String> arg) {
-        return arg.map(asFile()).add(new File(System.getProperty("user.dir"))).head();
+        return arg.map(asFile()).headOption().getOrElse(new File(System.getProperty("user.dir")));
     }
 
     private static File dependenciesFile(String arg) {
