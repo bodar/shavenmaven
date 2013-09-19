@@ -50,7 +50,7 @@ public class Dependencies {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0 || args.length > 2) {
-            System.err.println("usage: dependencies.file [directory]");
+            System.err.println("usage: dependencies[file or directory] [directory]");
             System.exit(-1);
         }
         Sequence<String> arguments = sequence(args);
