@@ -14,6 +14,7 @@ import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.bytes;
+import static com.googlecode.totallylazy.Strings.endsWith;
 import static java.lang.String.format;
 
 public class PomGenerator {
@@ -21,7 +22,7 @@ public class PomGenerator {
         return applyTemplate("pom", artifact.group(), artifact.id(), artifact.version(),
                 sequence(dependencies).
                         filter(not(instanceOf(UrlArtifact.class))).
-                        filter(where(type(), is("jar"))).
+                        filter(where(type(), or(is("jar"), endsWith("pack")))).
                         map(template("dependency")).toString(""));
     }
 
