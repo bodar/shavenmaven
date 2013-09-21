@@ -48,7 +48,10 @@ public class MvnArtifact implements Artifact {
     }
 
     private String filesuffix() {
-        return "jar".equals(type) ? ".jar" : format("-%s.jar", type);
+        if (type.equals("jar")) return ".jar";
+        if (type.equals("pack")) return ".pack.gz";
+        if (type.endsWith("-pack")) return "-" + type.replace("-pack", ".pack.gz");
+        return format("-%s.jar", type);
     }
 
     public Uri uri() {
@@ -65,10 +68,14 @@ public class MvnArtifact implements Artifact {
                 replaceDots(group()),
                 id(),
                 version(),
-                filename());
+                remoteFilename());
     }
 
     public String filename() {
+        return remoteFilename().replace(".pack.gz", ".jar");
+    }
+
+    public String remoteFilename() {
         return format("%s-%s%s", id(), version(), filesuffix());
     }
 

@@ -1,7 +1,6 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.utterlyidle.HttpHeaders;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
@@ -9,13 +8,13 @@ import com.googlecode.utterlyidle.handlers.RedirectHttpHandler;
 import com.googlecode.utterlyidle.proxies.Proxies;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.zip.GZIPInputStream;
 
+import static com.googlecode.shavenmaven.ConnectionTimeout.connectionTimeout;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
+import static com.googlecode.utterlyidle.proxies.Proxies.autodetectProxies;
 import static java.lang.String.format;
 
 public class Resolver {
@@ -33,7 +32,7 @@ public class Resolver {
     }
 
     public Resolver(File directory, PrintStream printStream) {
-        this(directory, printStream, new RedirectHttpHandler(new ClientHttpHandler(ConnectionTimeout.connectionTimeout(), Proxies.autodetectProxies())));
+        this(directory, printStream, new UnPackHandler(new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies())))));
     }
 
     public Resolver(File directory) {
@@ -47,8 +46,7 @@ public class Resolver {
             printStream.println(format("Failed to download %s (%s)", artifact, response.status()));
             return false;
         }
-        InputStream inputStream = response.entity().inputStream();
-        using("gzip".equalsIgnoreCase(response.headers().getValue(HttpHeaders.CONTENT_ENCODING)) ? new GZIPInputStream(inputStream) : inputStream, write(file(directory, artifact.filename())));
+        using(response.entity().inputStream(), write(file(directory, artifact.filename())));
         return true;
     }
 
@@ -59,4 +57,5 @@ public class Resolver {
             }
         };
     }
+
 }

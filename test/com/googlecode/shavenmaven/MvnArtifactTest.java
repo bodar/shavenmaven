@@ -11,6 +11,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MvnArtifactTest {
     @Test
+    public void supportsPack200() throws Exception {
+        Sequence<MvnArtifact> artifacts = MvnArtifacts.instance.parse("mvn://repo.bodar.com/someFolder/com.googlecode.totallylazy:totallylazy:pack|tests-pack:1125");
+        MvnArtifact mvnArtifact = artifacts.first();
+        assertThat(mvnArtifact.group(), is("com.googlecode.totallylazy"));
+        assertThat(mvnArtifact.id(), is("totallylazy"));
+        assertThat(mvnArtifact.type(), is("pack"));
+        assertThat(mvnArtifact.version(), is("1125"));
+        assertThat(mvnArtifact.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.totallylazy:totallylazy:pack|tests-pack:1125"));
+        assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125.pack.gz").toString()));
+        assertThat(mvnArtifact.filename(), is("totallylazy-1125.jar"));
+
+        MvnArtifact tests = artifacts.second();
+        assertThat(tests.group(), is("com.googlecode.totallylazy"));
+        assertThat(tests.id(), is("totallylazy"));
+        assertThat(tests.type(), is("tests-pack"));
+        assertThat(tests.version(), is("1125"));
+        assertThat(tests.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.totallylazy:totallylazy:pack|tests-pack:1125"));
+        assertThat(tests.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125-tests.pack.gz").toString()));
+        assertThat(tests.filename(), is("totallylazy-1125-tests.jar"));
+    }
+
+    @Test
     public void canChangeTheDefaultRepository() throws Exception {
         String original = MvnArtifacts.defaultRepository("http://uk.maven.org/maven2/");
         MvnArtifact mvnArtifact = MvnArtifacts.instance.parse("mvn:org.objenesis:objenesis:jar|sources:1.2").head();
