@@ -60,7 +60,7 @@ public class Resolver {
     private void handle(final Artifact artifact, final Response response) throws IOException {
         File file = file(directory, artifact.filename());
         using(response.entity().inputStream(),
-                artifact.type().endsWith("pack") ?
+                artifact.uri().path().endsWith(".pack.gz") ?
                         unpack(file) :
                         write(file));
     }
