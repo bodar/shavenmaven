@@ -5,6 +5,7 @@ import com.googlecode.totallylazy.Strings;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -47,6 +48,15 @@ public class ResolverTest {
 
         assertThat(resolver.resolve(dependencyFrom(server)), is(false));
         assertThat(log.toString(), containsString("Failed to download"));
+    }
+
+    @Test @Ignore("Manual test at the moment")
+    public void handlesPack() throws Exception {
+        File directory = temporaryDirectory();
+        ByteArrayOutputStream log = new ByteArrayOutputStream();
+        Resolver resolver = new Resolver(directory, new PrintStream(log));
+        MvnArtifact artifact = MvnArtifacts.instance.parse("mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:pack:1125").first();
+        resolver.resolve(artifact);
     }
 
     @Test
