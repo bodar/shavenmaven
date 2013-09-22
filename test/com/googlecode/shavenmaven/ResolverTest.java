@@ -56,7 +56,8 @@ public class ResolverTest {
         ByteArrayOutputStream log = new ByteArrayOutputStream();
         Resolver resolver = new Resolver(directory, new PrintStream(log));
         MvnArtifact artifact = MvnArtifacts.instance.parse("mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:pack:1125").first();
-        resolver.resolve(artifact);
+        assertThat(resolver.resolve(artifact), is(true));
+        assertThat(new File(directory, "totallylazy-1125.jar").length(), is(904263L));
     }
 
     @Test
