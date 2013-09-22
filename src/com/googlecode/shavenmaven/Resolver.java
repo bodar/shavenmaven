@@ -1,16 +1,23 @@
 package com.googlecode.shavenmaven;
 
+import com.googlecode.totallylazy.Block;
 import com.googlecode.totallylazy.Function1;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
 import com.googlecode.utterlyidle.handlers.RedirectHttpHandler;
-import com.googlecode.utterlyidle.proxies.Proxies;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Pack200;
 
 import static com.googlecode.shavenmaven.ConnectionTimeout.connectionTimeout;
+import static com.googlecode.shavenmaven.UnGZipHandler.gzipInputStream;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
@@ -32,7 +39,7 @@ public class Resolver {
     }
 
     public Resolver(File directory, PrintStream printStream) {
-        this(directory, printStream, new UnPackHandler(new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies())))));
+        this(directory, printStream, new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies()))));
     }
 
     public Resolver(File directory) {
@@ -46,8 +53,30 @@ public class Resolver {
             printStream.println(format("Failed to download %s (%s)", artifact, response.status()));
             return false;
         }
-        using(response.entity().inputStream(), write(file(directory, artifact.filename())));
+        handle(artifact, response);
         return true;
+    }
+
+    private void handle(final Artifact artifact, final Response response) throws IOException {
+        File file = file(directory, artifact.filename());
+        using(response.entity().inputStream(),
+                artifact.type().endsWith("pack") ?
+                        unpack(file) :
+                        write(file));
+    }
+
+    private static Block<InputStream> unpack(final File file) {
+        return new Block<InputStream>() {
+            @Override
+            protected void execute(final InputStream input) throws Exception {
+                using(new JarOutputStream(new FileOutputStream(file)), new Block<JarOutputStream>() {
+                    @Override
+                    protected void execute(final JarOutputStream output) throws Exception {
+                        Pack200.newUnpacker().unpack(gzipInputStream(input), output);
+                    }
+                });
+            }
+        };
     }
 
     public static Function1<Artifact, Boolean> resolve(final Resolver resolver) {
