@@ -50,24 +50,6 @@ public class ResolverTest {
         assertThat(log.toString(), containsString("Failed to download"));
     }
 
-    @Test @Ignore("Manual test at the moment")
-    public void handlesPack() throws Exception {
-        File directory = temporaryDirectory();
-        ByteArrayOutputStream log = new ByteArrayOutputStream();
-        Resolver resolver = new Resolver(directory, new PrintStream(log));
-        MvnArtifact artifact = MvnArtifacts.instance.parse("mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:pack:1125").first();
-        assertThat(resolver.resolve(artifact), is(true));
-        assertThat(new File(directory, "totallylazy-1125.jar").length(), is(904263L));
-    }
-
-    @Test @Ignore("Manual test at the moment")
-    public void canDownloadScalaDeps() throws Exception {
-        File directory = temporaryDirectory();
-        Resolver resolver = new Resolver(directory);
-        MvnArtifact artifact = MvnArtifacts.instance.parse("mvn:org.scala-lang:scala-library:jar:2.10.2").first();
-        assertThat(resolver.resolve(artifact), is(true));
-    }
-
     @Test
     public void handlesGzipContent() throws Exception {
         final String expectedContent = "Some dependency content";
