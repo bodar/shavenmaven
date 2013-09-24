@@ -39,7 +39,7 @@ public class Resolver {
     }
 
     public Resolver(File directory, PrintStream printStream) {
-        this(directory, printStream, new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies()))));
+        this(directory, printStream, new UserAgentHandler(new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies())))));
     }
 
     public Resolver(File directory) {
