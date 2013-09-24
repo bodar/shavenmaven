@@ -18,7 +18,7 @@ public class UserAgentHandler implements HttpClient {
 
     @Override
     public Response handle(Request request) throws Exception {
-        return handle(modify(request).
+        return httpHandler.handle(modify(request).
                 header(HttpHeaders.USER_AGENT, getProperty("shavenmaven.user.agent", "Mozilla/5.0 (compatible; SM)")).
                 build());
     }
