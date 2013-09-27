@@ -64,7 +64,7 @@ public class Resolver {
                         unpack(part) :
                         write(part));
         if(!part.renameTo(destination)) {
-            printStream.println(format("Failed to rename %s to %s (Windows users check locks)", part, destination));
+            printStream.println(format("Failed to rename %s to %s", part, destination));
             return false;
         }
         return true;
