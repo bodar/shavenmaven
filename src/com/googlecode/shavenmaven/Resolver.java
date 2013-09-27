@@ -53,17 +53,21 @@ public class Resolver {
             printStream.println(format("Failed to download %s (%s)", artifact, response.status()));
             return false;
         }
-        handle(artifact, response);
-        return true;
+        return handle(artifact, response);
     }
 
-    private void handle(final Artifact artifact, final Response response) throws IOException {
-        File file = file(directory, artifact.filename() + ".part");
+    private boolean handle(final Artifact artifact, final Response response) throws IOException {
+        File part = file(directory, artifact.filename() + ".part");
+        File destination = new File(directory, artifact.filename());
         using(response.entity().inputStream(),
                 artifact.uri().path().endsWith(".pack.gz") ?
-                        unpack(file) :
-                        write(file));
-        file.renameTo(file(directory, artifact.filename()));
+                        unpack(part) :
+                        write(part));
+        if(!part.renameTo(destination)) {
+            printStream.println(format("Failed to rename %s to %s (Windows users check locks)", part, destination));
+            return false;
+        }
+        return true;
     }
 
     private Block<InputStream> unpack(final File file) {
