@@ -58,11 +58,12 @@ public class Resolver {
     }
 
     private void handle(final Artifact artifact, final Response response) throws IOException {
-        File file = file(directory, artifact.filename());
+        File file = file(directory, artifact.filename() + ".part");
         using(response.entity().inputStream(),
                 artifact.uri().path().endsWith(".pack.gz") ?
                         unpack(file) :
                         write(file));
+        file.renameTo(file(directory, artifact.filename()));
     }
 
     private static Block<InputStream> unpack(final File file) {
