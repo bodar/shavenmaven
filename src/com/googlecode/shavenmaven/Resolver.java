@@ -66,10 +66,11 @@ public class Resolver {
         file.renameTo(file(directory, artifact.filename()));
     }
 
-    private static Block<InputStream> unpack(final File file) {
+    private Block<InputStream> unpack(final File file) {
         return new Block<InputStream>() {
             @Override
             protected void execute(final InputStream input) throws Exception {
+                printStream.println(format("Unpacking %s", file));
                 using(new JarOutputStream(new FileOutputStream(file)), new Block<JarOutputStream>() {
                     @Override
                     protected void execute(final JarOutputStream output) throws Exception {
