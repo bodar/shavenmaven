@@ -26,8 +26,8 @@ public class CompositeArtifacts implements Artifacts {
 
     @Override
     public Iterable<? extends Artifact> parse(String value) {
-        return map.get(uri(value).scheme()).
-                getOrElse(map.get("*").get()).
+        return map.lookup(uri(value).scheme()).
+                getOrElse(map.lookup("*").get()).
                 parse(value);
     }
 
