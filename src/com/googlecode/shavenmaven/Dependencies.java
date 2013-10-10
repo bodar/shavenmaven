@@ -84,4 +84,8 @@ public class Dependencies {
     private static File dependenciesFile(String arg) {
         return new File(arg);
     }
+
+    public Sequence<Artifact> artifacts() {
+        return artifacts;
+    }
 }
