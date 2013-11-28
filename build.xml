@@ -16,7 +16,8 @@
     <property name="release.jar.path" value="${artifacts}/${release.jar}"/>
     <property name="release.dep.path" value="${artifacts}/${release.dep}"/>
     <property name="test.jar.path" value="${artifacts}/${release.name}.test.jar"/>
-    <property name="dependencies.dir" value="lib"/>
+    <property name="build.dependencies.dir" value="lib/build"/>
+    <property name="runtime.dependencies.dir" value="lib/runtime"/>
 
     <import file="${build}/macros.xml"/>
     <import file="${src}/shavenmaven.xml"/>
@@ -34,7 +35,12 @@
 
     <target name="update">
         <!--<install version="90"/>-->
-        <update dependencies="${build}" directory="${dependencies.dir}"/>
+        <parallel>
+            <update dependencies="${build}/build.dependencies"
+                    directory="${build.dependencies.dir}"/>
+            <update dependencies="${build}/runtime.dependencies"
+                    directory="${runtime.dependencies.dir}"/>
+        </parallel>
     </target>
 
     <target name="clean" description="cleanup all">
