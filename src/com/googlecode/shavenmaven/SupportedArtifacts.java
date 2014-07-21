@@ -14,7 +14,9 @@ import java.io.File;
 
 import static com.googlecode.shavenmaven.CompositeArtifacts.compositeArtifacts;
 import static com.googlecode.shavenmaven.config.SectionedProperties.sectionedProperties;
+import static com.googlecode.totallylazy.Files.asFile;
 import static com.googlecode.totallylazy.Files.fileOption;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Predicates.not;
 import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -38,7 +40,7 @@ public class SupportedArtifacts implements Artifacts {
     }
 
     public static SectionedProperties smrcProperties() {
-        return sectionedProperties(fileOption(new File(getProperty("user.home")), ".smrc").map(read()).getOrElse(""));
+        return sectionedProperties(option(getProperty("smrcLocation")).map(asFile()).orElse(fileOption(new File(getProperty("user.home")), ".smrc")).map(read()).getOrElse(""));
     }
 
     private static Mapper<File, String> read() {
