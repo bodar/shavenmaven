@@ -21,7 +21,9 @@ public class PomGeneratorTest {
 
     @Test
     public void supportsDependencies() throws Exception {
-        Iterable<MvnArtifact> dependencies = sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.totallylazy:totallylazy:jar|sources:207")).join(MvnArtifacts.instance.parse("mvn:com.googlecode.yadic:yadic:jar:116"));
+        Iterable<MvnArtifact> dependencies = sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.totallylazy:totallylazy:jar|sources:207")).
+                join(MvnArtifacts.instance.parse("mvn:com.googlecode.yadic:yadic:jar:116")).
+                join(MvnArtifacts.instance.parse("mvn://repo.raymanoz.com/net.spmiller.org.lesscss:lesscss-1.3.3:deps|sources:5"));
         String pom = new PomGenerator().generate(sequence(MvnArtifacts.instance.parse("mvn:com.googlecode.shavenmaven:shavenmaven:jar:18")).head(), dependencies);
         assertThat(unformat(pom), is(unformat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"" +
@@ -42,6 +44,11 @@ public class PomGeneratorTest {
                 "            <groupId>com.googlecode.yadic</groupId>" +
                 "            <artifactId>yadic</artifactId>" +
                 "            <version>116</version>" +
+                "        </dependency>" +
+                "        <dependency>" +
+                "            <groupId>net.spmiller.org.lesscss</groupId>" +
+                "            <artifactId>lesscss-1.3.3</artifactId>" +
+                "            <version>5</version>" +
                 "        </dependency>" +
                 "    </dependencies>" +
                 "</project>")));

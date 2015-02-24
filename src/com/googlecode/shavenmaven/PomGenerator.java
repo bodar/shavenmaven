@@ -22,7 +22,7 @@ public class PomGenerator {
         return applyTemplate("pom", artifact.group(), artifact.id(), artifact.version(),
                 sequence(dependencies).
                         filter(not(instanceOf(UrlArtifact.class))).
-                        filter(where(type(), or(is("jar"), endsWith("pack")))).
+                        filter(where(type(), or(is("jar"), is("deps"), endsWith("pack")))).
                         map(template("dependency")).toString(""));
     }
 
