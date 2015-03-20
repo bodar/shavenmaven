@@ -85,3 +85,4 @@ You can also generate a maven pom from the dependencies file with something like
 ```
 
 If you want to see all of this put together have a look at ShavenMavens [build file](http://code.google.com/p/shavenmaven/source/browse/build.xml)
+
