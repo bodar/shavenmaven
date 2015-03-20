@@ -77,7 +77,6 @@ or to do multiple files and directories in one go
 ```
 
 
-
 You can also generate a maven pom from the dependencies file with something like:
 
 ```
