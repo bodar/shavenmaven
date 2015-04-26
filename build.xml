@@ -77,7 +77,7 @@
             <entry key="project.name" value="${ant.project.name}"/>
             <entry key="release.name" value="${release.name}"/>
             <entry key="release.path" value="com/googlecode/${ant.project.name}/${ant.project.name}/${release.version}/"/>
-            <entry key="release.files" value="${release.jar},${release.pom},${release.src}"/>
+            <entry key="release.files" value="${release.jar},${release.pom},${release.src},${release.dep}"/>
             <entry key="${release.jar}.description" value="${commit.summary} build:${build.number} "/>
             <entry key="${release.jar}.labels" value="Jar"/>
             <entry key="${release.dep}.description"
