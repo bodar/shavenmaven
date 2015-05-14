@@ -55,7 +55,7 @@ Would create the following structure:
 
 ### ANT usage ###
 
-To make life easy in ANT, ShavenMaven provides a [macro file](http://code.google.com/p/shavenmaven/source/browse/src/shavenmaven.xml).
+To make life easy in ANT, ShavenMaven provides a [macro file](shavenmaven.xml).
 Obviously ANT is xml based but it's all just syntactic sugar over the command line interface.
 
 Importing this macro file will allow you to install ShavenMaven with a single line:
@@ -84,5 +84,5 @@ You can also generate a maven pom from the dependencies file with something like
  dependencies="lib/runtime.dependencies" directory="${artifacts}"/>
 ```
 
-If you want to see all of this put together have a look at ShavenMavens [build file](http://code.google.com/p/shavenmaven/source/browse/build.xml)
+If you want to see all of this put together have a look at ShavenMavens [build file](build.xml)
 
