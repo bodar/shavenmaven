@@ -55,7 +55,7 @@ Would create the following structure:
 
 ### ANT usage ###
 
-To make life easy in ANT, ShavenMaven provides a [macro file](shavenmaven.xml).
+To make life easy in ANT, ShavenMaven provides a [macro file](src/shavenmaven.xml).
 Obviously ANT is xml based but it's all just syntactic sugar over the command line interface.
 
 Importing this macro file will allow you to install ShavenMaven with a single line:
