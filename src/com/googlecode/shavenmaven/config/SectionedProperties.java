@@ -3,6 +3,7 @@ package com.googlecode.shavenmaven.config;
 import com.googlecode.totallylazy.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Properties;
@@ -29,16 +30,11 @@ public class SectionedProperties {
     }
 
     public Option<Properties> section(String section) {
-        return get(map(lines(new StringReader(content)).recursive(splitSections(startsWith("["))).map(toProperties())), section);
+        return get(map(lines(new StringReader(content)).recursive(splitSections(startsWith("["))).map(this::toProperties)), section);
     }
 
-    private Callable1<Sequence<String>, Pair<String,Properties>> toProperties() {
-        return new Callable1<Sequence<String>, Pair<String, Properties>>() {
-            @Override
-            public Pair<String, Properties> call(Sequence<String> s) throws Exception {
-                return pair(s.first().replace("[", "").replace("]", ""), properties(inputStream(s.tail())));
-            }
-        };
+    private Pair<String,Properties> toProperties(Sequence<String> s) throws IOException {
+        return pair(s.first().replace("[", "").replace("]", ""), properties(inputStream(s.tail())));
     }
 
     private InputStream inputStream(Sequence<String> strings) {
@@ -46,19 +42,16 @@ public class SectionedProperties {
     }
 
     private Callable1<Sequence<String>, Pair<Sequence<String>, Sequence<String>>> splitSections(final Predicate<String> predicate) {
-        return new Callable1<Sequence<String>, Pair<Sequence<String>, Sequence<String>>>() {
-            @Override
-            public Pair<Sequence<String>, Sequence<String>> call(Sequence<String> strings) throws Exception {
-                final Pair<Sequence<String>, Sequence<String>> split = strings.breakOn(predicate);
-                final Sequence<String> section = split.second();
-                if(section.isEmpty()) {
-                    return pair(empty(String.class), empty(String.class));
-                }
-                final Pair<Sequence<String>, Sequence<String>> sectionAndRest = section.drop(1).breakOn(predicate);
-                final String first = section.first();
-                final Sequence<String> first1 = sectionAndRest.first();
-                return pair(sequence(first).join(first1), sectionAndRest.second());
+        return strings -> {
+            final Pair<Sequence<String>, Sequence<String>> split = strings.breakOn(predicate);
+            final Sequence<String> section = split.second();
+            if(section.isEmpty()) {
+                return pair(empty(String.class), empty(String.class));
             }
+            final Pair<Sequence<String>, Sequence<String>> sectionAndRest = section.drop(1).breakOn(predicate);
+            final String first = section.first();
+            final Sequence<String> first1 = sectionAndRest.first();
+            return pair(sequence(first).join(first1), sectionAndRest.second());
         };
     }
 }
