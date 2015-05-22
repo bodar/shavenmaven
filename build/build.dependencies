@@ -4,4 +4,4 @@ mvn:junit:junit-dep:jar:4.8.2
 
 mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:pack|sources:2.113
 mvn://repo.bodar.com/com.googlecode.utterlyidle:utterlyidle:pack|sources:2.14
-http://jarjar.googlecode.com/files/jarjar-1.1.jar
+mvn://repo.bodar.com/com.googlecode.jarjar:jarjar:pack:1.4.1
