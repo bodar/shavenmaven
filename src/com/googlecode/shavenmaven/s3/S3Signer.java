@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven.s3;
 
-import com.googlecode.totallylazy.Function;
+import com.googlecode.totallylazy.Returns;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.Dates;
@@ -25,7 +25,7 @@ public class S3Signer extends com.googlecode.utterlyidle.s3.S3Signer {
     }
 
     private String date(Request request) {
-        return request.headers().valueOption(HttpHeaders.DATE).getOrElse(new Function<String>() {
+        return request.headers().valueOption(HttpHeaders.DATE).getOrElse(new Returns<String>() {
             @Override
             public String call() throws Exception {
                 return Dates.RFC822().format(clock.now());
