@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Function;
 import com.googlecode.totallylazy.Functions;
 import com.googlecode.totallylazy.Sequence;
 
@@ -69,7 +69,7 @@ public class Dependencies {
     public static boolean update(File dependenciesDir, final File libDir, final PrintStream out) {
         return files(dependenciesDir).
                 filter(hasSuffix("dependencies")).
-                mapConcurrently(new Function1<File, Boolean>() {
+                mapConcurrently(new Function<File, Boolean>() {
                     @Override
                     public Boolean call(File file) throws Exception {
                         return load(file, out).update(directory(libDir, file.getName().replace(".dependencies", "")));

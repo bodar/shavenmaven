@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Function;
 import com.googlecode.totallylazy.Mapper;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Uri;
@@ -31,8 +31,8 @@ public interface Artifact {
     Uri value();
 
     static class methods {
-        public static Function1<Artifact, String> type() {
-            return new Function1<Artifact, String>() {
+        public static Function<Artifact, String> type() {
+            return new Function<Artifact, String>() {
                 public String call(Artifact artifact) throws Exception {
                     return artifact.type();
                 }

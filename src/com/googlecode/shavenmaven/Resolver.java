@@ -1,7 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Block;
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Function;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
@@ -85,8 +84,8 @@ public class Resolver {
         };
     }
 
-    public static Function1<Artifact, Boolean> resolve(final Resolver resolver) {
-        return new Function1<Artifact, Boolean>() {
+    public static Function<Artifact, Boolean> resolve(final Resolver resolver) {
+        return new Function<Artifact, Boolean>() {
             public Boolean call(Artifact artifact) throws Exception {
                 return resolver.resolve(artifact);
             }
