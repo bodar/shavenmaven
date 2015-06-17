@@ -4,7 +4,6 @@ import com.googlecode.shavenmaven.config.SectionedProperties;
 import com.googlecode.shavenmaven.s3.AwsCredentials;
 import com.googlecode.shavenmaven.s3.AwsCredentialsParser;
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.Mapper;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.time.Clock;
@@ -43,8 +42,8 @@ public class SupportedArtifacts implements Artifacts {
         return sectionedProperties(option(getProperty("smrcLocation")).map(asFile()).orElse(fileOption(new File(getProperty("user.home")), ".smrc")).map(read()).getOrElse(""));
     }
 
-    private static Mapper<File, String> read() {
-        return new Mapper<File, String>() {
+    private static Function1<File, String> read() {
+        return new Function1<File, String>() {
             @Override
             public String call(File file) throws Exception {
                 return string(file);

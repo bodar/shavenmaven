@@ -1,6 +1,5 @@
 package com.googlecode.shavenmaven;
 
-import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -26,12 +25,10 @@ public class Http {
     }
 
     public static HttpHandler returnResponse(final int code, final String value) {
-        return new HttpHandler() {
-            public void handle(HttpExchange httpExchange) throws IOException {
-                httpExchange.sendResponseHeaders(code, 0);
-                httpExchange.getResponseBody().write(value.getBytes());
-                httpExchange.close();
-            }
+        return httpExchange -> {
+            httpExchange.sendResponseHeaders(code, 0);
+            httpExchange.getResponseBody().write(value.getBytes());
+            httpExchange.close();
         };
     }
 }

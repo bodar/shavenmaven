@@ -1,7 +1,6 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.Mapper;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.utterlyidle.Request;
@@ -37,7 +36,7 @@ public interface Artifact {
     }
 
     static class functions {
-        public static Mapper<Artifact, String> asFilename = new Mapper<Artifact, String>() {
+        public static Function1<Artifact, String> asFilename = new Function1<Artifact, String>() {
             public String call(Artifact uri) throws Exception {
                 return uri.filename();
             }

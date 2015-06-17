@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Mapper;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.collections.PersistentMap;
 
@@ -31,8 +31,8 @@ public class CompositeArtifacts implements Artifacts {
                 parse(value);
     }
 
-    private Mapper<Artifacts, Pair<String, Artifacts>> byScheme() {
-        return new Mapper<Artifacts, Pair<String, Artifacts>>() {
+    private Function1<Artifacts, Pair<String, Artifacts>> byScheme() {
+        return new Function1<Artifacts, Pair<String, Artifacts>>() {
             @Override
             public Pair<String, Artifacts> call(Artifacts artifacts) throws Exception {
                 return Pair.pair(artifacts.scheme(), artifacts);
