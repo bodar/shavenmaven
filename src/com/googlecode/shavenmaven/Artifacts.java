@@ -9,11 +9,7 @@ public interface Artifacts {
 
     class functions {
         public static Function1<String, Iterable<? extends Artifact>> asArtifact(final Artifacts artifacts) {
-            return new Function1<String, Iterable<? extends Artifact>>() {
-                public Iterable<? extends Artifact> call(String value) throws Exception {
-                    return artifacts.parse(value);
-                }
-            };
+            return value -> artifacts.parse(value);
         }
     }
 }

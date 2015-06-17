@@ -69,12 +69,8 @@ public class Dependencies {
     public static boolean update(File dependenciesDir, final File libDir, final PrintStream out) {
         return files(dependenciesDir).
                 filter(hasSuffix("dependencies")).
-                mapConcurrently(new Function1<File, Boolean>() {
-                    @Override
-                    public Boolean call(File file) throws Exception {
-                        return load(file, out).update(directory(libDir, file.getName().replace(".dependencies", "")));
-                    }
-                }).reduce(Functions.and);
+                mapConcurrently(file -> load(file, out).update(directory(libDir, file.getName().replace(".dependencies", "")))).
+                reduce(Functions.and);
     }
 
     private static File destinationDirectory(Sequence<String> arg) {

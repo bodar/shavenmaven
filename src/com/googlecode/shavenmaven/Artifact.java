@@ -32,11 +32,7 @@ public interface Artifact {
 
     static class methods {
         public static Function1<Artifact, String> type() {
-            return new Function1<Artifact, String>() {
-                public String call(Artifact artifact) throws Exception {
-                    return artifact.type();
-                }
-            };
+            return artifact -> artifact.type();
         }
     }
 
@@ -48,11 +44,7 @@ public interface Artifact {
         };
 
         public static Predicate<Artifact> existsIn(final File directory) {
-            return new Predicate<Artifact>() {
-                public boolean matches(Artifact artifact) {
-                    return files(directory).exists(where(name(), is(artifact.filename())));
-                }
-            };
+            return artifact -> files(directory).exists(where(name(), is(artifact.filename())));
         }
     }
 
