@@ -41,7 +41,7 @@ public class SectionedProperties {
         return new ByteArrayInputStream(strings.toString("\n").getBytes());
     }
 
-    private Callable1<Sequence<String>, Pair<Sequence<String>, Sequence<String>>> splitSections(final Predicate<String> predicate) {
+    private Function1<Sequence<String>, Pair<Sequence<String>, Sequence<String>>> splitSections(final Predicate<String> predicate) {
         return strings -> {
             final Pair<Sequence<String>, Sequence<String>> split = strings.breakOn(predicate);
             final Sequence<String> section = split.second();

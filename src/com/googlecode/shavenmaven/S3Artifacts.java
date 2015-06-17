@@ -64,8 +64,8 @@ public class S3Artifacts implements Artifacts {
         });
     }
 
-    private Function2<Request, AwsCredentials, Request> sign() {
-        return new Function2<Request, AwsCredentials, Request>() {
+    private Curried2<Request, AwsCredentials, Request> sign() {
+        return new Curried2<Request, AwsCredentials, Request>() {
             @Override
             public Request call(Request request, AwsCredentials awsCredentials) throws Exception {
                 return new S3Signer(awsCredentials, clock).sign(request);
