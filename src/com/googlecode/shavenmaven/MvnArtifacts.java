@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.Strings;
 import com.googlecode.totallylazy.regex.Regex;
@@ -23,7 +23,7 @@ public enum MvnArtifacts implements Artifacts { instance;
             }
             final MatchResult match = regex.findMatches(value).head();
 
-            return sequence(match.group(4).split("\\|")).map(new Function<String, MvnArtifact>() {
+            return sequence(match.group(4).split("\\|")).map(new Function1<String, MvnArtifact>() {
                 public MvnArtifact call(String type) throws Exception {
                     String repository = repository(match.group(1));
                     String group = match.group(2);

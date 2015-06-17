@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function;
+import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Strings;
 
@@ -26,8 +26,8 @@ public class PomGenerator {
                         map(template("dependency")).toString(""));
     }
 
-    private Function<Artifact, String> template(final String name) {
-        return new Function<Artifact, String>() {
+    private Function1<Artifact, String> template(final String name) {
+        return new Function1<Artifact, String>() {
             public String call(Artifact artifact) throws Exception {
                 return applyTemplate(name, artifact.group(), artifact.id(), artifact.version());
             }

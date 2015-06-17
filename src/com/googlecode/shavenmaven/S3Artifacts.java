@@ -46,8 +46,8 @@ public class S3Artifacts implements Artifacts {
         return sequence(MvnArtifacts.instance.parse(toMvn.matcher(value).replaceFirst("mvn://$1.s3.amazonaws.com/"))).map(s3Artifact(Uri.uri(value)));
     }
 
-    public Function<MvnArtifact, S3Artifact> s3Artifact(final Uri originalUri) {
-        return new Function<MvnArtifact, S3Artifact>() {
+    public Function1<MvnArtifact, S3Artifact> s3Artifact(final Uri originalUri) {
+        return new Function1<MvnArtifact, S3Artifact>() {
             @Override
             public S3Artifact call(MvnArtifact mvnArtifact) throws Exception {
                 return new S3Artifact(originalUri, mvnArtifact, credentials(originalUri).fold(mvnArtifact.request(), sign()));
