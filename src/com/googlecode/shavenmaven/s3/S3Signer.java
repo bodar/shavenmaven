@@ -25,11 +25,8 @@ public class S3Signer extends com.googlecode.utterlyidle.s3.S3Signer {
     }
 
     private String date(Request request) {
-        return request.headers().valueOption(HttpHeaders.DATE).getOrElse(new Function0<String>() {
-            @Override
-            public String call() throws Exception {
-                return Dates.RFC822().format(clock.now());
-            }
+        return request.headers().valueOption(HttpHeaders.DATE).getOrElse(() -> {
+            return Dates.RFC822().format(clock.now());
         });
     }
 

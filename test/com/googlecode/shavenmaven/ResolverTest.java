@@ -54,13 +54,11 @@ public class ResolverTest {
     public void handlesGzipContent() throws Exception {
         final String expectedContent = "Some dependency content";
 
-        HttpServer server = createHttpsServer(new HttpHandler() {
-            public void handle(HttpExchange httpExchange) throws IOException {
-                httpExchange.getResponseHeaders().set("Content-Encoding", "gZiP");
-                byte[] content = gzip(expectedContent);
-                httpExchange.sendResponseHeaders(200, content.length);
-                httpExchange.getResponseBody().write(content);
-            }
+        HttpServer server = createHttpsServer(httpExchange -> {
+            httpExchange.getResponseHeaders().set("Content-Encoding", "gZiP");
+            byte[] content = gzip(expectedContent);
+            httpExchange.sendResponseHeaders(200, content.length);
+            httpExchange.getResponseBody().write(content);
         });
 
         File directory = temporaryDirectory();

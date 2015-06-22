@@ -32,12 +32,7 @@ public class CompositeArtifacts implements Artifacts {
     }
 
     private Function1<Artifacts, Pair<String, Artifacts>> byScheme() {
-        return new Function1<Artifacts, Pair<String, Artifacts>>() {
-            @Override
-            public Pair<String, Artifacts> call(Artifacts artifacts) throws Exception {
-                return Pair.pair(artifacts.scheme(), artifacts);
-            }
-        };
+        return artifacts -> Pair.pair(artifacts.scheme(), artifacts);
     }
 
 }

@@ -47,12 +47,7 @@ public class S3Artifacts implements Artifacts {
     }
 
     public Function1<MvnArtifact, S3Artifact> s3Artifact(final Uri originalUri) {
-        return new Function1<MvnArtifact, S3Artifact>() {
-            @Override
-            public S3Artifact call(MvnArtifact mvnArtifact) throws Exception {
-                return new S3Artifact(originalUri, mvnArtifact, credentials(originalUri).fold(mvnArtifact.request(), sign()));
-            }
-        };
+        return mvnArtifact -> new S3Artifact(originalUri, mvnArtifact, credentials(originalUri).fold(mvnArtifact.request(), sign()));
     }
 
     private Option<AwsCredentials> credentials(final Uri artifact) {
@@ -65,12 +60,7 @@ public class S3Artifacts implements Artifacts {
     }
 
     private CurriedFunction2<Request, AwsCredentials, Request> sign() {
-        return new CurriedFunction2<Request, AwsCredentials, Request>() {
-            @Override
-            public Request call(Request request, AwsCredentials awsCredentials) throws Exception {
-                return new S3Signer(awsCredentials, clock).sign(request);
-            }
-        };
+        return (request, awsCredentials) -> new S3Signer(awsCredentials, clock).sign(request);
     }
 
 }

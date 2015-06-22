@@ -6,6 +6,7 @@ import com.googlecode.shavenmaven.s3.AwsCredentialsParser;
 import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Strings;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.SystemClock;
 
@@ -43,12 +44,7 @@ public class SupportedArtifacts implements Artifacts {
     }
 
     private static Function1<File, String> read() {
-        return new Function1<File, String>() {
-            @Override
-            public String call(File file) throws Exception {
-                return string(file);
-            }
-        };
+        return Strings::string;
     }
 
     public Artifact artifact(String value) {
@@ -60,11 +56,7 @@ public class SupportedArtifacts implements Artifacts {
     }
 
     private Function1<File, Sequence<Artifact>> toArtifacts() {
-        return new Function1<File, Sequence<Artifact>>() {
-            public Sequence<Artifact> call(File file) throws Exception {
-                return toArtifacts(lines(file));
-            }
-        };
+        return file -> toArtifacts(lines(file));
     }
 
     public Sequence<Artifact> toArtifacts(Sequence<String> lines) {

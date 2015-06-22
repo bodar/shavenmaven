@@ -85,11 +85,7 @@ public class Resolver {
     }
 
     public static Function1<Artifact, Boolean> resolve(final Resolver resolver) {
-        return new Function1<Artifact, Boolean>() {
-            public Boolean call(Artifact artifact) throws Exception {
-                return resolver.resolve(artifact);
-            }
-        };
+        return resolver::resolve;
     }
 
 }

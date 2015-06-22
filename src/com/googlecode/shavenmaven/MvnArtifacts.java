@@ -23,14 +23,12 @@ public enum MvnArtifacts implements Artifacts { instance;
             }
             final MatchResult match = regex.findMatches(value).head();
 
-            return sequence(match.group(4).split("\\|")).map(new Function1<String, MvnArtifact>() {
-                public MvnArtifact call(String type) throws Exception {
-                    String repository = repository(match.group(1));
-                    String group = match.group(2);
-                    String id = match.group(3);
-                    String version = match.group(5);
-                    return new MvnArtifact(repository, group, id, version, type, value);
-                }
+            return sequence(match.group(4).split("\\|")).map(type -> {
+                String repository = repository(match.group(1));
+                String group = match.group(2);
+                String id = match.group(3);
+                String version = match.group(5);
+                return new MvnArtifact(repository, group, id, version, type, value);
             });
         }
 

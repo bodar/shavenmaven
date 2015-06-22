@@ -29,18 +29,14 @@ public interface Artifact {
 
     Uri value();
 
-    static class methods {
+    class methods {
         public static Function1<Artifact, String> type() {
-            return artifact -> artifact.type();
+            return Artifact::type;
         }
     }
 
-    static class functions {
-        public static Function1<Artifact, String> asFilename = new Function1<Artifact, String>() {
-            public String call(Artifact uri) throws Exception {
-                return uri.filename();
-            }
-        };
+    class functions {
+        public static Function1<Artifact, String> asFilename = Artifact::filename;
 
         public static Predicate<Artifact> existsIn(final File directory) {
             return artifact -> files(directory).exists(where(name(), is(artifact.filename())));
