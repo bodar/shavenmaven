@@ -17,6 +17,7 @@ import java.util.jar.Pack200;
 
 import static com.googlecode.shavenmaven.ConnectionTimeout.connectionTimeout;
 import static com.googlecode.shavenmaven.UnGZipHandler.gzipInputStream;
+import static com.googlecode.totallylazy.Block.block;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
@@ -70,17 +71,10 @@ public class Resolver {
     }
 
     private Block<InputStream> unpack(final File file) {
-        return new Block<InputStream>() {
-            @Override
-            protected void execute(final InputStream input) throws Exception {
-                printStream.println(format("Unpacking %s", file));
-                using(new JarOutputStream(new FileOutputStream(file)), new Block<JarOutputStream>() {
-                    @Override
-                    protected void execute(final JarOutputStream output) throws Exception {
-                        Pack200.newUnpacker().unpack(gzipInputStream(input), output);
-                    }
-                });
-            }
+        return input -> {
+            printStream.println(format("Unpacking %s", file));
+            using(new JarOutputStream(new FileOutputStream(file)),
+                    block(output -> Pack200.newUnpacker().unpack(gzipInputStream(input), output)));
         };
     }
 
