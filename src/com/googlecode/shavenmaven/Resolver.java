@@ -1,7 +1,7 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Block;
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.functions.Block;
+import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
@@ -17,7 +17,7 @@ import java.util.jar.Pack200;
 
 import static com.googlecode.shavenmaven.ConnectionTimeout.connectionTimeout;
 import static com.googlecode.shavenmaven.UnGZipHandler.gzipInputStream;
-import static com.googlecode.totallylazy.Block.block;
+import static com.googlecode.totallylazy.functions.Block.block;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;

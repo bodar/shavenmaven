@@ -1,7 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
-import com.googlecode.totallylazy.Functions;
+import com.googlecode.totallylazy.functions.Functions;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;

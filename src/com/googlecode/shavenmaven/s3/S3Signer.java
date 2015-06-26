@@ -1,6 +1,5 @@
 package com.googlecode.shavenmaven.s3;
 
-import com.googlecode.totallylazy.Function0;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.Dates;

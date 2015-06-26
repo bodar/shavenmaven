@@ -2,6 +2,7 @@ package com.googlecode.shavenmaven.s3;
 
 import com.googlecode.shavenmaven.config.SectionedProperties;
 import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.functions.Callables;
 
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Sequences.empty;

@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Uri;
 import com.googlecode.utterlyidle.Request;

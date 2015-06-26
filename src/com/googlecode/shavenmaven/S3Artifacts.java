@@ -3,6 +3,8 @@ package com.googlecode.shavenmaven;
 import com.googlecode.shavenmaven.s3.AwsCredentials;
 import com.googlecode.shavenmaven.s3.S3Signer;
 import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.functions.CurriedFunction2;
+import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.predicates.LogicalPredicate;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.SystemClock;

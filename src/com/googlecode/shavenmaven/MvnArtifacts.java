@@ -1,6 +1,5 @@
 package com.googlecode.shavenmaven;
 
-import com.googlecode.totallylazy.Function1;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.Strings;
 import com.googlecode.totallylazy.regex.Regex;
