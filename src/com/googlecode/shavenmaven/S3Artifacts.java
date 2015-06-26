@@ -3,7 +3,7 @@ package com.googlecode.shavenmaven;
 import com.googlecode.shavenmaven.s3.AwsCredentials;
 import com.googlecode.shavenmaven.s3.S3Signer;
 import com.googlecode.totallylazy.*;
-import com.googlecode.totallylazy.functions.CurriedFunction2;
+import com.googlecode.totallylazy.functions.Curried2;
 import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.predicates.LogicalPredicate;
 import com.googlecode.totallylazy.time.Clock;
@@ -61,7 +61,7 @@ public class S3Artifacts implements Artifacts {
         });
     }
 
-    private CurriedFunction2<Request, AwsCredentials, Request> sign() {
+    private Curried2<Request, AwsCredentials, Request> sign() {
         return (request, awsCredentials) -> new S3Signer(awsCredentials, clock).sign(request);
     }
 
