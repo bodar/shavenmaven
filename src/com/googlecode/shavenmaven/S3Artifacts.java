@@ -5,7 +5,7 @@ import com.googlecode.shavenmaven.s3.S3Signer;
 import com.googlecode.totallylazy.*;
 import com.googlecode.totallylazy.functions.Curried2;
 import com.googlecode.totallylazy.functions.Function1;
-import com.googlecode.totallylazy.http.Uri;
+import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.totallylazy.predicates.LogicalPredicate;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.SystemClock;

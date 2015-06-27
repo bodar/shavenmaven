@@ -2,7 +2,7 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.predicates.Predicate;
-import com.googlecode.totallylazy.http.Uri;
+import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.utterlyidle.Request;
 
 import java.io.File;

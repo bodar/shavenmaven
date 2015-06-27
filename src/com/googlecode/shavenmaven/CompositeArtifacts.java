@@ -5,7 +5,7 @@ import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.collections.PersistentMap;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.googlecode.totallylazy.http.Uri.uri;
+import static com.googlecode.totallylazy.io.Uri.uri;
 import static com.googlecode.totallylazy.collections.PersistentSortedMap.constructors.sortedMap;
 
 public class CompositeArtifacts implements Artifacts {
