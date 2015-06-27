@@ -2,6 +2,7 @@ package com.googlecode.shavenmaven.config;
 
 import com.googlecode.totallylazy.*;
 import com.googlecode.totallylazy.functions.Function1;
+import com.googlecode.totallylazy.predicates.Predicate;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

@@ -17,7 +17,7 @@ import static com.googlecode.shavenmaven.config.SectionedProperties.sectionedPro
 import static com.googlecode.totallylazy.Files.asFile;
 import static com.googlecode.totallylazy.Files.fileOption;
 import static com.googlecode.totallylazy.Option.option;
-import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.predicates.Predicates.not;
 import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.*;

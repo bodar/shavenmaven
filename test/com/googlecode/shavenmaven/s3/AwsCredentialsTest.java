@@ -1,6 +1,6 @@
 package com.googlecode.shavenmaven.s3;
 
-import com.googlecode.totallylazy.Uri;
+import com.googlecode.totallylazy.http.Uri;
 import org.junit.Test;
 
 import static com.googlecode.shavenmaven.s3.AwsCredentials.awsCredentials;

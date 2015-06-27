@@ -16,10 +16,10 @@ import static com.googlecode.totallylazy.Files.hasSuffix;
 import static com.googlecode.totallylazy.Files.isDirectory;
 import static com.googlecode.totallylazy.Files.name;
 import static com.googlecode.totallylazy.Option.some;
-import static com.googlecode.totallylazy.Predicates.in;
-import static com.googlecode.totallylazy.Predicates.is;
-import static com.googlecode.totallylazy.Predicates.not;
-import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.predicates.Predicates.in;
+import static com.googlecode.totallylazy.predicates.Predicates.is;
+import static com.googlecode.totallylazy.predicates.Predicates.not;
+import static com.googlecode.totallylazy.predicates.Predicates.where;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Dependencies {

@@ -11,7 +11,7 @@ import static com.googlecode.shavenmaven.Artifact.methods.type;
 import static com.googlecode.totallylazy.Files.write;
 import static com.googlecode.totallylazy.None.none;
 import static com.googlecode.totallylazy.Option.some;
-import static com.googlecode.totallylazy.Predicates.*;
+import static com.googlecode.totallylazy.predicates.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.bytes;
 import static com.googlecode.totallylazy.Strings.endsWith;

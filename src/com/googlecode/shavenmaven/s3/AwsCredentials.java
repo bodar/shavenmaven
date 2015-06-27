@@ -1,7 +1,7 @@
 package com.googlecode.shavenmaven.s3;
 
-import com.googlecode.totallylazy.Predicate;
-import com.googlecode.totallylazy.Uri;
+import com.googlecode.totallylazy.predicates.Predicate;
+import com.googlecode.totallylazy.http.Uri;
 
 public class AwsCredentials extends com.googlecode.utterlyidle.s3.AwsCredentials implements Predicate<Uri> {
     private final String pattern;

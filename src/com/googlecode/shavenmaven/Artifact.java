@@ -1,16 +1,16 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.functions.Function1;
-import com.googlecode.totallylazy.Predicate;
-import com.googlecode.totallylazy.Uri;
+import com.googlecode.totallylazy.predicates.Predicate;
+import com.googlecode.totallylazy.http.Uri;
 import com.googlecode.utterlyidle.Request;
 
 import java.io.File;
 
 import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.name;
-import static com.googlecode.totallylazy.Predicates.is;
-import static com.googlecode.totallylazy.Predicates.where;
+import static com.googlecode.totallylazy.predicates.Predicates.is;
+import static com.googlecode.totallylazy.predicates.Predicates.where;
 
 public interface Artifact {
     String group();
