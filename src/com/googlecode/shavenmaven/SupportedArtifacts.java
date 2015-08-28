@@ -12,6 +12,7 @@ import java.io.File;
 
 import static com.googlecode.shavenmaven.CompositeArtifacts.compositeArtifacts;
 import static com.googlecode.shavenmaven.S3Artifacts.s3Artifacts;
+import static com.googlecode.shavenmaven.s3.AwsCredentials.environmentCredentials;
 import static com.googlecode.shavenmaven.s3.AwsCredentialsParser.awsCredentials;
 import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.predicates.Predicates.not;
@@ -36,7 +37,8 @@ public class SupportedArtifacts implements Artifacts {
     }
 
     public static SupportedArtifacts supportedArtifacts(Clock clock) {
-        return supportedArtifacts(clock, awsCredentials(SectionedProperties.sectionedProperties()));
+        Option<AwsCredentials> environment = environmentCredentials();
+        return supportedArtifacts(clock, environment.isDefined() ? sequence(environment) : awsCredentials(SectionedProperties.sectionedProperties()));
     }
 
     private static SupportedArtifacts supportedArtifacts(Clock clock, Sequence<AwsCredentials> credentials) {

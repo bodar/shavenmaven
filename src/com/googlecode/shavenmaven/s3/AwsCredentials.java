@@ -1,7 +1,10 @@
 package com.googlecode.shavenmaven.s3;
 
+import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.predicates.Predicate;
 import com.googlecode.totallylazy.io.Uri;
+
+import static com.googlecode.totallylazy.Option.option;
 
 public class AwsCredentials extends com.googlecode.utterlyidle.s3.AwsCredentials implements Predicate<Uri> {
     public static final String ANY = "*";
@@ -18,6 +21,13 @@ public class AwsCredentials extends com.googlecode.utterlyidle.s3.AwsCredentials
 
     public static AwsCredentials awsCredentials(final String accessKey, final String secretKey) {
         return awsCredentials(ANY, accessKey, secretKey);
+    }
+
+    public static Option<AwsCredentials> environmentCredentials() {
+        return option(() -> {
+            com.googlecode.utterlyidle.s3.AwsCredentials credentials = com.googlecode.utterlyidle.s3.AwsCredentials.awsCredentials();
+            return awsCredentials(ANY, credentials.accessKeyId(), credentials.secretKey());
+        });
     }
 
     @Override
