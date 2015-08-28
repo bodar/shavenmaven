@@ -3,29 +3,43 @@ package com.googlecode.shavenmaven.config;
 import com.googlecode.totallylazy.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Properties;
 
+import static com.googlecode.totallylazy.Files.asFile;
+import static com.googlecode.totallylazy.Files.fileOption;
 import static com.googlecode.totallylazy.Maps.get;
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Properties.properties;
 import static com.googlecode.totallylazy.Sequences.empty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 import static com.googlecode.totallylazy.Strings.startsWith;
+import static java.lang.System.getProperty;
 
 public class SectionedProperties {
-
     private final String content;
+
+    private SectionedProperties(String content) {
+        this.content = content;
+    }
 
     public static SectionedProperties sectionedProperties(String content) {
         return new SectionedProperties(content);
     }
 
-    private SectionedProperties(String content) {
-        this.content = content;
+    public static SectionedProperties sectionedProperties() {
+        return sectionedProperties(option(getProperty("smrcLocation")).map(asFile()).
+                orElse(fileOption(new File(getProperty("user.home")), ".smrc")).map(new Callable1<File, String>() {
+            @Override
+            public String call(File value) throws Exception {
+                return Strings.string(value);
+            }
+        }).getOrElse(""));
     }
 
     public Option<Properties> section(String section) {

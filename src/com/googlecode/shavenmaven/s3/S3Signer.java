@@ -2,11 +2,11 @@ package com.googlecode.shavenmaven.s3;
 
 import com.googlecode.totallylazy.Function;
 import com.googlecode.totallylazy.Uri;
+import com.googlecode.totallylazy.security.Base64;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.Dates;
 import com.googlecode.utterlyidle.HttpHeaders;
 import com.googlecode.utterlyidle.Request;
-import com.googlecode.utterlyidle.internal.codec.binary.$Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,7 +27,7 @@ public class S3Signer {
     }
 
     public String sign(String data) throws Exception {
-        return $Base64.encodeBase64String(mac().doFinal(data.getBytes("UTF8"))).trim();
+        return Base64.encode(mac().doFinal(data.getBytes("UTF8"))).trim();
     }
 
     public Request sign(Request request) throws Exception {
