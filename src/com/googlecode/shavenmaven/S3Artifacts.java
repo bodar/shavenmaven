@@ -7,6 +7,7 @@ import com.googlecode.totallylazy.functions.Curried2;
 import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.totallylazy.predicates.LogicalPredicate;
+import com.googlecode.totallylazy.predicates.Predicate;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.SystemClock;
 import com.googlecode.utterlyidle.Request;
@@ -54,12 +55,7 @@ public class S3Artifacts implements Artifacts {
     }
 
     private Option<AwsCredentials> credentials(final Uri artifact) {
-        return credentials.find(new LogicalPredicate<AwsCredentials>() {
-            @Override
-            public boolean matches(AwsCredentials other) {
-                return other.matches(artifact);
-            }
-        });
+        return credentials.find(other -> other.matches(artifact));
     }
 
     private Curried2<Request, AwsCredentials, Request> sign() {

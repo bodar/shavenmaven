@@ -4,31 +4,37 @@ import com.googlecode.totallylazy.*;
 import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.predicates.Predicate;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.util.Properties;
 
+import static com.googlecode.totallylazy.Files.asFile;
+import static com.googlecode.totallylazy.Files.fileOption;
 import static com.googlecode.totallylazy.Maps.get;
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Properties.properties;
 import static com.googlecode.totallylazy.Sequences.empty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.Strings.lines;
 import static com.googlecode.totallylazy.Strings.startsWith;
+import static java.lang.System.getProperty;
 
 public class SectionedProperties {
-
     private final String content;
+
+    private SectionedProperties(String content) {
+        this.content = content;
+    }
 
     public static SectionedProperties sectionedProperties(String content) {
         return new SectionedProperties(content);
     }
 
-    private SectionedProperties(String content) {
-        this.content = content;
+    public static SectionedProperties sectionedProperties() {
+        return sectionedProperties(option(getProperty("smrcLocation")).map(asFile()).
+                orElse(fileOption(new File(getProperty("user.home")), ".smrc")).map(Strings::string).
+                getOrElse(""));
     }
 
     public Option<Properties> section(String section) {
