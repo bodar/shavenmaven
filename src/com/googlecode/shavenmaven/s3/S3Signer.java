@@ -19,8 +19,9 @@ public class S3Signer extends com.googlecode.utterlyidle.s3.S3Signer {
     }
 
     public Request sign(Request request) throws Exception {
-        String auth = format("%s\n\n\n%s\n%s", request.method(), date(request), moveBucketToPath(request.uri()));
-        return modify(request).header(HttpHeaders.AUTHORIZATION, authorizationHeader(awsCredentials, auth)).build();
+        String date = date(request);
+        String auth = format("%s\n\n\n%s\n%s", request.method(), date, moveBucketToPath(request.uri()));
+        return modify(request).replaceHeader(HttpHeaders.DATE, date).header(HttpHeaders.AUTHORIZATION, authorizationHeader(awsCredentials, auth)).build();
     }
 
     private String date(Request request) {
