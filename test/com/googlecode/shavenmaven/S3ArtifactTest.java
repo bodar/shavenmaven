@@ -2,6 +2,8 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.time.StoppedClock;
 import com.googlecode.utterlyidle.Request;
+import com.googlecode.utterlyidle.Response;
+import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -36,6 +38,6 @@ public class S3ArtifactTest {
         S3Artifacts s3Artifacts = S3Artifacts.s3Artifacts(new StoppedClock(now), sequence(awsCredentials("*", "access-key", "secret-key")));
         Request request = s3Artifacts.parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116").head().request();
         assertThat(request.uri().toString(), Matchers.is("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar"));
-        assertThat(request.headers().getValue(AUTHORIZATION), Matchers.is("AWS access-key:P/meDoCaNWNOXBlnWPSqPjO+1rM="));
+        assertThat(request.headers().getValue(AUTHORIZATION), Matchers.is("AWS access-key:64kyKI1P/MEwS3PaO46uEBBDbUM="));
     }
 }
