@@ -6,7 +6,8 @@ import com.googlecode.utterlyidle.Request;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.HttpClient;
 
-import static com.googlecode.utterlyidle.RequestBuilder.modify;
+import static com.googlecode.utterlyidle.Request.Builder.header;
+import static com.googlecode.utterlyidle.Request.Builder.modify;
 import static java.lang.System.getProperty;
 
 public class UserAgentHandler implements HttpClient {
@@ -18,8 +19,7 @@ public class UserAgentHandler implements HttpClient {
 
     @Override
     public Response handle(Request request) throws Exception {
-        return httpHandler.handle(modify(request).
-                header(HttpHeaders.USER_AGENT, getProperty("shavenmaven.user.agent", "Mozilla/5.0 (compatible; SM)")).
-                build());
+        return httpHandler.handle(modify(request,
+                header(HttpHeaders.USER_AGENT, getProperty("shavenmaven.user.agent", "Mozilla/5.0 (compatible; SM)"))));
     }
 }

@@ -60,7 +60,7 @@ public class MvnArtifact implements Artifact {
 
     @Override
     public Request request() {
-        return RequestBuilder.get(uri()).build();
+        return Request.Builder.get(uri());
     }
 
     private String path() {

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 
-import static com.googlecode.utterlyidle.RequestBuilder.modify;
+import static com.googlecode.utterlyidle.Request.Builder.modify;
 import static com.googlecode.utterlyidle.ResponseBuilder.modify;
 
 public class UnGZipHandler implements HttpClient {
@@ -19,9 +19,8 @@ public class UnGZipHandler implements HttpClient {
 
     @Override
     public Response handle(final Request request) throws Exception {
-        Response response = handler.handle(modify(request).
-                header(HttpHeaders.ACCEPT_ENCODING, "gzip").
-                build());
+        Response response = handler.handle(modify(request,
+                Request.Builder.header(HttpHeaders.ACCEPT_ENCODING, "gzip")));
         if("gzip".equalsIgnoreCase(response.headers().getValue(HttpHeaders.CONTENT_ENCODING))) {
             return modify(response).entity(gzipInputStream(response.entity().inputStream())).removeHeaders(HttpHeaders.CONTENT_ENCODING).build();
         }

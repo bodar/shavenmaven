@@ -5,6 +5,7 @@ import com.googlecode.utterlyidle.Request;
 import com.googlecode.utterlyidle.RequestBuilder;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.googlecode.utterlyidle.Request.Builder.get;
 
 public class UrlArtifact implements Artifact {
     private final String value;
@@ -35,7 +36,7 @@ public class UrlArtifact implements Artifact {
 
     @Override
     public Request request() {
-        return RequestBuilder.get(uri()).build();
+        return get(uri());
     }
 
     public Uri value() {
