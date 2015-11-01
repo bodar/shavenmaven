@@ -2,7 +2,6 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.utterlyidle.Request;
-import com.googlecode.utterlyidle.RequestBuilder;
 
 import static java.lang.String.format;
 
@@ -60,7 +59,7 @@ public class MvnArtifact implements Artifact {
 
     @Override
     public Request request() {
-        return Request.Builder.get(uri());
+        return Request.get(uri());
     }
 
     private String path() {

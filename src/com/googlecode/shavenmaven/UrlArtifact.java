@@ -2,10 +2,9 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.utterlyidle.Request;
-import com.googlecode.utterlyidle.RequestBuilder;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.googlecode.utterlyidle.Request.Builder.get;
+import static com.googlecode.utterlyidle.Request.get;
 
 public class UrlArtifact implements Artifact {
     private final String value;
@@ -36,7 +35,7 @@ public class UrlArtifact implements Artifact {
 
     @Override
     public Request request() {
-        return get(uri());
+        return Request.get(uri());
     }
 
     public Uri value() {

@@ -4,10 +4,11 @@ import com.googlecode.totallylazy.io.Uri;
 import com.googlecode.totallylazy.time.Clock;
 import com.googlecode.totallylazy.time.Dates;
 import com.googlecode.utterlyidle.HttpHeaders;
+import com.googlecode.utterlyidle.HttpMessage;
 import com.googlecode.utterlyidle.Request;
 
-import static com.googlecode.utterlyidle.Request.Builder.header;
-import static com.googlecode.utterlyidle.Request.Builder.modify;
+import static com.googlecode.utterlyidle.HttpMessage.Builder.header;
+import static com.googlecode.totallylazy.functions.Functions.modify;
 import static java.lang.String.format;
 
 public class S3Signer extends com.googlecode.utterlyidle.s3.S3Signer {
@@ -22,7 +23,7 @@ public class S3Signer extends com.googlecode.utterlyidle.s3.S3Signer {
     public Request sign(Request request) throws Exception {
         String date = date(request);
         String auth = format("%s\n\n\n%s\n%s", request.method(), date, moveBucketToPath(request.uri()));
-        return modify(request, header(HttpHeaders.DATE, date), header(HttpHeaders.AUTHORIZATION, authorizationHeader(awsCredentials, auth)));
+        return modify(request, HttpMessage.Builder.header(HttpHeaders.DATE, date), HttpMessage.Builder.header(HttpHeaders.AUTHORIZATION, authorizationHeader(awsCredentials, auth)));
     }
 
     private String date(Request request) {
