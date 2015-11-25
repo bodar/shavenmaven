@@ -41,7 +41,7 @@ public class Dependencies {
 
     public boolean update(File directory) {
         files(directory).
-                filter(where(name(), is(not(in(artifacts.map(Artifact.functions.asFilename))))).and(not(isDirectory()))).
+                filter(where(name(), is(not(in(artifacts.map(Artifact::filename))))).and(not(isDirectory()))).
                 map(delete()).realise();
         final Resolver resolver = new Resolver(directory, out);
         return artifacts.filter(not(Artifact.functions.existsIn(directory))).mapConcurrently(resolve(resolver)).forAll(is(true));

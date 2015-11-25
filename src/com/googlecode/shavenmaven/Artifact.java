@@ -36,7 +36,6 @@ public interface Artifact {
     }
 
     class functions {
-        public static Function1<Artifact, String> asFilename = Artifact::filename;
 
         public static Predicate<Artifact> existsIn(final File directory) {
             return artifact -> files(directory).exists(where(name(), is(artifact.filename())));
