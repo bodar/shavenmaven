@@ -15,6 +15,7 @@ import static com.googlecode.totallylazy.Files.files;
 import static com.googlecode.totallylazy.Files.hasSuffix;
 import static com.googlecode.totallylazy.Files.isDirectory;
 import static com.googlecode.totallylazy.Files.name;
+import static com.googlecode.totallylazy.Files.recursiveFiles;
 import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.predicates.Predicates.in;
 import static com.googlecode.totallylazy.predicates.Predicates.is;
@@ -66,7 +67,7 @@ public class Dependencies {
     }
 
     public static boolean update(File dependenciesDir, final File libDir, final PrintStream out) {
-        return files(dependenciesDir).
+        return recursiveFiles(dependenciesDir).
                 filter(hasSuffix("dependencies")).
                 mapConcurrently(file -> load(file, out).update(directory(libDir, file.getName().replace(".dependencies", "")))).
                 reduce(Functions.and);

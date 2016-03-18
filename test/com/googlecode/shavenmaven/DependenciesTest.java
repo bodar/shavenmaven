@@ -105,6 +105,44 @@ public class DependenciesTest {
     }
 
     @Test
+    public void recursivelyLoadsDependenciesFilesUnderDirectory() throws Exception {
+        File dependenciesDirectory = temporaryDirectory();
+
+        File firstNestedDependenciesDirectory = createTempDirectory(dependenciesDirectory.toPath(), "first").toFile();
+        File firstDependenciesFile = listOfDependenciesInAFile(File.createTempFile("test-first-", ".dependencies", firstNestedDependenciesDirectory));
+        String firstDependenciesFilenameWithoutSuffix = firstDependenciesFile.getName();
+        int firstDependenciesFilenameExtensionStartsAt = firstDependenciesFilenameWithoutSuffix.lastIndexOf(".");
+        if (firstDependenciesFilenameExtensionStartsAt > 0) {
+            firstDependenciesFilenameWithoutSuffix = firstDependenciesFilenameWithoutSuffix.substring(0, firstDependenciesFilenameExtensionStartsAt);
+        }
+
+        File secondNestedDependenciesDirectory = createTempDirectory(dependenciesDirectory.toPath(), "second").toFile();
+        File secondDependenciesFile = listOfDependenciesInAFile(File.createTempFile("test-second-", ".dependencies", secondNestedDependenciesDirectory));
+        String secondDependenciesFilenameWithoutSuffix = secondDependenciesFile.getName();
+        int secondDependenciesFilenameExtensionStartsAt = secondDependenciesFilenameWithoutSuffix.lastIndexOf(".");
+        if (secondDependenciesFilenameExtensionStartsAt > 0) {
+            secondDependenciesFilenameWithoutSuffix = secondDependenciesFilenameWithoutSuffix.substring(0, secondDependenciesFilenameExtensionStartsAt);
+        }
+
+        File libOutputDirectory = createTempDirectory("testLibOutput").toFile();
+        File firstTargetOutputDirectory = new File(libOutputDirectory, firstDependenciesFilenameWithoutSuffix);
+        File secondTargetOutputDirectory = new File(libOutputDirectory, secondDependenciesFilenameWithoutSuffix);
+
+        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+
+        Sequence<File> outputDirectories = files(libOutputDirectory);
+        assertThat(outputDirectories.size(), NumberMatcher.is(2));
+
+        Sequence<File> firstTargetOutputFiles = files(firstTargetOutputDirectory);
+        assertThat(firstTargetOutputFiles.size(), NumberMatcher.is(1));
+        assertThat(firstTargetOutputFiles.contains(new File(firstTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+
+        Sequence<File> secondTargetOutputFiles = files(secondTargetOutputDirectory);
+        assertThat(secondTargetOutputFiles.size(), NumberMatcher.is(1));
+        assertThat(secondTargetOutputFiles.contains(new File(secondTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+    }
+
+    @Test
     public void reportsFailures() throws Exception{
         File temporaryDirectory = temporaryDirectory();
         server = createHttpsServer(returnResponse(404, "Not Found"));

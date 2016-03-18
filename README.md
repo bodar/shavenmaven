@@ -38,19 +38,23 @@ You can also update multiple dependencies files and directories at the same time
 java -jar shavenmaven.jar build lib
 ```
 
-This will find all ".dependencies" files in "build" and create a directory with a matching name in "lib" so:
+This will recursively find all ".dependencies" files in "build" and create a directory with a matching name in "lib" so:
 
-  * build
+  * build/
     * build.dependencies
     * runtime.dependencies
-    * optional.dependencies
+    * optional/
+      * unix-specific.dependencies
+      * windows-specific.dependencies
 
 Would create the following structure:
 
-  * lib
-    * build
-    * runtime
-    * optional
+  * lib/
+    * build/
+    * runtime/
+    * optional/
+      * unix-specific/
+      * windows-specific/
 
 
 ### ANT usage ###
