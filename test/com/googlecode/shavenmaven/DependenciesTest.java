@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static java.nio.file.Files.createTempDirectory;
+
 import static com.googlecode.shavenmaven.Dependencies.load;
+import static com.googlecode.shavenmaven.Dependencies.update;
 import static com.googlecode.shavenmaven.Http.*;
 import static com.googlecode.totallylazy.Files.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -77,6 +80,31 @@ public class DependenciesTest {
     }
 
     @Test
+    public void loadsFromFilesInDirectory() throws Exception{
+        File dependenciesDirectory = temporaryDirectory();
+        File dependenciesFile = listOfDependenciesInAFile(File.createTempFile("test", ".dependencies", dependenciesDirectory));
+
+        String filenameWithoutSuffix = dependenciesFile.getName();
+        int extensionStartsAt = filenameWithoutSuffix.lastIndexOf(".");
+        if (extensionStartsAt > 0) {
+            filenameWithoutSuffix = filenameWithoutSuffix.substring(0, extensionStartsAt);
+        }
+
+        File libOutputDirectory = createTempDirectory("testLibOutput").toFile();
+        File targetOutputDirectory = new File(libOutputDirectory, filenameWithoutSuffix);
+
+        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+
+        Sequence<File> outputDirectories = files(libOutputDirectory);
+        assertThat(outputDirectories.size(), NumberMatcher.is(1));
+        assertThat(outputDirectories.contains(targetOutputDirectory), is(true));
+
+        Sequence<File> files = files(targetOutputDirectory);
+        assertThat(files.size(), NumberMatcher.is(1));
+        assertThat(files.contains(new File(targetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+    }
+
+    @Test
     public void reportsFailures() throws Exception{
         File temporaryDirectory = temporaryDirectory();
         server = createHttpsServer(returnResponse(404, "Not Found"));
@@ -99,10 +127,13 @@ public class DependenciesTest {
 
     private File listOfDependenciesInAFile() throws IOException {
         File temporaryFile = temporaryFile();
+        return listOfDependenciesInAFile(temporaryFile);
+    }
+
+    private File listOfDependenciesInAFile(final File temporaryFile) throws MalformedURLException {
         String fileContents = dependencyFrom(server) + "\n";
         write(fileContents.getBytes(), temporaryFile);
         return temporaryFile;
     }
-
 
 }
