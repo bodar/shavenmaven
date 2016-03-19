@@ -50,11 +50,11 @@ public class Dependencies {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length == 0 || args.length > 2) {
+        Sequence<String> arguments = sequence(args);
+        if (arguments.size() == 0 || arguments.size() > 2) {
             System.err.println("usage: dependencies[file or directory] [directory]");
             System.exit(-1);
         }
-        Sequence<String> arguments = sequence(args);
         File dependenciesFile = dependenciesFile(arguments.head());
         File directory = destinationDirectory(arguments.tail());
         boolean success = dependenciesFile.isDirectory() ?
