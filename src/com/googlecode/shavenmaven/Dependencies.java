@@ -52,8 +52,7 @@ public class Dependencies {
     public static void main(String[] args) throws Exception {
         Sequence<String> arguments = sequence(args);
         if (arguments.size() == 0 || arguments.size() > 2) {
-            System.err.println("usage: dependencies[file or directory] [directory]");
-            System.exit(-1);
+            usage();
         }
         File dependenciesFile = dependenciesFile(arguments.head());
         File directory = destinationDirectory(arguments.tail());
@@ -81,6 +80,11 @@ public class Dependencies {
 
     private static File dependenciesFile(String arg) {
         return new File(arg);
+    }
+
+    private static void usage() {
+        System.err.println("usage: dependencies[file or directory] [directory]");
+        System.exit(-1);
     }
 
     public Sequence<Artifact> artifacts() {
