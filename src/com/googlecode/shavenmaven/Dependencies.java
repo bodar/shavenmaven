@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.functions.Functions;
+import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 
 import java.io.File;
@@ -50,15 +51,18 @@ public class Dependencies {
     }
 
     public static void main(String[] args) throws Exception {
-        Sequence<String> arguments = sequence(args);
+        Pair<Sequence<String>, Sequence<String>> argsAndOptions = sequence(args).partition(arg -> !arg.startsWith("-"));
+        Sequence<String> arguments = argsAndOptions.first();
         if (arguments.size() == 0 || arguments.size() > 2) {
             usage();
         }
+        Sequence<String> options = argsAndOptions.second();
+        final Configuration config = Configuration.parse(options, Dependencies::usage);
         File dependenciesFile = dependenciesFile(arguments.head());
         File directory = destinationDirectory(arguments.tail());
         boolean success = dependenciesFile.isDirectory() ?
-                update(dependenciesFile, directory, System.out) :
-                load(dependenciesFile, System.out).update(directory);
+                update(dependenciesFile, directory, config.out()) :
+                load(dependenciesFile, config.out()).update(directory);
         System.exit(success ? 0 : 1);
     }
 
@@ -83,7 +87,7 @@ public class Dependencies {
     }
 
     private static void usage() {
-        System.err.println("usage: dependencies[file or directory] [directory]");
+        System.err.println("usage: [-q|--quiet] dependencies[file or directory] [directory]");
         System.exit(-1);
     }
 
