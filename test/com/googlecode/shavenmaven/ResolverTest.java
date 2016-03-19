@@ -29,7 +29,7 @@ public class ResolverTest {
         HttpServer server = createHttpsServer(returnResponse(200, "Some dependency content"));
 
         File directory = temporaryDirectory();
-        Resolver resolver = new Resolver(directory);
+        Resolver resolver = new Resolver(directory, System.out);
 
         assertThat(directory.listFiles().length, is(0));
         assertThat(resolver.resolve(dependencyFrom(server)), is(true));
@@ -62,7 +62,7 @@ public class ResolverTest {
         });
 
         File directory = temporaryDirectory();
-        Resolver resolver = new Resolver(directory);
+        Resolver resolver = new Resolver(directory, System.out);
 
         boolean resolved = resolver.resolve(dependencyFrom(server));
         assertThat(resolved, is(true));

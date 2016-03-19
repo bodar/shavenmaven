@@ -42,7 +42,7 @@ public class DependenciesTest {
         temporaryFile(temporaryDirectory);
         assertThat(files(temporaryDirectory).size(), NumberMatcher.is(2));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory), is(true));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(2));
@@ -61,7 +61,7 @@ public class DependenciesTest {
         temporaryFile(temporaryDirectory);
         assertThat(files(temporaryDirectory).size(), NumberMatcher.is(2));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory), is(true));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(1));
@@ -72,7 +72,7 @@ public class DependenciesTest {
     public void supportsLoadingFromFile() throws Exception{
         File temporaryDirectory = temporaryDirectory();
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory), is(true));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(1));
@@ -147,7 +147,7 @@ public class DependenciesTest {
         File temporaryDirectory = temporaryDirectory();
         server = createHttpsServer(returnResponse(404, "Not Found"));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(false));
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory), is(false));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class DependenciesTest {
         File list = temporaryFile();
         write((dependencyFrom(server) + "\n\n\n").getBytes(), list);
 
-        assertThat(load(list).update(temporaryDirectory), is(true));
+        assertThat(load(list, System.out).update(temporaryDirectory), is(true));
 
         Sequence<File> files = sequence(temporaryDirectory.listFiles());
         assertThat(files.size(), NumberMatcher.is(1));

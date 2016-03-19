@@ -32,6 +32,7 @@ public class Dependencies {
         this.artifacts = sequence(artifacts);
     }
 
+    @Deprecated
     public static Dependencies load(File file) throws IOException {
         return load(file, System.out);
     }
@@ -57,11 +58,12 @@ public class Dependencies {
         File dependenciesFile = dependenciesFile(arguments.head());
         File directory = destinationDirectory(arguments.tail());
         boolean success = dependenciesFile.isDirectory() ?
-                update(dependenciesFile, directory) :
-                load(dependenciesFile).update(directory);
+                update(dependenciesFile, directory, System.out) :
+                load(dependenciesFile, System.out).update(directory);
         System.exit(success ? 0 : 1);
     }
 
+    @Deprecated
     public static boolean update(File dependenciesDir, final File libDir) {
         return update(dependenciesDir, libDir, System.out);
     }

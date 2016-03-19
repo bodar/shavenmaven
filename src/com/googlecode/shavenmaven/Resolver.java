@@ -42,6 +42,7 @@ public class Resolver {
         this(directory, printStream, new UserAgentHandler(new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies())))));
     }
 
+    @Deprecated
     public Resolver(File directory) {
         this(directory, System.out);
     }
