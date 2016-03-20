@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static java.nio.file.Files.createTempDirectory;
+
 import static com.googlecode.shavenmaven.Dependencies.load;
+import static com.googlecode.shavenmaven.Dependencies.update;
 import static com.googlecode.shavenmaven.Http.*;
 import static com.googlecode.totallylazy.Files.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -77,6 +80,69 @@ public class DependenciesTest {
     }
 
     @Test
+    public void loadsFromFilesInDirectory() throws Exception{
+        File dependenciesDirectory = temporaryDirectory();
+        File dependenciesFile = listOfDependenciesInAFile(File.createTempFile("test", ".dependencies", dependenciesDirectory));
+
+        String filenameWithoutSuffix = dependenciesFile.getName();
+        int extensionStartsAt = filenameWithoutSuffix.lastIndexOf(".");
+        if (extensionStartsAt > 0) {
+            filenameWithoutSuffix = filenameWithoutSuffix.substring(0, extensionStartsAt);
+        }
+
+        File libOutputDirectory = createTempDirectory("testLibOutput").toFile();
+        File targetOutputDirectory = new File(libOutputDirectory, filenameWithoutSuffix);
+
+        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+
+        Sequence<File> outputDirectories = files(libOutputDirectory);
+        assertThat(outputDirectories.size(), NumberMatcher.is(1));
+        assertThat(outputDirectories.contains(targetOutputDirectory), is(true));
+
+        Sequence<File> files = files(targetOutputDirectory);
+        assertThat(files.size(), NumberMatcher.is(1));
+        assertThat(files.contains(new File(targetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+    }
+
+    @Test
+    public void recursivelyLoadsDependenciesFilesUnderDirectory() throws Exception {
+        File dependenciesDirectory = temporaryDirectory();
+
+        File firstNestedDependenciesDirectory = createTempDirectory(dependenciesDirectory.toPath(), "first").toFile();
+        File firstDependenciesFile = listOfDependenciesInAFile(File.createTempFile("test-first-", ".dependencies", firstNestedDependenciesDirectory));
+        String firstDependenciesFilenameWithoutSuffix = firstDependenciesFile.getName();
+        int firstDependenciesFilenameExtensionStartsAt = firstDependenciesFilenameWithoutSuffix.lastIndexOf(".");
+        if (firstDependenciesFilenameExtensionStartsAt > 0) {
+            firstDependenciesFilenameWithoutSuffix = firstDependenciesFilenameWithoutSuffix.substring(0, firstDependenciesFilenameExtensionStartsAt);
+        }
+
+        File secondNestedDependenciesDirectory = createTempDirectory(dependenciesDirectory.toPath(), "second").toFile();
+        File secondDependenciesFile = listOfDependenciesInAFile(File.createTempFile("test-second-", ".dependencies", secondNestedDependenciesDirectory));
+        String secondDependenciesFilenameWithoutSuffix = secondDependenciesFile.getName();
+        int secondDependenciesFilenameExtensionStartsAt = secondDependenciesFilenameWithoutSuffix.lastIndexOf(".");
+        if (secondDependenciesFilenameExtensionStartsAt > 0) {
+            secondDependenciesFilenameWithoutSuffix = secondDependenciesFilenameWithoutSuffix.substring(0, secondDependenciesFilenameExtensionStartsAt);
+        }
+
+        File libOutputDirectory = createTempDirectory("testLibOutput").toFile();
+        File firstTargetOutputDirectory = new File(libOutputDirectory, firstDependenciesFilenameWithoutSuffix);
+        File secondTargetOutputDirectory = new File(libOutputDirectory, secondDependenciesFilenameWithoutSuffix);
+
+        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+
+        Sequence<File> outputDirectories = files(libOutputDirectory);
+        assertThat(outputDirectories.size(), NumberMatcher.is(2));
+
+        Sequence<File> firstTargetOutputFiles = files(firstTargetOutputDirectory);
+        assertThat(firstTargetOutputFiles.size(), NumberMatcher.is(1));
+        assertThat(firstTargetOutputFiles.contains(new File(firstTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+
+        Sequence<File> secondTargetOutputFiles = files(secondTargetOutputDirectory);
+        assertThat(secondTargetOutputFiles.size(), NumberMatcher.is(1));
+        assertThat(secondTargetOutputFiles.contains(new File(secondTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+    }
+
+    @Test
     public void reportsFailures() throws Exception{
         File temporaryDirectory = temporaryDirectory();
         server = createHttpsServer(returnResponse(404, "Not Found"));
@@ -99,10 +165,13 @@ public class DependenciesTest {
 
     private File listOfDependenciesInAFile() throws IOException {
         File temporaryFile = temporaryFile();
+        return listOfDependenciesInAFile(temporaryFile);
+    }
+
+    private File listOfDependenciesInAFile(final File temporaryFile) throws MalformedURLException {
         String fileContents = dependencyFrom(server) + "\n";
         write(fileContents.getBytes(), temporaryFile);
         return temporaryFile;
     }
-
 
 }
