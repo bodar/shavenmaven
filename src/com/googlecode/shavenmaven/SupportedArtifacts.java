@@ -2,7 +2,6 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.shavenmaven.config.SectionedProperties;
 import com.googlecode.shavenmaven.s3.AwsCredentials;
-import com.googlecode.totallylazy.functions.Function1;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.time.Clock;
@@ -50,11 +49,7 @@ public class SupportedArtifacts implements Artifacts {
     }
 
     public Sequence<Artifact> artifacts(Option<File> file) {
-        return flatten(file.map(toArtifacts()));
-    }
-
-    private Function1<File, Sequence<Artifact>> toArtifacts() {
-        return file -> toArtifacts(lines(file));
+        return flatten(file.map(f -> toArtifacts(lines(f))));
     }
 
     public Sequence<Artifact> toArtifacts(Sequence<String> lines) {
