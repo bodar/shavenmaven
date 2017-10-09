@@ -8,6 +8,7 @@ mvn:org.hamcrest:hamcrest-core:jar:1.2.1
 mvn://repo.bodar.com/com.googlecode.totallylazy:totallylazy:pack|sources:1125
 s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:151
 http://jarjar.googlecode.com/files/jarjar-1.1.jar
+jar:https://storage.googleapis.com/simba-bq-release/jdbc/SimbaJDBCDriverforGoogleBigQuery42_1.1.0.1000.zip!/GoogleBigQueryJDBC42.jar
 file:///home/dan/Project/foo.jar
 ```
 
@@ -17,6 +18,7 @@ ShavenMaven uses an extended form of the [BuildR](http://buildr.apache.org/) mvn
   * The second line will download `totallylazy` [pack200](http://docs.oracle.com/javase/7/docs/api/java/util/jar/Pack200.Packer.html) file (and unpack it to a jar) and sources from a custom repository `repo.bodar.com`.
   * The third line will download 'yadic' jar from 'repo.bodar.com.s3.amazonaws.com'
   * The fourth line will do a plain HTTP GET request to non mavenised jar.
+  * The fifth line will download a jar/zip and extract a file inside
   * The last line will look for a local file called foo.jar
 
 You can also specify an alternative default repo for mvn urls with
