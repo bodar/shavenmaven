@@ -38,7 +38,7 @@ public enum MvnArtifacts implements Artifacts { instance;
     public static final String KEY = "shavenmaven.default-repository";
 
     public static String defaultRepository() {
-        return System.getProperty(KEY, "http://repo1.maven.org/maven2/");
+        return System.getProperty(KEY, "https://repo1.maven.org/maven2/");
     }
 
     public static String defaultRepository(String value) {
