@@ -32,7 +32,7 @@ public enum MvnArtifacts implements Artifacts { instance;
         }
 
     private static String repository(String host) {
-        return host == null ? defaultRepository() : "http:" + host;
+        return host == null ? defaultRepository() : "https:" + host;
     }
 
     public static final String KEY = "shavenmaven.default-repository";

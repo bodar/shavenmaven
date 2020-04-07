@@ -37,7 +37,7 @@
 
         <sequential>
             <mkdir dir="@{directory}"/>
-            <get src="http://@{repo}/@{group}/@{artifact}/@{version}/@{artifact}-@{version}.@{extension}"
+            <get src="https://@{repo}/@{group}/@{artifact}/@{version}/@{artifact}-@{version}.@{extension}"
                  dest="@{directory}/@{artifact}.@{extension}" usetimestamp="true"/>
             <unpack input="@{directory}/@{artifact}.@{extension}" output="@{directory}/@{artifact}.jar"/>
             <delete file="@{directory}/@{artifact}.@{extension}"/>
