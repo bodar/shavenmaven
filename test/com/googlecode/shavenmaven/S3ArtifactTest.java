@@ -26,10 +26,10 @@ public class S3ArtifactTest {
         assertThat(s3Artifact.type(), is("jar"));
         assertThat(s3Artifact.version(), is("116"));
         assertThat(s3Artifact.value().toString(), is("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116"));
-        assertThat(s3Artifact.uri().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
-        assertThat(s3Artifact.request().uri().toString(), is(new URL("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(s3Artifact.uri().toString(), is(new URL("https://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(s3Artifact.request().uri().toString(), is(new URL("https://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(s3Artifact.filename(), is("yadic-116.jar"));
-        assertThat(s3Artifact.toString(), is("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar (s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116)"));
+        assertThat(s3Artifact.toString(), is("https://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar (s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116)"));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class S3ArtifactTest {
         Date now = date(2001, 1, 1);
         S3Artifacts s3Artifacts = S3Artifacts.s3Artifacts(new StoppedClock(now), sequence(awsCredentials("*", "access-key", "secret-key")));
         Request request = s3Artifacts.parse("s3://repo.bodar.com/com.googlecode.yadic:yadic:jar:116").head().request();
-        assertThat(request.uri().toString(), Matchers.is("http://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar"));
+        assertThat(request.uri().toString(), Matchers.is("https://repo.bodar.com.s3.amazonaws.com/com/googlecode/yadic/yadic/116/yadic-116.jar"));
         assertThat(request.headers().getValue(AUTHORIZATION), Matchers.is("AWS access-key:64kyKI1P/MEwS3PaO46uEBBDbUM="));
     }
 }
