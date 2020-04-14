@@ -9,7 +9,6 @@ print_usage_and_exit() {
 }
 
 main() {
-    local ARTEFACT_PACKAGE="com.googlecode.shavenmaven"
     local ARTEFACT_NAME="shavenmaven"
     local REPOSITORY_NAME="bodar"
 
@@ -35,7 +34,7 @@ main() {
     for ARTEFACT_FILE in $ARTEFACTS_DIR/{*.jar,*.pom}; do
         local FILE_NAME=$(basename -- "$ARTEFACT_FILE")
         echo "Publishing $FILE_NAME... "
-        curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_PACKAGE/$ARTEFACT_NAME/$BUILD_VERSION/$FILE_NAME"
+        curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_NAME/$BUILD_VERSION/$FILE_NAME"
         echo ""
     done    
 }
