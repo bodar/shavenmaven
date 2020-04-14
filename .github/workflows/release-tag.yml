@@ -2,8 +2,8 @@ name: Release Tagged Builds
 
 on:
   push: 
-    branches: 
-      - refs/tags/*
+    tags: 
+    - '*'
 
 jobs:
   build:
@@ -16,11 +16,11 @@ jobs:
       with:
         java-version: 1.8
     - name: Set build number
-      run: echo "::set-env BUILD_VERSION=${GITHUB_REF##*/}"
+      run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF##*/})
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml -Dbuild.number="$BUILD_VERSION"
+      run: ant -noinput -buildfile build.xml -Dbuild.number="$RELEASE_VERSION"
     - name: Publish to Bintray
-      run: bin/publish "$BUILD_VERSION" "$BINTRAY_USERNAME" "$BINTRAY_PASSWORD"
+      run: bin/publish "$RELEASE_VERSION" "$BINTRAY_USERNAME" "$BINTRAY_PASSWORD"
       env:
         BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
         BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
