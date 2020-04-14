@@ -19,7 +19,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.type(), is("pack"));
         assertThat(mvnArtifact.version(), is("1125"));
         assertThat(mvnArtifact.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.totallylazy:totallylazy:pack|tests-pack:1125"));
-        assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125.pack.gz").toString()));
+        assertThat(mvnArtifact.uri().toString(), is(new URL("https://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125.pack.gz").toString()));
         assertThat(mvnArtifact.filename(), is("totallylazy-1125.jar"));
 
         MvnArtifact tests = artifacts.second();
@@ -28,7 +28,7 @@ public class MvnArtifactTest {
         assertThat(tests.type(), is("tests-pack"));
         assertThat(tests.version(), is("1125"));
         assertThat(tests.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.totallylazy:totallylazy:pack|tests-pack:1125"));
-        assertThat(tests.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125-tests.pack.gz").toString()));
+        assertThat(tests.uri().toString(), is(new URL("https://repo.bodar.com/someFolder/com/googlecode/totallylazy/totallylazy/1125/totallylazy-1125-tests.pack.gz").toString()));
         assertThat(tests.filename(), is("totallylazy-1125-tests.jar"));
     }
 
@@ -48,7 +48,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.type(), is("jar"));
         assertThat(mvnArtifact.version(), is("116"));
         assertThat(mvnArtifact.value().toString(), is("mvn://repo.bodar.com/someFolder/com.googlecode.yadic:yadic:jar:116"));
-        assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/someFolder/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(mvnArtifact.uri().toString(), is(new URL("https://repo.bodar.com/someFolder/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
     }
 
@@ -103,7 +103,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("jar"));
         assertThat(mvnArtifact.version(), is("116"));
-        assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
+        assertThat(mvnArtifact.uri().toString(), is(new URL("https://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116.jar"));
     }
     
@@ -114,7 +114,7 @@ public class MvnArtifactTest {
         assertThat(mvnArtifact.id(), is("yadic"));
         assertThat(mvnArtifact.type(), is("classifier"));
         assertThat(mvnArtifact.version(), is("116"));
-        assertThat(mvnArtifact.uri().toString(), is(new URL("http://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116-classifier.jar").toString()));
+        assertThat(mvnArtifact.uri().toString(), is(new URL("https://repo.bodar.com/com/googlecode/yadic/yadic/116/yadic-116-classifier.jar").toString()));
         assertThat(mvnArtifact.filename(), is("yadic-116-classifier.jar"));
     }
 }
