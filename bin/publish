@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+print_usage_and_exit() {
+    echo "Usage: $0 <build-version> <bintray api username> <bintray api key>" >&2
+    exit 1
+}
+
+main() {
+    local ARTEFACT_PACKAGE="com.googlecode.shavenmaven"
+    local REPOSITORY_NAME="bodar"
+
+    local BUILD_VERSION=${1:-}
+    local API_USERNAME=${2:-}
+    local API_KEY=${3:-}
+    [[ -z "$BUILD_VERSION" || -z "$API_USERNAME" || -z "$API_KEY" ]] && print_usage_and_exit
+
+    local BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+    local ARTEFACTS_DIR="$BASE_DIR/build/artifacts"
+
+    if [[ ! -d "$ARTEFACTS_DIR" ]]; then
+        echo "Artefacts directory does not exist, please run the build: $ARTEFACTS_DIR" >&2
+        exit 2
+    fi
+
+    local ARTEFACT_NAME="${ARTEFACT_PACKAGE##*.}"
+    local PRIMARY_ARTEFACT="$ARTEFACTS_DIR/$ARTEFACT_NAME-$BUILD_VERSION.jar"
+    if [[ ! -f "$PRIMARY_ARTEFACT" ]]; then
+        echo "Cannot find artefact of expected form '$PRIMARY_ARTEFACT'" >&2
+        exit 3
+    fi
+
+    for ARTEFACT_FILE in $ARTEFACTS_DIR/{*.jar,pom.xml}; do
+        local FILE_NAME=$(basename -- "$ARTEFACT_FILE")
+        echo "Publishing $FILE_NAME... "
+        curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_PACKAGE/$BUILD_VERSION/$FILE_NAME"
+        echo ""
+    done    
+}
+
+main "$@"
