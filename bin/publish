@@ -10,6 +10,7 @@ print_usage_and_exit() {
 
 main() {
     local ARTEFACT_PACKAGE="com.googlecode.shavenmaven"
+    local ARTEFACT_NAME="shavenmaven"
     local REPOSITORY_NAME="bodar"
 
     local BUILD_VERSION=${1:-}
@@ -25,7 +26,6 @@ main() {
         exit 2
     fi
 
-    local ARTEFACT_NAME="${ARTEFACT_PACKAGE##*.}"
     local PRIMARY_ARTEFACT="$ARTEFACTS_DIR/$ARTEFACT_NAME-$BUILD_VERSION.jar"
     if [[ ! -f "$PRIMARY_ARTEFACT" ]]; then
         echo "Cannot find artefact of expected form '$PRIMARY_ARTEFACT'" >&2
@@ -35,7 +35,7 @@ main() {
     for ARTEFACT_FILE in $ARTEFACTS_DIR/{*.jar,*.pom}; do
         local FILE_NAME=$(basename -- "$ARTEFACT_FILE")
         echo "Publishing $FILE_NAME... "
-        echo curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_PACKAGE/$BUILD_VERSION/$FILE_NAME"
+        echo curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_PACKAGE/$ARTEFACT_NAME/$BUILD_VERSION/$FILE_NAME"
         echo ""
     done    
 }
