@@ -10,7 +10,8 @@ print_usage_and_exit() {
 
 main() {
     local ARTEFACT_NAME="shavenmaven"
-    local REPOSITORY_NAME="bodar"
+    local ORGANISATION_NAME="bodar"
+    local REPOSITORY_NAME="maven"
 
     local BUILD_VERSION=${1:-}
     local API_USERNAME=${2:-}
@@ -25,16 +26,18 @@ main() {
         exit 2
     fi
 
-    local PRIMARY_ARTEFACT="$ARTEFACTS_DIR/$ARTEFACT_NAME-$BUILD_VERSION.jar"
-    if [[ ! -f "$PRIMARY_ARTEFACT" ]]; then
-        echo "Cannot find artefact of expected form '$PRIMARY_ARTEFACT'" >&2
+    local POM_ARTEFACT="$ARTEFACTS_DIR/$ARTEFACT_NAME-$BUILD_VERSION.pom"
+    if [[ ! -f "$POM_ARTEFACT" ]]; then
+        echo "Cannot find POM artefact of expected form '$POM_ARTEFACT'" >&2
         exit 3
     fi
+
+    local GROUP_PATH=$(cat "$POM_ARTEFACT" | grep groupId | cut -f2 -d'>' | cut -f1 -d'<' | sed 's%\.%/%g')
 
     for ARTEFACT_FILE in $ARTEFACTS_DIR/{*.jar,*.pom}; do
         local FILE_NAME=$(basename -- "$ARTEFACT_FILE")
         echo "Publishing $FILE_NAME... "
-        curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$REPOSITORY_NAME/maven/$ARTEFACT_NAME/$BUILD_VERSION/$FILE_NAME;publish=1"
+        curl -T "$ARTEFACT_FILE" "-u$API_USERNAME:$API_KEY" "https://api.bintray.com/content/$ORGANISATION_NAME/$REPOSITORY_NAME/$ARTEFACT_NAME/$BUILD_VERSION/$GROUP_PATH/$ARTEFACT_NAME/$BUILD_VERSION/$FILE_NAME;publish=1"
         echo ""
     done    
 }
