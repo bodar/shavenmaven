@@ -1,6 +1,7 @@
 package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.Files;
+import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.matchers.NumberMatcher;
 import com.sun.net.httpserver.HttpServer;
@@ -42,11 +43,12 @@ public class DependenciesTest {
         temporaryFile(temporaryDirectory);
         assertThat(files(temporaryDirectory).size(), NumberMatcher.is(2));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        File dependencyFile = new File(temporaryDirectory, DEPENDENCY_FILENAME);
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory).map(Option::get), is(sequence(dependencyFile.getPath())));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(2));
-        assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(dependencyFile), is(true));
         assertThat(files.contains(subDirectory), is(true));
     }
 
@@ -61,22 +63,24 @@ public class DependenciesTest {
         temporaryFile(temporaryDirectory);
         assertThat(files(temporaryDirectory).size(), NumberMatcher.is(2));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        File dependencyFile = new File(temporaryDirectory, DEPENDENCY_FILENAME);
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory).map(Option::get), is(sequence(dependencyFile.getPath())));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(1));
-        assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(dependencyFile), is(true));
     }
 
     @Test
     public void supportsLoadingFromFile() throws Exception{
         File temporaryDirectory = temporaryDirectory();
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(true));
+        File dependencyFile = new File(temporaryDirectory, DEPENDENCY_FILENAME);
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory).map(Option::get), is(sequence(dependencyFile.getPath())));
 
         Sequence<File> files = files(temporaryDirectory);
         assertThat(files.size(), NumberMatcher.is(1));
-        assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(dependencyFile), is(true));
     }
 
     @Test
@@ -93,7 +97,8 @@ public class DependenciesTest {
         File libOutputDirectory = createTempDirectory("testLibOutput").toFile();
         File targetOutputDirectory = new File(libOutputDirectory, filenameWithoutSuffix);
 
-        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+        final File dependencyFile = new File(targetOutputDirectory, DEPENDENCY_FILENAME);
+        assertThat(update(dependenciesDirectory, libOutputDirectory, System.out).map(Option::get), is(sequence(dependencyFile.getPath())));
 
         Sequence<File> outputDirectories = files(libOutputDirectory);
         assertThat(outputDirectories.size(), NumberMatcher.is(1));
@@ -101,7 +106,7 @@ public class DependenciesTest {
 
         Sequence<File> files = files(targetOutputDirectory);
         assertThat(files.size(), NumberMatcher.is(1));
-        assertThat(files.contains(new File(targetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(dependencyFile), is(true));
     }
 
     @Test
@@ -128,18 +133,21 @@ public class DependenciesTest {
         File firstTargetOutputDirectory = new File(libOutputDirectory, firstDependenciesFilenameWithoutSuffix);
         File secondTargetOutputDirectory = new File(libOutputDirectory, secondDependenciesFilenameWithoutSuffix);
 
-        assertThat(update(dependenciesDirectory, libOutputDirectory), is(true));
+        File firstDependencyFile = new File(firstTargetOutputDirectory, DEPENDENCY_FILENAME);
+        File secondDependencyFile = new File(secondTargetOutputDirectory, DEPENDENCY_FILENAME);
+
+        assertThat(update(dependenciesDirectory, libOutputDirectory, System.out).map(Option::get).toSortedList(String.CASE_INSENSITIVE_ORDER), is(sequence(firstDependencyFile.getPath(), secondDependencyFile.getPath()).toSortedList(String.CASE_INSENSITIVE_ORDER)));
 
         Sequence<File> outputDirectories = files(libOutputDirectory);
         assertThat(outputDirectories.size(), NumberMatcher.is(2));
 
         Sequence<File> firstTargetOutputFiles = files(firstTargetOutputDirectory);
         assertThat(firstTargetOutputFiles.size(), NumberMatcher.is(1));
-        assertThat(firstTargetOutputFiles.contains(new File(firstTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(firstTargetOutputFiles.contains(firstDependencyFile), is(true));
 
         Sequence<File> secondTargetOutputFiles = files(secondTargetOutputDirectory);
         assertThat(secondTargetOutputFiles.size(), NumberMatcher.is(1));
-        assertThat(secondTargetOutputFiles.contains(new File(secondTargetOutputDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(secondTargetOutputFiles.contains(secondDependencyFile), is(true));
     }
 
     @Test
@@ -147,7 +155,7 @@ public class DependenciesTest {
         File temporaryDirectory = temporaryDirectory();
         server = createHttpsServer(returnResponse(404, "Not Found"));
 
-        assertThat(load(listOfDependenciesInAFile()).update(temporaryDirectory), is(false));
+        assertThat(load(listOfDependenciesInAFile(), System.out).update(temporaryDirectory).map(Option::isEmpty), is(sequence(true)));
     }
 
     @Test
@@ -156,11 +164,12 @@ public class DependenciesTest {
         File list = temporaryFile();
         write((dependencyFrom(server) + "\n\n\n").getBytes(), list);
 
-        assertThat(load(list).update(temporaryDirectory), is(true));
+        File dependencyFile = new File(temporaryDirectory, DEPENDENCY_FILENAME);
+        assertThat(load(list, System.out).update(temporaryDirectory).map(Option::get), is(sequence(dependencyFile.getPath())));
 
         Sequence<File> files = sequence(temporaryDirectory.listFiles());
         assertThat(files.size(), NumberMatcher.is(1));
-        assertThat(files.contains(new File(temporaryDirectory, DEPENDENCY_FILENAME)), is(true));
+        assertThat(files.contains(dependencyFile), is(true));
     }
 
     private File listOfDependenciesInAFile() throws IOException {

@@ -34,6 +34,16 @@ java -jar shavenmaven.jar build.dependencies lib/build
 
 Where `lib/build` is a directory where you want to download the jars to.
 
+ShaveMaven also recognizes some command line options that slighty alter its behavior, for example:
+```
+java -jar shavenmaven.jar --quiet build.dependencies lib/build
+```
+
+To see a list of available command line options just run without any arguments:
+```
+java -jar shavenmaven.jar
+```
+
 You can also update multiple dependencies files and directories at the same time by providing 2 directories:
 
 ```

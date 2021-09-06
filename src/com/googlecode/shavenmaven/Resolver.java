@@ -2,6 +2,7 @@ package com.googlecode.shavenmaven;
 
 import com.googlecode.totallylazy.functions.Block;
 import com.googlecode.totallylazy.functions.Function1;
+import com.googlecode.totallylazy.Option;
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.handlers.ClientHttpHandler;
 import com.googlecode.utterlyidle.handlers.HttpClient;
@@ -21,6 +22,8 @@ import static com.googlecode.totallylazy.functions.Block.block;
 import static com.googlecode.totallylazy.Closeables.using;
 import static com.googlecode.totallylazy.Files.file;
 import static com.googlecode.totallylazy.Files.write;
+import static com.googlecode.totallylazy.Option.none;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.utterlyidle.proxies.Proxies.autodetectProxies;
 import static java.lang.String.format;
 
@@ -42,21 +45,22 @@ public class Resolver {
         this(directory, printStream, new UserAgentHandler(new UnGZipHandler(new RedirectHttpHandler(new ClientHttpHandler(connectionTimeout(), autodetectProxies())))));
     }
 
+    @Deprecated
     public Resolver(File directory) {
         this(directory, System.out);
     }
 
-    public boolean resolve(Artifact artifact) throws Exception {
+    public Option<String> resolve(Artifact artifact) throws Exception {
         printStream.println(format("Downloading %s", artifact));
         Response response = client.handle(artifact.request());
         if (!response.status().isSuccessful()) {
             printStream.println(format("Failed to download %s (%s)", artifact, response.status()));
-            return false;
+            return none();
         }
         return handle(artifact, response);
     }
 
-    private boolean handle(final Artifact artifact, final Response response) throws IOException {
+    private Option<String> handle(final Artifact artifact, final Response response) throws IOException {
         File part = file(directory, artifact.filename() + ".part");
         File destination = new File(directory, artifact.filename());
         using(response.entity().inputStream(),
@@ -65,9 +69,9 @@ public class Resolver {
                         write(part));
         if(!part.renameTo(destination)) {
             printStream.println(format("Failed to rename %s to %s", part, destination));
-            return false;
+            return none();
         }
-        return true;
+        return option(destination.getPath());
     }
 
     private Block<InputStream> unpack(final File file) {
@@ -78,7 +82,7 @@ public class Resolver {
         };
     }
 
-    public static Function1<Artifact, Boolean> resolve(final Resolver resolver) {
+    public static Function1<Artifact, Option<String>> resolve(final Resolver resolver) {
         return resolver::resolve;
     }
 

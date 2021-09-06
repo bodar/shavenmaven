@@ -15,6 +15,8 @@ import static com.googlecode.shavenmaven.DependenciesTest.DEPENDENCY_FILENAME;
 import static com.googlecode.shavenmaven.DependenciesTest.dependencyFrom;
 import static com.googlecode.shavenmaven.Http.createHttpsServer;
 import static com.googlecode.shavenmaven.Http.returnResponse;
+import static com.googlecode.totallylazy.Option.none;
+import static com.googlecode.totallylazy.Option.option;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,10 +31,10 @@ public class ResolverTest {
         HttpServer server = createHttpsServer(returnResponse(200, "Some dependency content"));
 
         File directory = temporaryDirectory();
-        Resolver resolver = new Resolver(directory);
+        Resolver resolver = new Resolver(directory, System.out);
 
         assertThat(directory.listFiles().length, is(0));
-        assertThat(resolver.resolve(dependencyFrom(server)), is(true));
+        assertThat(resolver.resolve(dependencyFrom(server)), is(option(new File(directory, DEPENDENCY_FILENAME).getPath())));
         File[] files = directory.listFiles();
         assertThat(files.length, is(1));
         assertThat(files[0].getName(), is(DEPENDENCY_FILENAME));
@@ -46,7 +48,7 @@ public class ResolverTest {
         ByteArrayOutputStream log = new ByteArrayOutputStream();
         Resolver resolver = new Resolver(directory, new PrintStream(log));
 
-        assertThat(resolver.resolve(dependencyFrom(server)), is(false));
+        assertThat(resolver.resolve(dependencyFrom(server)), is(none()));
         assertThat(log.toString(), containsString("Failed to download"));
     }
 
@@ -62,10 +64,10 @@ public class ResolverTest {
         });
 
         File directory = temporaryDirectory();
-        Resolver resolver = new Resolver(directory);
+        Resolver resolver = new Resolver(directory, System.out);
 
-        boolean resolved = resolver.resolve(dependencyFrom(server));
-        assertThat(resolved, is(true));
+        String resolved = resolver.resolve(dependencyFrom(server)).get();
+        assertThat(resolved, is(new File(directory, DEPENDENCY_FILENAME).getPath()));
 
         File[] files = directory.listFiles();
         assertThat(files.length, is(1));
