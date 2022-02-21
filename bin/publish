@@ -4,7 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 print_usage_and_exit() {
-    echo "Usage: $0 <build-version> <bintray api username> <bintray api key>" >&2
+    echo "Usage: $0 <build-version> <api-token>" >&2
     exit 1
 }
 
