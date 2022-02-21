@@ -29,7 +29,7 @@ jobs:
         body: ${{ github.event.head_commit.message }}
         draft: false
         prerelease: false
-        files:
+        files: |
           build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.pom
           build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.jar
           build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}-sources.jar
