@@ -23,61 +23,17 @@ jobs:
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml -Dbuild.number="$RELEASE_VERSION"
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
         body: ${{ github.event.head_commit.message }}
         draft: false
         prerelease: false
-
-    - name: Upload Release POM
-      id: upload-release-pom
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.pom
-        asset_name: shavenmaven-${{ env.RELEASE_VERSION }}.pom
-        asset_content_type: text/xml
-
-    - name: Upload Release JAR
-      id: upload-release-jar
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.jar
-        asset_name: shavenmaven-${{ env.RELEASE_VERSION }}.jar
-        asset_content_type: application/zip
-
-    - name: Upload Release Sources
-      id: upload-release-sources
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}-sources.jar
-        asset_name: shavenmaven-${{ env.RELEASE_VERSION }}-sources.jar
-        asset_content_type: application/zip
-
-    - name: Upload Release Dep
-      id: upload-release-dep
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}-dep.jar
-        asset_name: shavenmaven-${{ env.RELEASE_VERSION }}-dep.jar
-        asset_content_type: application/zip
+        files:
+          build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.pom
+          build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}.jar
+          build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}-sources.jar
+          build/artifacts/shavenmaven-${{ env.RELEASE_VERSION }}-dep.jar
 
     - name: Publish to GitHub Packages
       run: bin/publish "$RELEASE_VERSION" "$GH_PACKAGES_TOKEN"
